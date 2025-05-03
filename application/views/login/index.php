@@ -28,29 +28,43 @@
                         </div>
                     <?php } ?>
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                        <div class="card-header text-center">
+                        <!-- <div class="card-header text-center">
                             <h3><b>WARMINDO SAM NDUT</b></h3>
-                        </div>
+                        </div> -->
+
                         <div class="card-body p-5 text-center">
-                            <form method="POST" action="<?= base_url('login/proses'); ?>">
-                                <div class="form-group">
-                                    <label for="">Username</label>
-                                    <input type="text" required class="form-control" autocomplete="off" name="user" id="user" placeholder="Masukan Username">
+                            <div class="mb-md-5 mt-md-4 pb-5">
+
+                                <h3 class="fw-bold mb-2 text-uppercase">WARMINDO SAM NDUT</h3>
+                                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                                <p class="text-white-50 mb-5">Silahkan masukkan username dan password Anda!</p>
+
+                                <div data-mdb-input-init class="form-outline form-white mb-4">
+                                    <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                                    <label class="form-label" for="typeEmailX">Email</label>
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Password</label>
-                                    <input type="password" required class="form-control" autocomplete="off" name="pass" id="pass" placeholder="Masukan Password">
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-md float-right">
-                                    Masuk
-                                </button>
-                            </form>
+
+                                <form method="POST" action="<?= base_url('login/proses'); ?>">
+                                    <div class="form-group">
+                                        <label for="">Username</label>
+                                        <input type="text" required class="form-control" autocomplete="off" name="user" id="user" placeholder="Masukan Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Password</label>
+                                        <input type="password" required class="form-control" autocomplete="off" name="pass" id="pass" placeholder="Masukan Password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-md float-right">
+                                        Masuk
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="card-footer text-center">
+                        <div>
                             Copyright &copy; <?= date('Y'); ?> SARESTO
                             </br><a href="https://www.salasatekno.com" target="_blank"><b>Salasa Teknologi Solusindo</b></a>
-                            </br>1.11.01
+                            </br>1.12.01
                         </div>
+
                     </div>
                 </div>
             </div>
