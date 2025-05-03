@@ -39,10 +39,10 @@
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                                 <p class="text-white-50 mb-5">Silahkan masukkan username dan password Anda!</p>
 
-                                <div data-mdb-input-init class="form-outline form-white mb-4">
+                                <!-- <div data-mdb-input-init class="form-outline form-white mb-4">
                                     <input type="email" id="typeEmailX" class="form-control form-control-lg" />
                                     <label class="form-label" for="typeEmailX">Email</label>
-                                </div>
+                                </div> -->
 
                                 <form method="POST" action="<?= base_url('login/proses'); ?>">
                                     <div class="form-group">
@@ -58,12 +58,14 @@
                                     </button>
                                 </form>
                             </div>
+
+                            <div>
+                                Copyright &copy; <?= date('Y'); ?> SARESTO
+                                </br><a href="https://www.salasatekno.com" target="_blank"><b>Salasa Teknologi Solusindo</b></a>
+                                </br>1.12.01
+                            </div>
                         </div>
-                        <div>
-                            Copyright &copy; <?= date('Y'); ?> SARESTO
-                            </br><a href="https://www.salasatekno.com" target="_blank"><b>Salasa Teknologi Solusindo</b></a>
-                            </br>1.12.01
-                        </div>
+
 
                     </div>
                 </div>
