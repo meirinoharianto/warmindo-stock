@@ -82,22 +82,17 @@
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
             height: 300px;
-            /* Atur tinggi div */
+            /* height: 300px; Atur tinggi div sesuai kebutuhan  */
             border: 1px solid #ccc;
-            padding: 10px;
-            position: relative;
         }
 
         .content {
             flex-grow: 1;
         }
 
-        .button {
-            align-self: flex-end;
-            /* Posisi button di bawah */
+        .card {
+            margin-bottom: 15px;
         }
     </style>
 </head>

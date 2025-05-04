@@ -59,6 +59,48 @@
                                 </form>
                             </div>
                         </div>
+
+                        <!-- TEST -->
+                        <div class="container d-flex flex-column">
+                            <div class="content">
+                                <div class="row">
+                                    <!-- Kolom 1 -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                Kolom 1
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kolom 2 -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                Kolom 2
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kolom 3 -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                Kolom 3
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kolom 4 -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                Kolom 4
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-auto">Klik Saya</button>
+                        </div>
+
                         <div class="table-responsive-1 w-100">
                             <?php
                             if ($this->input->get('id')) {
