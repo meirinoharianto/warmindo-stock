@@ -2,7 +2,21 @@
 
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
         <div class="card">
-            <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
+            <!-- <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1"> -->
+            <?php
+            if ($r->gambar !== '-') {
+                if (file_exists(FCPATH . 'assets/image/produk/' . $r->gambar)) {
+            ?>
+                    <!-- <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100 mb-2"  /> -->
+                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="card-img-top" />
+
+                <?php }
+            } else { ?>
+                <i class="fa fa-image fa-4x"></i>
+                <br>
+                <b>Tidak Ada Gambar </b>
+                <br>
+            <?php } ?>
             <div class="card-body text-center">
                 <?= $r->nama; ?>
             </div>
