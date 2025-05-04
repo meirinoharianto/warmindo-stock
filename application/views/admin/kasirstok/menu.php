@@ -1,35 +1,7 @@
 <?php foreach ($hasil as $r) { ?>
-    <div class="col-4 align-content-center text-center pb-2" style="height:auto;">
-        <!-- <div class="col-md-12 bg-primary mt-2 pt-4 pb-2"> -->
+    <div class="col-4 align-content-center text-center pb-2">
         <div class="col-md-12 pt-2 pb-2" style="height:180px;background-color:beige;">
-            <!-- <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block " data-id="<?= $r->id; ?>" data-toggle="modal" data-target="#modalAddOn"> -->
-            <!-- <?php
-                    if ($r->gambar !== '-') {
-                        if (file_exists(FCPATH . 'assets/image/produk/' . $r->gambar)) {
-                    ?>
-                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100 mb-2" style="height:120px;" />
-                    <br>
-                <?php }
-                    } else { ?>
-                <i class="fa fa-image fa-4x"></i>
-                <br>
-                <b>Tidak Ada Gambar </b>
-                <br>
-            <?php } ?> -->
-            <!-- ( <?= $r->kategori; ?> ) -->
-            <!-- <br> -->
-            <!-- <div style="display: flex;justify-content: center;align-items: center;"> -->
-            <b style="font: size 12px;" class="text-primary"><?= $r->nama; ?></b>
-            <!-- </div> -->
-            <!-- <div style="display: flex;justify-content: center;align-items: center;"> -->
-            <!-- <input type="text" class="form-control" name="hargajual" id="hargajual" placeholder=""> -->
-
-            <!-- <b style="font-size:10pt;" class="text-success">Rp<?= number_format($r->harga_jual); ?>,-</b> -->
-            <!-- <b style="font-size:10pt;" class="text-primary">(STOK : <?= $r->stok; ?>)</b> -->
-
-
-
-            <!-- (STOK : <?= $r->stok; ?>x / LIMIT: <?= $r->stok_minim; ?>x) -->
+            <b style="font: size 12px;" class="text-primary "><?= $r->nama; ?></b>
             <?php
             if ($r->id_kategori == '2') {
             ?>
@@ -54,8 +26,6 @@
                     Tambahkan - <?= number_format($r->harga_jual); ?>,-
                 </button>
             <?php } ?>
-            <!-- </div> -->
-            <!-- </button> -->
         </div>
     </div>
 <?php } ?>
