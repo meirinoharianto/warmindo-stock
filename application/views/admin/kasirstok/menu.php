@@ -22,7 +22,8 @@
                     </button>
                 <?php } ?>
             <?php } else { ?>
-                <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
+                <!-- <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon=""> -->
+                <button class="btn btn-secondary btn-sm mt-auto" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
                     Tambahkan - <?= number_format($r->harga_jual); ?>,-
                 </button>
             <?php } ?>
