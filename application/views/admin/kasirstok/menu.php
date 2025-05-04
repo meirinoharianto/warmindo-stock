@@ -34,7 +34,9 @@
                     <?php } ?>
                 <?php } else { ?>
                     <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
-                        Tambahkan
+
+                        <label for="">Tambahkan</label>
+
                         <label for=""><?= number_format($r->harga_jual); ?>,-</label>
 
                     </button>
