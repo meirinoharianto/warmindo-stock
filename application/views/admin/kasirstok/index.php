@@ -15,9 +15,9 @@
         <div class="row">
             <div class="col-sm-8 mt-4">
                 <div class="card card-rounded">
-                    <div class="card-header bg-primary text-white">
+                    <!-- <div class="card-header bg-primary text-white">
                         <i class="fa fa-cubes"></i> Data Menu Utama
-                    </div>
+                    </div> -->
                     <div class="card-body p-2">
                         <div class="row">
                             <div class="col-sm-6">
@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="col-sm-4 mt-4">
-                <div class="card card-rounded">
+                <div class="card card-rounded h-100">
                     <div class="card-header bg-primary text-white">
                         <i class="fa fa-shopping-cart"></i> Keranjang
                     </div>
