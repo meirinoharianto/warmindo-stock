@@ -9,8 +9,11 @@
     <meta content="" name="author" />
 
     <!-- ================== BEGIN core-css ================== -->
-    <link href="../assets/css/vendor.min.css" rel="stylesheet" />
-    <link href="../assets/css/default/app.min.css" rel="stylesheet" />
+    <!-- <link href="../assets/css/vendor.min.css" rel="stylesheet" />
+    <link href="../assets/css/default/app.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/main.css?v=' . time()); ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/plugins/sweetalert2/sweetalert2.css'); ?>">
     <!-- ================== END core-css ================== -->
 </head>
 
