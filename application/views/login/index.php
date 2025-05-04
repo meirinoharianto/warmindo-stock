@@ -42,7 +42,7 @@
                             <div class="mb-md-5 mt-md-4 pb-5">
 
                                 <!-- <h2 class="fw-bold mb-2 text-uppercase">Login</h2> -->
-                                <p class="text-white-50 mb-5">Silahkan masukkan username dan password Anda!</p>
+                                <p class="text-white-50 ">Silahkan masukkan username dan password Anda!</p>
 
                                 <!-- <div data-mdb-input-init class="form-outline form-white mb-4">
                                     <input type="email" id="typeEmailX" class="form-control form-control-lg" />
