@@ -4,7 +4,7 @@
         <div class="card">
             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
             <div class="card-body">
-                <label for=""><?= $r->nama; ?></label>
+                <?= $r->nama; ?>
             </div>
             <div class="button-container">
                 <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->
