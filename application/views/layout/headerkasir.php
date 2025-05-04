@@ -82,17 +82,40 @@
         }
 
         .container {
-            height: 300px;
-            /* height: 300px; Atur tinggi div sesuai kebutuhan  */
+            height: 100%;
+            /* Agar kontainer bisa mengisi layar */
             border: 1px solid #ccc;
         }
 
-        .content {
-            flex-grow: 1;
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Memastikan kartu mengisi seluruh tinggi kolom */
         }
 
-        .card {
-            margin-bottom: 15px;
+        .card-body {
+            flex-grow: 1;
+            /* Membuat body kartu tumbuh untuk mengisi ruang */
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 150px;
+            /* Atur tinggi gambar */
+            object-fit: cover;
+            /* Agar gambar tidak terdistorsi */
+        }
+
+        .card-title {
+            margin-top: 10px;
+            /* Jarak antara gambar dan nama kolom */
+            font-size: 1.2em;
+        }
+
+        .button-container {
+            margin-top: auto;
+            /* Tombol akan berada di bawah */
         }
     </style>
 </head>

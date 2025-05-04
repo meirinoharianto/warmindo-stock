@@ -67,11 +67,13 @@
                                     <!-- Kolom 1 -->
                                     <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="card">
+                                            <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
                                             <div class="card-body">
-                                                Kolom 1
+                                                <h5 class="card-title">Nama Kolom 1</h5>
                                             </div>
-                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
-
+                                            <div class="button-container">
+                                                <button class="btn btn-primary w-100">Klik Kolom 1</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Kolom 2 -->
