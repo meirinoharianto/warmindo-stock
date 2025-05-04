@@ -65,119 +65,87 @@
                             <div class="content">
                                 <div class="row">
                                     <!-- Kolom 1 -->
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div id="load-data" class="row-css"></div>
+
+                                    <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
                                             <div class="card-body">
-                                                <h5 class="card-title">Nama Kolom 1</h5>
                                                 <label for="input1">Label Kolom 1:</label>
                                             </div>
                                             <div class="button-container">
                                                 <button class="btn btn-primary w-100">Klik Kolom 1</button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- Kolom 2 -->
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                Kolom 2
-                                                <h5 class="mt-auto">Nama Kolom</h5>
-
-                                            </div>
-                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
-
-                                        </div>
-                                    </div>
-                                    <!-- Kolom 3 -->
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                Kolom 3
-
-                                            </div>
-                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
-
-                                        </div>
-                                    </div>
-                                    <!-- Kolom 4 -->
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                Kolom 4
-                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="table-responsive-1 w-100">
-                            <?php
-                            if ($this->input->get('id')) {
-                                $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
-                                $url   = base_url('menuutama/dtmenu?id=' . (int)$this->input->get('id'));
-                            } else if ($this->input->get('cari')) {
-                                $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR kategori.kategori LIKE "%' . $this->input->get('cari') . '%"';
-                                $url   = base_url('menuutama/dtmenu?cari=' . $this->input->get('cari'));
-                            } else {
-                                $wr = '';
-                                $url   = base_url('menuutama/dtmenu');
-                            }
-                            $query = "SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id ";
-                            $total = $this->db->query("$query $wr ORDER BY menu_utama.kode_menu")->num_rows();
-                            $pages = ceil($total / $halperpage);
+                        <!-- <div class="table-responsive-1 w-100"> -->
+                        <?php
+                        if ($this->input->get('id')) {
+                            $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
+                            $url   = base_url('menuutama/dtmenu?id=' . (int)$this->input->get('id'));
+                        } else if ($this->input->get('cari')) {
+                            $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR kategori.kategori LIKE "%' . $this->input->get('cari') . '%"';
+                            $url   = base_url('menuutama/dtmenu?cari=' . $this->input->get('cari'));
+                        } else {
+                            $wr = '';
+                            $url   = base_url('menuutama/dtmenu');
+                        }
+                        $query = "SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id ";
+                        $total = $this->db->query("$query $wr ORDER BY menu_utama.kode_menu")->num_rows();
+                        $pages = ceil($total / $halperpage);
 
-                            if ($total == '0') {
-                                echo '<br/><h4>" Tidak ada Menu "</h4><br/>';
-                            }
-                            ?>
-                            <div id="load-data" class="row-css"></div>
-                            <center>
-                                <div id="loading"></div>
-                            </center>
-                            <br />
-                            <div class="wrapper">
-                                <ul id="pagination-demo" class="pagination"></ul>
-                            </div>
-                            <script>
-                                $(document).ready(function() {
-                                    $('#pagination-demo').twbsPagination({
-                                        totalPages: <?php echo $pages; ?>,
-                                        visiblePages: 0,
-                                        next: 'Next',
-                                        prev: 'Prev',
-                                        first: '',
-                                        last: '',
-                                        onPageClick: function(event, page) {
-                                            loadData(page);
+                        if ($total == '0') {
+                            echo '<br/><h4>" Tidak ada Menu "</h4><br/>';
+                        }
+                        ?>
+                        <!-- <div id="load-data" class="row-css"></div> -->
+                        <center>
+                            <div id="loading"></div>
+                        </center>
+                        <br />
+                        <div class="wrapper">
+                            <ul id="pagination-demo" class="pagination"></ul>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                $('#pagination-demo').twbsPagination({
+                                    totalPages: <?php echo $pages; ?>,
+                                    visiblePages: 0,
+                                    next: 'Next',
+                                    prev: 'Prev',
+                                    first: '',
+                                    last: '',
+                                    onPageClick: function(event, page) {
+                                        loadData(page);
+                                    }
+                                });
+
+                                function loadData(pageHome) {
+                                    dataString = "pageHome=" + pageHome;
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo $url; ?>",
+                                        data: dataString,
+                                        cache: false,
+                                        beforeSend: function() {
+                                            $("#loading").html(
+                                                '<img src="<?php echo base_url('assets/image/spinner-primary.svg'); ?>"/>'
+                                            );
+                                        },
+                                        success: function(html) {
+                                            $("#loading").html('');
+                                            $("#load-data").html(html);
                                         }
                                     });
-
-                                    function loadData(pageHome) {
-                                        dataString = "pageHome=" + pageHome;
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "<?php echo $url; ?>",
-                                            data: dataString,
-                                            cache: false,
-                                            beforeSend: function() {
-                                                $("#loading").html(
-                                                    '<img src="<?php echo base_url('assets/image/spinner-primary.svg'); ?>"/>'
-                                                );
-                                            },
-                                            success: function(html) {
-                                                $("#loading").html('');
-                                                $("#load-data").html(html);
-                                            }
-                                        });
-                                    }
-                                    loadData(0);
-                                });
-                            </script>
-                        </div>
+                                }
+                                loadData(0);
+                            });
+                        </script>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

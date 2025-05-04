@@ -1,12 +1,15 @@
 <?php foreach ($hasil as $r) { ?>
 
-    <div class="container">
-        <div class="content">
-            <!-- Isi konten div di sini -->
-            <p>Ini adalah isi dari div.</p>
-            <p>Isi lainnya...</p>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
+            <div class="card-body">
+                <label for="input1"><?= $r->nama; ?></label>
+            </div>
+            <div class="button-container">
+                <button class="btn btn-primary w-100">Klik Kolom 1</button>
+            </div>
         </div>
-        <button class="button">Klik Saya</button>
     </div>
 
 <?php } ?>
