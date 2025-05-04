@@ -31,6 +31,8 @@
                             <?= $this->session->flashdata('failed'); ?>
                         </div>
                     <?php } ?>
+                    <h3 class="fw-bold mb-2 text-uppercase">WARMINDO SAM NDUT</h3>
+
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <!-- <div class="card-header text-center">
                             <h3><b>WARMINDO SAM NDUT</b></h3>
@@ -39,7 +41,6 @@
                         <div class="card-body p-5 text-center">
                             <div class="mb-md-5 mt-md-4 pb-5">
 
-                                <h3 class="fw-bold mb-2 text-uppercase">WARMINDO SAM NDUT</h3>
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                                 <p class="text-white-50 mb-5">Silahkan masukkan username dan password Anda!</p>
                                 <?= base_url('login/proses'); ?>
