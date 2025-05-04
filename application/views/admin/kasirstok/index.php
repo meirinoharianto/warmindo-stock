@@ -69,8 +69,6 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 1
-                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
-
                                             </div>
                                             <button class="btn btn-primary mt-auto">Klik Saya</button>
 
@@ -81,9 +79,10 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 2
-                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
 
                                             </div>
+                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                         </div>
                                     </div>
                                     <!-- Kolom 3 -->
@@ -91,9 +90,10 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 3
-                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
 
                                             </div>
+                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                         </div>
                                     </div>
                                     <!-- Kolom 4 -->
