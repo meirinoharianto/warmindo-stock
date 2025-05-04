@@ -79,6 +79,7 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 2
+                                                <h5 class="mt-auto">Nama Kolom</h5>
 
                                             </div>
                                             <button class="btn btn-primary mt-auto">Klik Saya</button>
