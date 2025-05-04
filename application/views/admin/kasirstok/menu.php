@@ -8,7 +8,7 @@
                 if (file_exists(FCPATH . 'assets/image/produk/' . $r->gambar)) {
             ?>
                     <!-- <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100 mb-2"  /> -->
-                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="card-img-top" />
+                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100" />
 
                 <?php }
             } else { ?>
