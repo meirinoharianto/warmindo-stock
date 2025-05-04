@@ -72,6 +72,8 @@
                                                 <button class="btn btn-primary mt-auto">Klik Saya</button>
 
                                             </div>
+                                            <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                         </div>
                                     </div>
                                     <!-- Kolom 2 -->
