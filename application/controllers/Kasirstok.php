@@ -44,7 +44,7 @@ class Kasirstok extends CI_Controller
             'halperpage' => 12
         ];
 
-        $this->load->view('layout/header', $this->data);
+        $this->load->view('layout/headerkasir', $this->data);
         $this->load->view('admin/kasirstok/index', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
