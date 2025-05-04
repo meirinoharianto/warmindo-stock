@@ -91,7 +91,7 @@
                 <a class="navbar-brand" href="<?= base_url('home'); ?>"><b><?= $this->session->userdata('ses_nama_toko'); ?></b></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
-                    <ul class="navbar-nav mr-auto ">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <?php if ($this->session->userdata('ses_level') != 'AdminKasir') { ?>
 
                             <li class="nav-item active">
