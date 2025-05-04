@@ -40,7 +40,7 @@ class Login extends CI_Controller
             redirect($url);
         }
 
-        $this->data['title_web'] = 'Login';
+        $this->data['title_web'] = 'Login Pengguna';
         $this->load->view('login/index', $this->data);
     }
 
