@@ -69,6 +69,8 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 1
+                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -77,6 +79,8 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 2
+                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -85,6 +89,8 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 3
+                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -93,12 +99,13 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 4
+                                                <button class="btn btn-primary mt-auto">Klik Saya</button>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary mt-auto">Klik Saya</button>
                         </div>
 
                         <div class="table-responsive-1 w-100">
