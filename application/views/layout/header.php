@@ -86,7 +86,7 @@
 <body class="bg-dark">
     <!-- header -->
     <div id="header">
-        <nav class="navbar active navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg active navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="<?= base_url('home'); ?>"><b><?= $this->session->userdata('ses_nama_toko'); ?></b></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
