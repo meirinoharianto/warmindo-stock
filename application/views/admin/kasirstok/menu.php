@@ -1,7 +1,14 @@
 <?php foreach ($hasil as $r) { ?>
-    <!--
-     
- -->
+
+    <div class="container">
+        <div class="content">
+            <!-- Isi konten div di sini -->
+            <p>Ini adalah isi dari div.</p>
+            <p>Isi lainnya...</p>
+        </div>
+        <button class="button">Klik Saya</button>
+    </div>
+
 <?php } ?>
 
 <script>
