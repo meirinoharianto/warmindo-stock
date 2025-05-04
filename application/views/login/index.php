@@ -11,7 +11,11 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/login.css?v=' . time()); ?>" />
 </head>
 
-<body style="background:#0c4e68;">
+<!-- <body style="background:#0c4e68;"> -->
+
+<body style="background: linear-gradient(135deg, #ed1c24 0%, #0054a6 30%, #fff200 60%, #00a651 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;">
     <!-- <button id="full-screen">FULL SCREEN</button> -->
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-100">
