@@ -42,6 +42,7 @@
                                 <h3 class="fw-bold mb-2 text-uppercase">WARMINDO SAM NDUT</h3>
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                                 <p class="text-white-50 mb-5">Silahkan masukkan username dan password Anda!</p>
+                                <?= base_url('login/proses'); ?>
 
                                 <!-- <div data-mdb-input-init class="form-outline form-white mb-4">
                                     <input type="email" id="typeEmailX" class="form-control form-control-lg" />
