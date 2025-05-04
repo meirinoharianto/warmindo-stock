@@ -3,7 +3,7 @@
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
         <div class="card">
             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
-            <div class="card-body">
+            <div class="card-body text-center">
                 <?= $r->nama; ?>
             </div>
             <div class="button-container">
