@@ -7,7 +7,31 @@
                 <label for="input1"><?= $r->nama; ?></label>
             </div>
             <div class="button-container">
-                <button class="btn btn-primary w-100">Klik Kolom 1</button>
+                <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->
+                <?php
+                if ($r->id_kategori == '2') {
+                ?>
+                    <?php if ($r->harga_jual !== '0') { ?>
+                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
+                            Panas/Ori - <?= number_format($r->harga_jual); ?>,-
+                        </button>
+                    <?php } ?>
+
+                    <?php if ($r->harga_sedang !== '0') { ?>
+                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
+                            Sedang - <?= number_format($r->harga_sedang); ?>,-
+                        </button>
+                    <?php } ?>
+                    <?php if ($r->harga_jumbo !== '0') { ?>
+                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
+                            Jumbo - <?= number_format($r->harga_jumbo); ?>,-
+                        </button>
+                    <?php } ?>
+                <?php } else { ?>
+                    <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
+                        Tambahkan - <?= number_format($r->harga_jual); ?>,-
+                    </button>
+                <?php } ?>
             </div>
         </div>
     </div>
