@@ -65,7 +65,7 @@
                             <div class="content">
                                 <div class="row">
                                     <!-- Kolom 1 -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
                                             <div class="card-body">
@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                     <!-- Kolom 2 -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 2
@@ -89,7 +89,7 @@
                                         </div>
                                     </div>
                                     <!-- Kolom 3 -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 3
@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                     <!-- Kolom 4 -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 Kolom 4
