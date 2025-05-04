@@ -83,7 +83,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-dark">
     <!-- header -->
     <div id="header">
         <nav class="navbar navbar-expand-lg active py-3">
