@@ -86,7 +86,7 @@
 <body class="bg-dark">
     <!-- header -->
     <div id="header">
-        <nav class="navbar navbar-expand-lg active py-3 bg-dark">
+        <nav class="navbar navbar-expand-lg active py-3 bg-dark text-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="<?= base_url('home'); ?>"><b><?= $this->session->userdata('ses_nama_toko'); ?></b></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars text-dark"></i></button>
