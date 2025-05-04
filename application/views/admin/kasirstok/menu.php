@@ -14,21 +14,21 @@
                     <?php if ($r->harga_jual !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
                             Panas/Ori
-                            <label for=""><?= number_format($r->harga_jual); ?>,-</label>
+                            <div><?= number_format($r->harga_jual); ?>,-</div>
                         </button>
                     <?php } ?>
 
                     <?php if ($r->harga_sedang !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
                             Sedang
-                            <label for=""><?= number_format($r->harga_sedang); ?>,-</label>
+                            <div><?= number_format($r->harga_sedang); ?>,-</div>
 
                         </button>
                     <?php } ?>
                     <?php if ($r->harga_jumbo !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
                             Jumbo
-                            <label for=""><?= number_format($r->harga_jumbo); ?>,-</label>
+                            <div><?= number_format($r->harga_jumbo); ?>,-</d>
 
                         </button>
                     <?php } ?>
