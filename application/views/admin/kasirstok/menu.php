@@ -1,34 +1,7 @@
 <?php foreach ($hasil as $r) { ?>
-    <div class="col-4 align-content-center text-center pb-2">
-        <div class="col-md-12 pt-2 pb-2" style="height:180px;background-color:beige;">
-            <b style="font: size 12px;" class="text-primary "><?= $r->nama; ?></b>
-            <?php
-            if ($r->id_kategori == '2') {
-            ?>
-                <?php if ($r->harga_jual !== '0') { ?>
-                    <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
-                        Panas/Ori - <?= number_format($r->harga_jual); ?>,-
-                    </button>
-                <?php } ?>
-
-                <?php if ($r->harga_sedang !== '0') { ?>
-                    <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
-                        Sedang - <?= number_format($r->harga_sedang); ?>,-
-                    </button>
-                <?php } ?>
-                <?php if ($r->harga_jumbo !== '0') { ?>
-                    <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
-                        Jumbo - <?= number_format($r->harga_jumbo); ?>,-
-                    </button>
-                <?php } ?>
-            <?php } else { ?>
-                <!-- <button class="btn btn-outline-secondary btn-sm pt-2 pb-2 btn-menu btn-block pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon=""> -->
-                <button class="btn btn-secondary btn-sm mt-auto" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
-                    Tambahkan - <?= number_format($r->harga_jual); ?>,-
-                </button>
-            <?php } ?>
-        </div>
-    </div>
+    <!--
+     
+ -->
 <?php } ?>
 
 <script>
