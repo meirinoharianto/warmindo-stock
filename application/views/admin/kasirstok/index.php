@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="col-sm-4 mt-4">
-                <div class="card card-rounded h-100">
+                <div class="card card-rounded h-100 d-flex flex-column p-0">
                     <div class="card-header bg-primary text-white">
                         <i class="fa fa-shopping-cart"></i> Keranjang
                     </div>
