@@ -4,7 +4,7 @@
         <div class="card">
             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
             <div class="card-body">
-                <label for="input1"><?= $r->nama; ?></label>
+                <label for=""><?= $r->nama; ?></label>
             </div>
             <div class="button-container">
                 <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->
@@ -13,23 +13,30 @@
                 ?>
                     <?php if ($r->harga_jual !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
-                            Panas/Ori - <?= number_format($r->harga_jual); ?>,-
+                            Panas/Ori
+                            <label for=""><?= number_format($r->harga_jual); ?>,-</label>
                         </button>
                     <?php } ?>
 
                     <?php if ($r->harga_sedang !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
-                            Sedang - <?= number_format($r->harga_sedang); ?>,-
+                            Sedang
+                            <label for=""><?= number_format($r->harga_sedang); ?>,-</label>
+
                         </button>
                     <?php } ?>
                     <?php if ($r->harga_jumbo !== '0') { ?>
                         <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
-                            Jumbo - <?= number_format($r->harga_jumbo); ?>,-
+                            Jumbo
+                            <label for=""><?= number_format($r->harga_jumbo); ?>,-</label>
+
                         </button>
                     <?php } ?>
                 <?php } else { ?>
                     <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
-                        Tambahkan - <?= number_format($r->harga_jual); ?>,-
+                        Tambahkan
+                        <label for=""><?= number_format($r->harga_jual); ?>,-</label>
+
                     </button>
                 <?php } ?>
             </div>
