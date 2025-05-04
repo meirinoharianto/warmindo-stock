@@ -94,17 +94,19 @@
             /* Memastikan kartu mengisi seluruh tinggi kolom */
         }
 
-        .card-body {
-            flex-grow: 1;
-            /* Membuat body kartu tumbuh untuk mengisi ruang */
-        }
-
         .card-img-top {
             width: 100%;
             height: 150px;
             /* Atur tinggi gambar */
             object-fit: cover;
             /* Agar gambar tidak terdistorsi */
+        }
+
+        .card-body {
+            flex-grow: 1;
+            /* Membuat body kartu tumbuh untuk mengisi ruang */
+            padding-bottom: 0;
+            /* Mengurangi padding bawah agar tombol lebih dekat ke bawah */
         }
 
         .card-title {

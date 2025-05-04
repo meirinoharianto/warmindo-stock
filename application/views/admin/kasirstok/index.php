@@ -70,6 +70,8 @@
                                             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
                                             <div class="card-body">
                                                 <h5 class="card-title">Nama Kolom 1</h5>
+                                                <label for="input1">Label Kolom 1:</label>
+                                                <input type="text" class="form-control" id="input1">
                                             </div>
                                             <div class="button-container">
                                                 <button class="btn btn-primary w-100">Klik Kolom 1</button>
