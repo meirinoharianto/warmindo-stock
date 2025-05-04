@@ -12,33 +12,28 @@
                 if ($r->id_kategori == '2') {
                 ?>
                     <?php if ($r->harga_jual !== '0') { ?>
-                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
+                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
                             Panas/Ori
-                            <div class="mb-2"><?= number_format($r->harga_jual); ?>,-</div>
+                            <div><?= number_format($r->harga_jual); ?>,-</div>
                         </button>
                     <?php } ?>
 
                     <?php if ($r->harga_sedang !== '0') { ?>
-                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
+                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
                             Sedang
-                            <div class="mb-2"><?= number_format($r->harga_sedang); ?>,-</div>
-
+                            <div><?= number_format($r->harga_sedang); ?>,-</div>
                         </button>
                     <?php } ?>
                     <?php if ($r->harga_jumbo !== '0') { ?>
-                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
+                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
                             Jumbo
-                            <div class="mb-2"><?= number_format($r->harga_jumbo); ?>,-</d>
-
+                            <div><?= number_format($r->harga_jumbo); ?>,-</d>
                         </button>
                     <?php } ?>
                 <?php } else { ?>
-                    <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
-
+                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
                         Tambahkan
-
-                        <div class="mb-2"><?= number_format($r->harga_jual); ?>,-</div>
-
+                        <div><?= number_format($r->harga_jual); ?>,-</div>
                     </button>
                 <?php } ?>
             </div>
