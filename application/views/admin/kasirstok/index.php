@@ -82,36 +82,37 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <?php
+                            if ($this->input->get('id')) {
+                                $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
+                                $url   = base_url('menuutama/dtmenu?id=' . (int)$this->input->get('id'));
+                            } else if ($this->input->get('cari')) {
+                                $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR kategori.kategori LIKE "%' . $this->input->get('cari') . '%"';
+                                $url   = base_url('menuutama/dtmenu?cari=' . $this->input->get('cari'));
+                            } else {
+                                $wr = '';
+                                $url   = base_url('menuutama/dtmenu');
+                            }
+                            $query = "SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id ";
+                            $total = $this->db->query("$query $wr ORDER BY menu_utama.kode_menu")->num_rows();
+                            $pages = ceil($total / $halperpage);
+
+                            if ($total == '0') {
+                                echo '<br/><h4>" Tidak ada Menu "</h4><br/>';
+                            }
+                            ?>
+                            <!-- <div id="load-data" class="row-css"></div> -->
+                            <center>
+                                <div id="loading"></div>
+                            </center>
+                            <br />
+                            <div class="wrapper">
+                                <ul id="pagination-demo" class="pagination"></ul>
+                            </div>
                         </div>
 
                         <!-- <div class="table-responsive-1 w-100"> -->
-                        <?php
-                        if ($this->input->get('id')) {
-                            $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
-                            $url   = base_url('menuutama/dtmenu?id=' . (int)$this->input->get('id'));
-                        } else if ($this->input->get('cari')) {
-                            $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR kategori.kategori LIKE "%' . $this->input->get('cari') . '%"';
-                            $url   = base_url('menuutama/dtmenu?cari=' . $this->input->get('cari'));
-                        } else {
-                            $wr = '';
-                            $url   = base_url('menuutama/dtmenu');
-                        }
-                        $query = "SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id ";
-                        $total = $this->db->query("$query $wr ORDER BY menu_utama.kode_menu")->num_rows();
-                        $pages = ceil($total / $halperpage);
 
-                        if ($total == '0') {
-                            echo '<br/><h4>" Tidak ada Menu "</h4><br/>';
-                        }
-                        ?>
-                        <!-- <div id="load-data" class="row-css"></div> -->
-                        <center>
-                            <div id="loading"></div>
-                        </center>
-                        <br />
-                        <div class="wrapper">
-                            <ul id="pagination-demo" class="pagination"></ul>
-                        </div>
                         <script>
                             $(document).ready(function() {
                                 $('#pagination-demo').twbsPagination({
