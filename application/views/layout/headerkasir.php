@@ -124,7 +124,7 @@
 
 <body class="bg-dark">
     <!-- header -->
-    <div id="header">
+    <div id="header mb-0">
         <nav class="navbar navbar-expand-lg active navbar-light bg-light sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="<?= base_url('home'); ?>"><b><?= $this->session->userdata('ses_nama_toko'); ?></b></a>
