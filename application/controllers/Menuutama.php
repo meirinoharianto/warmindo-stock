@@ -97,7 +97,7 @@ class Menuutama extends CI_Controller
         if ($this->input->get('id')) {
             $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id');
         } elseif ($this->input->get('cari')) {
-            $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR kategori.kategori LIKE "%' . $this->input->get('cari') . '%"';
+            $wr = ' WHERE nama LIKE "%' . $this->input->get('cari') . '%" OR k.kategori LIKE "%' . $this->input->get('cari') . '%"';
         } else {
             $wr = '';
         }
