@@ -25,7 +25,7 @@
                 <h6><?= $r->nama; ?></h6>
             </div>
             <?php if ($r->kategori == 'Non Kategori') { ?>
-                <input type="number" class="form-control" name="hargajual" id="hargajual" placeholder="">
+                <input type="number" class="form-control" name="hargacustom" id="hargacustom" placeholder="Masukkan harga">
 
             <?php } ?>
             <div class="button-container">
@@ -52,6 +52,10 @@
                             <div><?= number_format($r->harga_jumbo); ?>,-</d>
                         </button>
                     <?php } ?>
+                <?php } else if ($r->id_kategori == '5') { ?>
+                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
+                        Tambahkan
+                    </button>
                 <?php } else { ?>
                     <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
                         Tambahkan
@@ -71,7 +75,7 @@
         var hargajual = $(this).attr('data-addon');
         var nameaddon = $(this).attr('data-nameaddon');
         var atasnama = document.getElementById("atas_nama");
-        // var hargajual = document.getElementById("hargajual");
+        var hargacustom = document.getElementById("hargacustom");
 
         $.ajax({
             url: "<?= base_url('kasirstok/add_cart'); ?>",
@@ -82,6 +86,8 @@
                 "nameaddon": nameaddon,
                 "atas_nama": atasnama.value,
                 "hargajual": hargajual,
+                "hargacustom": hargacustom.value,
+
             },
             dataType: 'json',
             timeout: 6000,
