@@ -579,7 +579,17 @@ class Kasirstok extends CI_Controller
                 'harga_jual'  => $menu->harga_jual,
             ];
             if ($this->input->post('type') == 'minus') {
-                $this->db->set('qty', $keranjang->qty - 1);
+                if ($this->input->post('qt') > 0) {
+                    $this->db->set('qty', $keranjang->qty - 1);
+                } else {
+                    echo '<script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal !",
+                                text: "Stok Product telah mencapai batas minim qty .",
+                            })</script>';
+                    exit;
+                }
             } elseif ($this->input->post('type') == 'keyup') {
                 if ($this->input->post('qt') > 0) {
                     $this->db->set('qty', $this->input->post('qt'));
