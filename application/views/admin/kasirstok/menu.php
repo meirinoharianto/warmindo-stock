@@ -75,15 +75,11 @@
         var hargajual = $(this).attr('data-addon');
         var nameaddon = $(this).attr('data-nameaddon');
         var atasnama = document.getElementById("atas_nama");
-        console.log(hargajual);
-        console.log(nameaddon);
-        console.log(hargacustom);
+
         if (nameaddon == "Non") {
             var hargacustom = document.getElementById("hargacustom").value;
             hargajual = hargacustom
         }
-        console.log(hargajual);
-        exit
 
         $.ajax({
             url: "<?= base_url('kasirstok/add_cart'); ?>",
