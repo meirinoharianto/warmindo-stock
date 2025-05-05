@@ -160,14 +160,14 @@
 
                     <form method="post" id="AddKasir">
                         <div class="card-body p-2">
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-2">
                                 <label for="" class="col-sm-4 col-form-label">NO BON</label>
                                 <div class="col-sm-8">
                                     <input type="text" required readonly class="form-control" value="<?= $no_bon; ?>" name="no_bon" id="no_bon" placeholder="No Bon">
                                 </div>
                             </div>
 
-                            <div class="form-group row ">
+                            <div class="form-group row mb-2">
                                 <label for="" class="col-sm-4 col-form-label">ATAS NAMA</label>
                                 <div class="col-sm-8">
                                     <input type="text" required autocomplete="off" class="form-control" name="atas_nama" id="atas_nama" placeholder="Atas Nama" value="<?= $atas_nama; ?>">
