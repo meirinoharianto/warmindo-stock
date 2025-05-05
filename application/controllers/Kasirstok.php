@@ -586,7 +586,7 @@ class Kasirstok extends CI_Controller
                             Swal.fire({
                                 icon: "error",
                                 title: "Gagal !",
-                                text: "Stok Product telah mencapai batas minim qty .",
+                                text: "Stok min ' . $this->input->post('qt') . '  Product telah mencapai batas minim qty .",
                             })</script>';
                     exit;
                 }
