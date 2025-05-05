@@ -97,14 +97,17 @@
             ?>
                     <tr>
                         <td scope="row"><?= $no; ?></td>
-                        <td>(<?= $item['kategori']; ?>) <b><?= '(' . $item['nama'] . ') @' . number_format($item['harga_jual'], 0, ',', '.'); ?></b></td>
-                        <td>
-                            <a href="javascript:void(0)" data-minus="<?= $item['id_menu']; ?>" class="badge badge-primary p-2 minus"> - </a>
-                            <span>
-                                <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" value="<?= $item['qty']; ?>">
-                            </span>
-                            <a href="javascript:void(0)" data-plus="<?= $item['id_menu']; ?>" class="badge badge-primary p-2 plus"> + </a>
+                        <td>(<?= $item['kategori']; ?>) <b><?= '(' . $item['nama'] . ') @' . number_format($item['harga_jual'], 0, ',', '.'); ?></b>
+                            <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" value="<?= $item['qty']; ?>">
+
                         </td>
+                        <!-- <td> -->
+                        <!-- <a href="javascript:void(0)" data-minus="<?= $item['id_menu']; ?>" class="badge badge-primary p-2 minus"> - </a> -->
+                        <!-- <span>
+                                <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" value="<?= $item['qty']; ?>">
+                            </span> -->
+                        <!-- <a href="javascript:void(0)" data-plus="<?= $item['id_menu']; ?>" class="badge badge-primary p-2 plus"> + </a> -->
+                        <!-- </td> -->
                         <td>Rp<?= number_format($item['harga_jual'] * $item['qty']); ?>,-</td>
                         <td>
                             <a href="javascript:void(0)" data-id="<?= $item['id_menu']; ?>" data-hrgjual="<?= $item['harga_jual']; ?>" class="badge badge-danger del_cart">
