@@ -90,7 +90,6 @@
                 "nameaddon": nameaddon,
                 "atas_nama": atasnama.value,
                 "hargajual": hargajual,
-                "hargacustom": hargacustom.value,
 
             },
             dataType: 'json',
