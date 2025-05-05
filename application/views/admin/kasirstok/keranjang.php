@@ -96,7 +96,11 @@
             ?>
                     <tr>
                         <td scope="row"><?= $no; ?></td>
-                        <td>(<?= $item['kategori']; ?>) <b><?= '(' . $item['nama'] . ') @' . number_format($item['harga_jual'], 0, ',', '.'); ?></b>
+                        <td>
+                            <div class="text-sm">(<?= $item['kategori']; ?>)</div>
+                            <div>
+                                <b><?= '(' . $item['nama'] . ') @' . number_format($item['harga_jual'], 0, ',', '.'); ?></b>
+                            </div>
                             <div>
                                 <a href="javascript:void(0)" data-minus="<?= $item['id_menu']; ?>" class="badge badge-dark p-2 minus"> - </a>
                                 <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" value="<?= $item['qty']; ?>">
