@@ -12,10 +12,12 @@
 
                 <?php }
             } else { ?>
-                <i class="fa fa-image fa-4x"></i>
-                <br>
+                <img src="<?= base_url('assets/image/no-image.png'); ?>" class="img-fluid w-100" />
+
+                <!-- <i class="fa fa-image fa-4x"></i> -->
+                <!-- <br>
                 <b>Tidak Ada Gambar </b>
-                <br>
+                <br> -->
             <?php } ?>
             <div class="card-body text-center">
                 <?= $r->nama; ?>
