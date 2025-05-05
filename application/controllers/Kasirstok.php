@@ -565,6 +565,62 @@ class Kasirstok extends CI_Controller
         $menu = $this->db->query('SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id 
             WHERE menu_utama.id="' . (int)$this->input->get('id') . '"')->row();
         $keranjang = $this->db->get_where('keranjang', ['id_menu' => $menu->id, 'login_id' => $this->session->userdata('ses_id')])->row();
+        // $stok = $menu->stok - $menu->stok_minim;
+        // if ($stok >= (int)$this->input->post('qt')) {
+        if (isset($keranjang)) {
+            $item = [
+                'id_menu' => $menu->id,
+                'kode_menu' => $menu->kode_menu,
+                'kategori' => $menu->kategori,
+                'nama' => $menu->nama,
+                'gambar' => $menu->gambar,
+                'keterangan' =>  $keranjang->keterangan,
+                'harga_beli'  => $menu->harga_pokok,
+                'harga_jual'  => $menu->harga_jual,
+            ];
+            if ($this->input->post('type') == 'minus') {
+                $this->db->set('qty', $keranjang->qty - 1);
+            } elseif ($this->input->post('type') == 'keyup') {
+                if ($this->input->post('qt') > 0) {
+                    $this->db->set('qty', $this->input->post('qt'));
+                } else {
+                    $this->db->set('qty', 1);
+                }
+            } else {
+                $qty = $keranjang->qty + 1;
+                // if ($stok >= $qty) {
+                $this->db->set('qty', $keranjang->qty + 1);
+                // } else {
+                //     echo '<script>
+                //             Swal.fire({
+                //                 icon: "error",
+                //                 title: "Gagal !",
+                //                 text: "Stok Product telah mencapai batas minim qty .",
+                //             })</script>';
+                //     exit;
+                // }
+            }
+        }
+
+        $this->db->where('id_menu', $menu->id);
+        $this->db->where('login_id', $this->session->userdata('ses_id'));
+        $this->db->update('keranjang', $item);
+        // } else {
+        //     echo '<script>
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Gagal !",
+        //         text: "Stok Product telah mencapai batas minim qty .",
+        //     })</script>';
+        // }
+    }
+
+    public function update_cart_stok()
+    {
+        $id = (int)$this->input->get('id');
+        $menu = $this->db->query('SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id 
+            WHERE menu_utama.id="' . (int)$this->input->get('id') . '"')->row();
+        $keranjang = $this->db->get_where('keranjang', ['id_menu' => $menu->id, 'login_id' => $this->session->userdata('ses_id')])->row();
         $stok = $menu->stok - $menu->stok_minim;
         if ($stok >= (int)$this->input->post('qt')) {
             if (isset($keranjang)) {
