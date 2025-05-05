@@ -81,7 +81,6 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Qty</th>
                 <th>Jumlah</th>
                 <th>#</th>
             </tr>
@@ -112,7 +111,7 @@
                         <td>Rp<?= number_format($item['harga_jual'] * $item['qty']); ?>,-</td>
                         <td>
                             <a href="javascript:void(0)" data-id="<?= $item['id_menu']; ?>" data-hrgjual="<?= $item['harga_jual']; ?>" class="badge badge-danger del_cart">
-                                <i class="fa fa-times"></i>
+                                <i class="fa fa-trash"></i>
                             </a>
                         </td>
                     </tr>
