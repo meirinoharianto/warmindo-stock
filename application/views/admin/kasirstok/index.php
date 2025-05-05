@@ -64,12 +64,12 @@
 
                         <!-- TEST -->
                         <div class="container ">
-                            <!-- <div class="content"> -->
-                            <div class="row justify-content-center">
-                                <!-- Kolom 1 -->
-                                <div id="load-data" class="row-css"></div>
+                            <div class="content">
+                                <div class="row justify-content-center">
+                                    <!-- Kolom 1 -->
+                                    <div id="load-data" class=""></div>
 
-                                <!-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
                                             <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1">
                                             <div class="card-body">
@@ -80,8 +80,8 @@
                                             </div>
                                         </div>
                                     </div> -->
+                                </div>
                             </div>
-                            <!-- </div> -->
                             <?php
                             if ($this->input->get('id')) {
                                 $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
