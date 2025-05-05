@@ -2,6 +2,7 @@
 
     <div class="<?= count($hasil) === 1 ? 'col-lg-12' : 'col-lg-4'; ?> col-md-6 col-sm-12 mb-3">
         <div class="card w-100">
+            <?= count($hasil) === 1 ? 'col-lg-12' : 'col-lg-4'; ?>
             <!-- <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1"> -->
             <?php
             if ($r->gambar !== '-') {
