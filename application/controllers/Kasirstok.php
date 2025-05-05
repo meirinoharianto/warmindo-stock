@@ -581,6 +581,13 @@ class Kasirstok extends CI_Controller
             if ($this->input->post('type') == 'minus') {
                 if ((int)$this->input->post('qt') > 0) {
                     $this->db->set('qty', $keranjang->qty - 1);
+                    echo '<script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal !",
+                                text: "Stok plus ' . (int)$this->input->post('qt') . '  Product telah mencapai batas minim qty .",
+                            })</script>';
+                    exit;
                 } else {
                     echo '<script>
                             Swal.fire({
