@@ -63,7 +63,7 @@
                         </div>
 
                         <!-- TEST -->
-                        <div class="container d-flex flex-column">
+                        <div class="container ">
                             <div class="content">
                                 <div class="row justify-content-center">
                                     <!-- Kolom 1 -->
