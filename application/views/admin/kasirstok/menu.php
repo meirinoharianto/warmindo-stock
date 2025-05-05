@@ -20,7 +20,7 @@
                 <br> -->
             <?php } ?>
             <div class="card-body text-center">
-                <?= $r->nama; ?>
+                <h6><?= $r->nama; ?></h6>
             </div>
             <div class="button-container">
                 <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->

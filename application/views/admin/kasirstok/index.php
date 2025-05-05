@@ -36,10 +36,15 @@
                                             <a class="dropdown-item" href="<?= base_url('kasirstok?id=' . $r->id . '&nm=' . $r->kategori); ?>">
                                                 <?= $r->kategori; ?></a>
                                             <div class="dropdown-divider"></div>
+
                                         <?php } ?>
                                         <a class="dropdown-item" href="<?= base_url('kasirstok'); ?>">
                                             Semua Kategori</a>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md"></div>
+
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-3">
