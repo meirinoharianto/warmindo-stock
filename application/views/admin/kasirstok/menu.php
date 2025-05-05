@@ -75,7 +75,7 @@
         var hargajual = $(this).attr('data-addon');
         var nameaddon = $(this).attr('data-nameaddon');
         var atasnama = document.getElementById("atas_nama");
-        var hargacustom = document.getElementById("hargacustom");
+        var hargacustom = document.getElementById("hargacustom").value;
         console.log(hargajual);
         console.log(nameaddon);
         console.log(hargacustom);
