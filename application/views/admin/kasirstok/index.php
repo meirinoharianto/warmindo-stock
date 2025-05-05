@@ -65,7 +65,7 @@
                         <!-- TEST -->
                         <div class="container d-flex flex-column">
                             <div class="content">
-                                <div class="row">
+                                <div class="row justify-content-center">
                                     <!-- Kolom 1 -->
                                     <div id="load-data" class="row-css"></div>
 
