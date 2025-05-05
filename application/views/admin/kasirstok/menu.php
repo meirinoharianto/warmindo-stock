@@ -1,7 +1,7 @@
 <?php foreach ($hasil as $r) { ?>
 
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-        <div class="card w-100" style="height: 300px;">
+        <div class="card w-100">
             <!-- <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1"> -->
             <?php
             if ($r->gambar !== '-') {
