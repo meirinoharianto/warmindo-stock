@@ -25,7 +25,7 @@
                 <h6><?= $r->nama; ?></h6>
                 <h6><?= $r->kategori; ?></h6>
             </div>
-            <?php if (true) { ?>
+            <?php if ($r->kategori == 'Non Kategori') { ?>
                 <input type="number" class="form-control" name="hargajual" id="hargajual" placeholder="">
 
             <?php } ?>
