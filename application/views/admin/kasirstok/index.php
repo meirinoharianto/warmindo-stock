@@ -166,29 +166,7 @@
                                     <input type="text" required readonly class="form-control" value="<?= $no_bon; ?>" name="no_bon" id="no_bon" placeholder="No Bon">
                                 </div>
                             </div>
-                            <!-- <div class="form-group row">
-                                <label for="" class="col-sm-4 col-form-label">CUSTOMER</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="pelanggan" id="pelanggan" placeholder="Nama Customer">
-                                        <div class="input-group-append"> -->
-                            <!-- Button trigger modal -->
-                            <!-- <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modelId">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                            <a href="" class="btn btn-danger btn-md">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </div>
-                                        <input type="hidden" name="customer_id" id="pelanggan_id" value="0">
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- <small class="text-danger">
-                                <b>
-                                    * Untuk Customer yang sudah terdaftar pada sistem
-                                </b>
-                            </small> -->
+
                             <div class="form-group mt-3 row">
                                 <label for="" class="col-sm-4 col-form-label">ATAS NAMA</label>
                                 <div class="col-sm-8">
@@ -198,9 +176,7 @@
                             <div class="float-left pt-2">
                                 <i class="fa fa-shopping-cart"></i> List Keranjang
                             </div>
-                            <!-- <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modelId1">
-                                <i class="fa fa-eye"></i> Lihat List Tabel
-                            </button> -->
+
                             <div class="clearfix"></div>
                         </div>
                         <div class="modal-body p-0">
