@@ -90,7 +90,9 @@
         .card {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            /* height: 100%; */
+            height: auto;
+            max-height: 400px;
             /* Memastikan kartu mengisi seluruh tinggi kolom */
         }
 
