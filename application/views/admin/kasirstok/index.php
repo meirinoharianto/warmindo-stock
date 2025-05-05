@@ -67,7 +67,7 @@
                             <div class="content">
                                 <div class="row justify-content-center">
                                     <!-- Kolom 1 -->
-                                    <div id="load-data" class=""></div>
+                                    <div id="load-data" class="row-css"></div>
 
                                     <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="card">
