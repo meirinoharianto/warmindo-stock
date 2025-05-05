@@ -167,7 +167,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class=" ">
                                 <label for="" class="col-sm-4 col-form-label">ATAS NAMA</label>
                                 <div class="col-sm-8">
                                     <input type="text" required autocomplete="off" class="form-control" name="atas_nama" id="atas_nama" placeholder="Atas Nama" value="<?= $atas_nama; ?>">
