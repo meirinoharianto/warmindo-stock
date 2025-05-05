@@ -170,7 +170,7 @@
         var id = $(this).attr('data-minus');
         var matchingInput = $('.kr_sub[data-sub="' + id + '"]');
         // var qt = $('.kr_sub').val() - 1;
-        var qt = matchingInput.val();
+        var qt = matchingInput.val() - 1;
         var url_upd = '<?= base_url('kasirstok/update_cart?id='); ?>' + id;
         $.ajax({
             url: url_upd,
