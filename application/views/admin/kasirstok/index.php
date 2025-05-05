@@ -1,6 +1,6 @@
 <div class="clearfix"></div>
 <div id="home">
-    <div class="container-fluid mt-2" id="kasircontainer">
+    <div class="container-fluid " id="kasircontainer">
         <?php
         if (!empty($this->session->flashdata('success'))) {
             echo alert_success($this->session->flashdata('success'));
