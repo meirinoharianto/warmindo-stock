@@ -167,13 +167,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mt-3 row">
+                            <div class="form-group row">
                                 <label for="" class="col-sm-4 col-form-label">ATAS NAMA</label>
                                 <div class="col-sm-8">
                                     <input type="text" required autocomplete="off" class="form-control" name="atas_nama" id="atas_nama" placeholder="Atas Nama" value="<?= $atas_nama; ?>">
                                 </div>
                             </div>
-                            <div class="float-left pt-2">
+                            <div class="float-left ">
                                 <i class="fa fa-shopping-cart"></i> List Keranjang
                             </div>
 
