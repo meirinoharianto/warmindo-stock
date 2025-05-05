@@ -23,7 +23,12 @@
             <?php } ?>
             <div class="card-body text-center">
                 <h6><?= $r->nama; ?></h6>
+                <h6><?= $r->kategori; ?></h6>
             </div>
+            <?php if (true) { ?>
+                <input type="number" class="form-control" name="hargajual" id="hargajual" placeholder="">
+
+            <?php } ?>
             <div class="button-container">
                 <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->
                 <?php
