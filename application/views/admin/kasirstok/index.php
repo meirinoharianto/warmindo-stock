@@ -160,7 +160,7 @@
 
                     <form method="post" id="AddKasir">
                         <div class="card-body p-2">
-                            <div class="form-group row">
+                            <div class="">
                                 <label for="" class="col-sm-4 col-form-label">NO BON</label>
                                 <div class="col-sm-8">
                                     <input type="text" required readonly class="form-control" value="<?= $no_bon; ?>" name="no_bon" id="no_bon" placeholder="No Bon">
