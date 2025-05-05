@@ -579,7 +579,7 @@ class Kasirstok extends CI_Controller
                 'harga_jual'  => $menu->harga_jual,
             ];
             if ($this->input->post('type') == 'minus') {
-                if ($this->input->post('qt') > 0) {
+                if ((int)$this->input->post('qt') > 1) {
                     $this->db->set('qty', $keranjang->qty - 1);
                 } else {
                     echo '<script>
@@ -591,7 +591,7 @@ class Kasirstok extends CI_Controller
                     exit;
                 }
             } elseif ($this->input->post('type') == 'keyup') {
-                if ($this->input->post('qt') > 0) {
+                if ((int)$this->input->post('qt') >= 1) {
                     $this->db->set('qty', $this->input->post('qt'));
                 } else {
                     $this->db->set('qty', 1);
