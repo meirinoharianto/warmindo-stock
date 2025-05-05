@@ -53,7 +53,7 @@
                         </button>
                     <?php } ?>
                 <?php } else if ($r->id_kategori == '5') { ?>
-                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
+                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Non">
                         Tambahkan
                     </button>
                 <?php } else { ?>
@@ -76,7 +76,10 @@
         var nameaddon = $(this).attr('data-nameaddon');
         var atasnama = document.getElementById("atas_nama");
         var hargacustom = document.getElementById("hargacustom");
-
+        console.log(hargajual);
+        console.log(nameaddon);
+        console.log(hargacustom);
+        exit;
         $.ajax({
             url: "<?= base_url('kasirstok/add_cart'); ?>",
             type: "POST",

@@ -428,6 +428,7 @@ class Kasirstok extends CI_Controller
         $addon = (int)$this->input->post('addon');
         $atasnama = $this->input->post('atas_nama');
         $hargajual = $this->input->post('hargajual');
+        $hargacustom = $this->input->post('hargacustom');
         $nameaddon = $this->input->post('nameaddon');
         $addon_nama = '(' . $nameaddon . ')';
 
