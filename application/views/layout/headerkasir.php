@@ -91,6 +91,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            max-width: 100% !important;
             /* height: auto; */
             /* max-height: 200px; */
             /* Memastikan kartu mengisi seluruh tinggi kolom */
