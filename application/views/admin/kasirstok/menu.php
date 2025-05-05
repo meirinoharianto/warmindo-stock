@@ -79,7 +79,12 @@
         console.log(hargajual);
         console.log(nameaddon);
         console.log(hargacustom);
-        exit;
+        if (nameaddon == "Non") {
+            hargajual = hargacustom
+        }
+        console.log(hargajual);
+        exit
+
         $.ajax({
             url: "<?= base_url('kasirstok/add_cart'); ?>",
             type: "POST",
