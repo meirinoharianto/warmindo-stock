@@ -454,6 +454,8 @@ class Kasirstok extends CI_Controller
             $select = 'pb.sedang';
         } else if ($nameaddon == 'Jumbo') {
             $select = 'pb.jumbo';
+            // } else if ($nameaddon == 'Non') {
+
         } else {
             $select = 'pb.jumlah';
         }
