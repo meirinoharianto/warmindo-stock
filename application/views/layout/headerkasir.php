@@ -88,9 +88,9 @@
         }
 
         .card {
-            /* display: flex; */
-            /* flex-direction: column; */
-            /* height: 100%; */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             /* height: auto; */
             /* max-height: 200px; */
             /* Memastikan kartu mengisi seluruh tinggi kolom */
