@@ -76,9 +76,14 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'u824836569_user_warmindo', //ubah username 
-	'password' => '8c>IT;jdM~|', // ubah password 
-	'database' => 'u824836569_warmindo', // ubah nama databasenya
+
+	// 'username' => 'u824836569_user_warmindo', //ubah username 
+	// 'password' => '8c>IT;jdM~|', // ubah password 
+	// 'database' => 'u824836569_warmindo', // ubah nama databasenya
+
+	'username' => 'u824836569_admin', //ubah username 
+	'password' => 'SAMndut2024$', // ubah password 
+	'database' => 'u824836569_samndut', // ubah nama databasenya
 	// 'username' => 'root', //ubah username 
 	// 'password' => '', // ubah password 
 	// 'database' => 'warmindo', // ubah nama databasenya
