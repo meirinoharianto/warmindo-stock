@@ -40,7 +40,7 @@ class Home extends CI_Controller
             'title_web' => 'Dashboard',
             'userx'     => $this->db->get_where('login', ['id' => $this->session->userdata('ses_id')])->row(),
             'ck'        => $this->db->get('kategori')->num_rows(),
-            'cm'        => $this->db->get_where('menu', ['cabang_id' => $this->session->userdata('ses_cabang_id')])->num_rows(),
+            // 'cm'        => $this->db->get_where('menu', ['cabang_id' => $this->session->userdata('ses_cabang_id')])->num_rows(),
             'cc'        => $this->db->get('customer')->num_rows(),
             'ct'        => $trx,
         ];
