@@ -18,8 +18,8 @@ class Home extends CI_Controller
         if ($this->session->userdata('ses_level') == 'Kasir') {
             if ((int)$this->session->userdata('ses_id') == 44) {
                 redirect('kasirstok');
-            } else {
-                redirect('kasir');
+                // } else {
+                //     redirect('kasir');
             }
         } else if ($this->session->userdata('ses_level') == 'AdminKasir') {
             redirect('adminkasir');
