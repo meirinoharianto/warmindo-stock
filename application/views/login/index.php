@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8">
     <title>Login Form Design | CodeLab</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>" />
 </head>
 
 <body>
