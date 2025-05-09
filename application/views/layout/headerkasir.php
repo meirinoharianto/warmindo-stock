@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main.css?v=' . time()); ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/plugins/sweetalert2/sweetalert2.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/sidebarstyle.css'); ?>" />
+
 
     <!-- Optional JavaScript -->
     <!-- DATATABLES BS 4-->
@@ -403,4 +405,6 @@
             </div>
         </nav>
     </div>
+
+
     <!-- header -->
