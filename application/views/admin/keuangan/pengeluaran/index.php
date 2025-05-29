@@ -15,84 +15,111 @@ $bulan_tes = array(
     '12' => "Desember"
 );
 ?>
-<div id="home">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-sm-12">
-                <?php
-                if (!empty($this->session->flashdata('success'))) {
-                    echo alert_success($this->session->flashdata('success'));
-                }
-                if (!empty($this->session->flashdata('failed'))) {
-                    echo alert_failed($this->session->flashdata('failed'));
-                }
-                ?>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success btn-md mt-2 mr-2" data-toggle="modal" data-target="#modelId">
-                    <i class="fa fa-plus"></i> Tambah Pengeluaran
-                </button>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-md mt-2" data-toggle="modal" data-target="#modelIdFilter">
-                    <i class="fa fa-search"></i> Pencarian
-                </button>
+<!-- <div id="home">
+    <div class="wrapper d-flex align-items-stretch h-100">
 
-                <!-- <a href="<?= $url_pdf; ?>" class="btn btn-success mt-2 btn-md ml-1">
-                    <i class="fa fa-download"></i> File Excel
-                </a> -->
-                <!-- <a href="<?php echo $url_pdf ?>" class="btn btn-danger btn-md mt-2 ml-2" target="_blank">
-                    <i class="fa fa-print"></i> Cetak PDF
-                </a> -->
-                <a href="<?php echo base_url('keuangan/pengeluaran') ?>" class="btn btn-success btn-md mt-2 ml-2">
-                    <i class="fas fa-sync"></i> Refresh
-                </a>
-                <div class="clearfix"></div>
-                <br>
-                <div class="card card-rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="pt-2">
-                            <?php
-                            if (!empty($this->input->get('a') && $this->input->get('b'))) { ?>
-                                Periode
-                                <?php echo time_explode_date($this->input->get('a'), 'id') ?>
-                                s.d.
-                                <?php echo time_explode_date($this->input->get('b'), 'id') ?>
-                            <?php } else { ?>
-                                Periode <?php echo time_explode_date(date('Y-m-d'), 'id') ?>
-                            <?php } ?>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive-1">
-                            <table class="table table-light table-striped w-100" id="dataTable1">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Shift</th>
-                                        <th>Kategori</th>
-                                        <th>No Bon</th>
-                                        <th>Keterangan</th>
-                                        <th>Jumlah</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="6">Total</th>
-                                        <th>Rp<?php echo number_format($tot->jmltotal) ?></th>
-                                        <th colspan="2"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+        <div id="content" class="p-0">
+            <div class="container-fluid ">
+                <div class="row">
+                    <div class="col-12 mt-3"> -->
+<div id="home" class="d-flex flex-column h-100">
+    <div class="wrapper d-flex flex-grow-1">
+        <div id="content" class="p-0 flex-grow-1">
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-12 mt-3 h-100">
+                        <div class="card card-rounded h-100">
+                            <div class="card-header bg-primary text-white">
+                                <i class="fa fa-money mr-1"></i>Data Pengeluaran
+                            </div>
+                            <div class="card-body pl-4 pr-4">
+                                <div class="row">
+                                    <div class="col-12 mb-3 border w-100 rounded-lg p-2">
+                                        <?php
+                                        if (!empty($this->session->flashdata('success'))) {
+                                            echo alert_success($this->session->flashdata('success'));
+                                        }
+                                        if (!empty($this->session->flashdata('failed'))) {
+                                            echo alert_failed($this->session->flashdata('failed'));
+                                        }
+                                        ?>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modelId">
+                                            <i class="fa fa-plus"></i> Tambah Pengeluaran
+                                        </button>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modelIdFilter">
+                                            <i class="fa fa-search"></i> Pencarian
+                                        </button>
+
+                                        <a href="<?php echo base_url('keuangan/pengeluaran') ?>" class="btn btn-success btn-sm ">
+                                            <i class="fa fa-refresh"></i> Refresh
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 mb-3 border rounded-lg">
+                                        <div class="clearfix"></div>
+                                        <h6 class="pt-2 pb-2 text-dark">
+                                            <?php
+                                            if (!empty($this->input->get('a') && $this->input->get('b'))) { ?>
+                                                Periode
+                                                <?php echo time_explode_date($this->input->get('a'), 'id') ?>
+                                                s.d.
+                                                <?php echo time_explode_date($this->input->get('b'), 'id') ?>
+                                            <?php } else { ?>
+                                                Periode <?php echo time_explode_date(date('Y-m-d'), 'id') ?>
+                                            <?php } ?>
+                                        </h6>
+                                        <div class="table-responsive-1 mt-2">
+                                            <table class="table table-bordered table-sm table-striped table" id="dataTable1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Shift</th>
+                                                        <th>Kategori</th>
+                                                        <th>No Bon</th>
+                                                        <th>Keterangan</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Status</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="6">Total</th>
+                                                        <th>Rp<?php echo number_format($tot->jmltotal) ?></th>
+                                                        <th colspan="2"></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- TEST -->
+                                <div class="container d-flex flex-column">
+                                    <div class="content">
+                                        <div class="row justify-content-center">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- <div class="table-responsive-1 w-100"> -->
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 <!-- Modal -->
 <div class="modal fade" id="modelIdFilter" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">

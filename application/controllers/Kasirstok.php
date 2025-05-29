@@ -117,16 +117,22 @@ class Kasirstok extends CI_Controller
             ['Cash', 'QRIS', 'Online']
         )) {
             if ($dibayar == 0) {
-                echo 'Kurang';
+                // echo 'Kurang';
+                $output = array('key1' => 'error', 'key2' => 'Kurang', 'key3' => '');
+                echo json_encode($output);
                 exit;
             } else {
                 if ($dibayar < $grandtotal) {
-                    echo 'Kurang';
+                    // echo 'Kurang';
+                    $output = array('key1' => 'error', 'key2' => 'Kurang', 'key3' => '');
+                    echo json_encode($output);
                     exit;
                 }
             }
         } else {
-            echo 'Kurang';
+            // echo 'Kurang';
+            $output = array('key1' => 'error', 'key2' => 'Kurang', 'key3' => '');
+            echo json_encode($output);
             exit;
         }
         // $shift_nilai = $this->db->query("SELECT MAX(open) as 'nilai_max', MIN(close) as 'nilai_min' FROM shift")->row();
@@ -151,7 +157,9 @@ class Kasirstok extends CI_Controller
         $cekclosing = $this->db->query("SELECT * FROM closing WHERE date='" . date_format($tgl, "Y-m-d") . "' AND cabang_id='" . $cabang_id . "' AND shift_id=" . $shift_now);
         if ($cekclosing->num_rows() > 0) {
             $this->session->set_flashdata("failed", '<strong>Transaksi gagal disimpan,</strong> Data tanggal ' . date_format($tgl, "Y-m-d") . ' sudah diclosing ! ');
-            echo 'closed';
+            // echo 'closed';
+            $output = array('key1' => 'error', 'key2' => 'closed', 'key3' => '');
+            echo json_encode($output);
             exit;
         }
 
@@ -261,6 +269,20 @@ class Kasirstok extends CI_Controller
                     $this->db->where('cabang_id', $cabang_id);
 
                     $query = $this->db->get('bahan_stok');
+
+                    // if ($query) {
+
+                    //     if ($query->num_rows() == 0) {
+                    //         // no data found
+
+                    //     } else {
+                    //         // data found
+                    //     }
+                    // } else {
+                    //     // handle query error
+                    //     // log_message('error', 'Database query failed: ' . $this->db->last_query());
+
+                    // }
                     // echo $this->db->last_query();
                     $total_stok = 0;
                     // echo json_encode([
@@ -268,22 +290,28 @@ class Kasirstok extends CI_Controller
                     //     'message' => 'No stock data found'
                     // ]);
                     // exit;
-                    if (!$query) {
-                        echo json_encode([
-                            'status' => 'empty',
-                            'message' => 'Database kosong.'
-                        ]);
-                        exit;
-                    }
 
-                    if ($query->num_rows() == 0) {
-                        echo json_encode([
-                            'status' => 'empty',
-                            'message' => 'No stock data found'
-                        ]);
-                        exit;
-                    }
 
+                    // if (!$query) {
+                    //     echo json_encode([
+                    //         'status' => 'empty',
+                    //         'message' => 'Database kosong.'
+                    //     ]);
+                    //     exit;
+                    // }
+
+                    // if ($query->num_rows() == 0) {
+                    //     echo json_encode([
+                    //         'status' => 'empty',
+                    //         'message' => 'No stock data found'
+                    //     ]);
+                    //     exit;
+                    // }
+
+                    // $error = $this->db->error();
+                    // $output = array('key1' => 'tes', 'key2' => $error['message'], 'key3' => '');
+                    // echo json_encode($output);
+                    // exit;
 
                     if ($query->num_rows() == 0) { // jika belum ada
 
@@ -345,7 +373,10 @@ class Kasirstok extends CI_Controller
 
         $this->session->set_userdata('ses_atas_nama', '');
 
-        echo $no_bon;
+        // echo $no_bon;
+        $output = array('key1' => 'sukses', 'key2' => $no_bon, 'key3' => '');
+        echo json_encode($output);
+        // exit;
     }
 
     public function show()
@@ -430,7 +461,11 @@ class Kasirstok extends CI_Controller
         $hargajual = $this->input->post('hargajual');
         $hargacustom = $this->input->post('hargacustom');
         $nameaddon = $this->input->post('nameaddon');
-        $addon_nama = '(' . $nameaddon . ')';
+        if ($nameaddon != '') {
+            $addon_nama = '(' . $nameaddon . ')';
+        } else {
+            $addon_nama = '';
+        }
 
         $this->session->set_userdata('ses_atas_nama', $atasnama);
         // (int)$this->input->post('id')

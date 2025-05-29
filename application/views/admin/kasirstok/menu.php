@@ -1,8 +1,9 @@
 <?php foreach ($hasil as $r) { ?>
 
-    <div class="<?= count($hasil) === 1 ? 'col-lg-12 col-md-12' : 'col-lg-4 col-md-6'; ?> col-sm-12 mb-3">
+    <div class="<?= count($hasil) === 1 ? 'col-lg-12 col-md-12' : 'col-lg-3 col-md-6'; ?> col-sm-12 mb-3">
         <!-- <div class="col-lg-12 col-md-6 col-sm-12 mb-3"> -->
-        <div class="card w-100">
+        <!-- <div class="card w-100"> -->
+        <div class="card w-100 p-2 bg-light shadow">
 
             <!-- <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Gambar Kolom 1"> -->
             <?php
@@ -10,54 +11,55 @@
                 if (file_exists(FCPATH . 'assets/image/produk/' . $r->gambar)) {
             ?>
                     <!-- <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100 mb-2"  /> -->
-                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100" />
+                    <img src="<?= base_url('assets/image/produk/' . $r->gambar); ?>" class="img-fluid w-100" style="height: 150px; object-fit: contain;" />
 
                 <?php }
             } else { ?>
-                <img src="<?= base_url('assets/image/no-image.png'); ?>" class="img-fluid w-100" />
+                <img src="<?= base_url('assets/image/no-image.png'); ?>" class="img-fluid w-100" style="height: 200px; object-fit: cover;" />
 
                 <!-- <i class="fa fa-image fa-4x"></i> -->
                 <!-- <br>
                 <b>Tidak Ada Gambar </b>
                 <br> -->
             <?php } ?>
-            <div class="card-body text-center">
-                <h6><?= $r->nama; ?></h6>
+            <div class="card-body text-center bg-light">
+                <h6 class="text-dark"><?= $r->nama; ?></h6>
             </div>
             <?php if ($r->kategori == 'Non Kategori') { ?>
                 <input type="number" class="form-control" name="hargacustom" id="hargacustom" placeholder="Masukkan harga">
 
             <?php } ?>
+
             <div class="button-container">
                 <!-- <button class="btn btn-primary w-100">Klik Kolom 1</button> -->
                 <?php
                 if ($r->id_kategori == '2') {
                 ?>
                     <?php if ($r->harga_jual !== '0') { ?>
-                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
+                        <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Panas/Ori">
                             Panas/Ori
                             <div><?= number_format($r->harga_jual); ?>,-</div>
                         </button>
                     <?php } ?>
 
                     <?php if ($r->harga_sedang !== '0') { ?>
-                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
+                        <button class="btn btn-primary w-100 pilih mt-1" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_sedang; ?>" data-nameaddon="Sedang">
                             Sedang
                             <div><?= number_format($r->harga_sedang); ?>,-</div>
                         </button>
                     <?php } ?>
                     <?php if ($r->harga_jumbo !== '0') { ?>
-                        <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
+                        <button class="btn btn-primary w-100 pilih mt-1" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jumbo; ?>" data-nameaddon="Jumbo">
                             Jumbo
                             <div><?= number_format($r->harga_jumbo); ?>,-</d>
                         </button>
                     <?php } ?>
                 <?php } else if ($r->id_kategori == '5') { ?>
-                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Non">
+                    <button class="btn btn-primary w-100  pilih mt-1" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="Non">
                         Tambahkan
                     </button>
                 <?php } else { ?>
-                    <button class="btn btn-primary w-100 mb-2 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
+                    <button class="btn btn-primary w-100 pilih" data-id="<?= $r->id; ?>" data-addon="<?= $r->harga_jual; ?>" data-nameaddon="">
                         Tambahkan
                         <div><?= number_format($r->harga_jual); ?>,-</div>
                     </button>

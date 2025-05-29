@@ -1,4 +1,4 @@
-<div class="clearfix"></div>
+<!-- <div class="clearfix"></div> -->
 <div id="home">
     <div class="container-fluid " id="kasircontainer">
         <?php
@@ -12,15 +12,15 @@
             echo alert_failed($this->session->flashdata('warning'));
         }
         ?>
-        <div class="row">
-            <div class="col-sm-8 mt-4">
+        <div class="row no-gutters">
+            <div class="col-8 mt-3 pr-2">
                 <div class="card card-rounded">
                     <!-- <div class="card-header bg-primary text-white">
                         <i class="fa fa-cubes"></i> Data Menu Utama
                     </div> -->
                     <div class="card-body p-2">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <div class="dropdown open mb-3">
                                     <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <?php
@@ -43,8 +43,8 @@
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="col-sm-6 mb-3">
+                            </div> -->
+                            <div class="col-12 mb-3">
                                 <form method="get" action="">
                                     <div class="input-group">
                                         <input type="text" class="form-control" value="<?= $this->input->get('cari'); ?>" name="cari" id="cari" placeholder="Cari Menu">
@@ -152,8 +152,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 mt-4">
-                <div class="card card-rounded h-100 d-flex flex-column p-0">
+            <div class="col-4 mt-3 pl-2">
+                <div class="card card-rounded ">
                     <div class="card-header bg-primary text-white">
                         <i class="fa fa-shopping-cart"></i> Keranjang
                     </div>
@@ -179,7 +179,7 @@
 
                             <div class="clearfix"></div>
                         </div>
-                        <div class="modal-body p-0">
+                        <div class="modal-body p-2">
                             <div id="cart_keranjang"></div>
                         </div>
                         <div class="card-footer p-2">
@@ -302,6 +302,15 @@
                     </form>
 
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8 mt-3">
+
+            </div>
+            <div class="col-4 mt-3">
+
             </div>
         </div>
     </div>
@@ -549,7 +558,11 @@ if ($pp->pajak == 0) { ?>
                         '<i class="fas fa-circle-notch fa-spin"></i> Loading');
                 },
                 success: function(result) {
-                    if (result == 'Kurang') {
+                    var duce = jQuery.parseJSON(result);
+                    var art1 = duce.key1;
+                    var art2 = duce.key2;
+                    var art3 = duce.key3;
+                    if (art2 == 'Kurang') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -561,11 +574,11 @@ if ($pp->pajak == 0) { ?>
                             'btn-success');
                         $("#prosesTransaksi").html(
                             '<i class="fa fa-save"></i> Simpan Transaksi');
-                    } else if (result == 'Tes') {
+                    } else if (art1 == 'tes') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Testing 8!',
+                            text: 'Testing ! text=' + art2,
                         })
                         // alert('Pembayaran Anda Kurang Dari Total Bayar !');
                         $('#prosesTransaksi').attr('disabled', false);
@@ -586,7 +599,7 @@ if ($pp->pajak == 0) { ?>
                             'btn-success');
                         $("#prosesTransaksi").html(
                             '<i class="fa fa-save"></i> Simpan Transaksi');
-                    } else if (result == 'closed') {
+                    } else if (art2 == 'closed') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -599,7 +612,8 @@ if ($pp->pajak == 0) { ?>
                         $("#prosesTransaksi").html(
                             '<i class="fa fa-save"></i> Simpan Transaksi');
 
-                    } else {
+                        // } else {
+                    } else if (art1 == 'sukses') {
                         $('#prosesTransaksi').attr('disabled', false);
                         $('#prosesTransaksi').addClass('btn-primary').removeClass(
                             'btn-success');
@@ -609,7 +623,7 @@ if ($pp->pajak == 0) { ?>
                         $('#example1').DataTable().ajax.reload();
                         $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
                         $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
-                        var id = result;
+                        var id = art2;
                         var url_add = '<?= base_url('kasirstok/show?id='); ?>' + id;
                         $.ajax({
                             url: url_add,
@@ -627,6 +641,17 @@ if ($pp->pajak == 0) { ?>
                                 }
                             }
                         });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Transaksi gagal disimpan ! Terjadi masalah penyimpanan ' + art2,
+                        })
+                        $('#prosesTransaksi').attr('disabled', false);
+                        $('#prosesTransaksi').addClass('btn-primary').removeClass(
+                            'btn-success');
+                        $("#prosesTransaksi").html(
+                            '<i class="fa fa-save"></i> Simpan Transaksi');
                     }
 
                 },

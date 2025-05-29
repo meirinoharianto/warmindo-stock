@@ -1,4 +1,9 @@
 <div class="clearfix"></div>
+<?php if (!empty($this->input->post('date'))) {
+    $tgl = $this->input->post('date');
+} else {
+    $tgl = 0;
+} ?>
 <div id="home">
     <div class="container mt-5">
         <div class="row">
@@ -24,8 +29,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Tanggal</label>
-                                    <input type="date" class="form-control" name="date" id="date"
-                                        placeholder="">
+                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $this->input->post('date') ?>">
                                 </div>
                             </div>
                             <div class="col">
@@ -75,7 +79,6 @@
                                         <input type="text" class="form-control" id="nama_bahan" readonly>
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bahanModal"><i class="fa fa-search"> </i></button>
-
                                         </div>
                                     </div>
                                 </div>
@@ -83,6 +86,7 @@
                                     <label for="quantity">Jumlah :</label>
                                     <input type="number" class="form-control" id="quantity">
                                 </div>
+
                                 <div class="form-group col-2">
                                     <label for="quantity">Aksi :</label>
                                     <button class="btn btn-secondary btn-block tambahkan" id="addToTemporaryTable">
@@ -254,28 +258,56 @@
         });
     }
 
+    // function loadTemporaryTable() {
+    //     $.ajax({
+    //         // url: 'bahan/get_transferstok_temp',
+    //         url: "<?= base_url('bahan/get_transferstok_temp'); ?>",
+
+    //         method: 'GET',
+    //         success: function(response) {
+    //             const temporaryBahan = JSON.parse(response);
+    //             let rows = '';
+    //             temporaryBahan.forEach(item => {
+    //                 rows += `
+    //                         <tr>
+    //                             <td>${item.kode_bahan}</td>
+    //                             <td>${item.nama_bahan}</td>
+    //                             <td>${item.qty}</td>
+    //                             <td>
+    //                                 <button class="btn btn-danger delete-row" data-id="${item.id}">Hapus</button>
+    //                             </td>
+    //                         </tr>
+    //                     `;
+    //             });
+    //             $('#temporaryTable tbody').html(rows);
+    //         }
+    //     });
+    // }
+
     function loadTemporaryTable() {
         $.ajax({
-            // url: 'bahan/get_transferstok_temp',
             url: "<?= base_url('bahan/get_transferstok_temp'); ?>",
-
             method: 'GET',
             success: function(response) {
-                const temporaryBahan = JSON.parse(response);
+                console.log("Response:", response); // Debugging
+                const temporaryBahan = JSON.parse(response); // Remove if using dataType: 'json'
                 let rows = '';
                 temporaryBahan.forEach(item => {
                     rows += `
-                            <tr>
-                                <td>${item.kode_bahan}</td>
-                                <td>${item.nama_bahan}</td>
-                                <td>${item.qty}</td>
-                                <td>
-                                    <button class="btn btn-danger delete-row" data-id="${item.id}">Hapus</button>
-                                </td>
-                            </tr>
-                        `;
+                    <tr>
+                        <td>${item.kode_bahan}</td>
+                        <td>${item.nama_bahan}</td>
+                        <td>${item.qty}</td>
+                        <td>
+                            <button class="btn btn-danger delete-row" data-id="${item.id}">Hapus</button>
+                        </td>
+                    </tr>
+                `;
                 });
                 $('#temporaryTable tbody').html(rows);
+            },
+            error: function(xhr) {
+                console.error("Error loading table:", xhr.responseText);
             }
         });
     }
@@ -309,7 +341,50 @@
             $('#bahanModal').modal('hide');
         });
 
-        $('#addToTemporaryTable').on('click', function() {
+        // $('#addToTemporaryTable').on('click', function(e) {
+        //     e.preventDefault(); // Stop default behavior
+
+        //     const bahan_id = $('#id_bahan').val();
+        //     const kode = $('#kode_bahan').val();
+        //     const nama = $('#nama_bahan').val();
+        //     const quantity = $('#quantity').val();
+
+        //     if (!bahan_id || !quantity) {
+        //         alert('Silakan lengkapi data!');
+        //         return;
+        //     }
+
+        //     $.ajax({
+        //         // url: 'bahan/save_transferstok_temp',
+        //         url: "<?= base_url('bahan/save_transferstok_temp'); ?>",
+
+        //         method: 'POST',
+        //         data: {
+        //             "bahan_id": bahan_id,
+        //             "kode": kode,
+        //             "nama": nama,
+        //             "quantity": quantity,
+        //         },
+        //         dataType: 'json',
+        //         timeout: 6000,
+        //         success: function(response) {
+        //             const result = JSON.parse(response);
+        //             if (result.status === 'exists') {
+        //                 alert(result.message);
+        //             } else {
+        //                 loadTemporaryTable();
+        //                 // $('#id_bahan').val('');
+        //                 // $('#kode_bahan').val('');
+        //                 // $('#nama_bahan').val('');
+        //                 // $('#quantity').val('');
+        //             }
+        //         }
+        //     });
+        // });
+
+        $('#addToTemporaryTable').on('click', function(e) {
+            e.preventDefault(); // Stop default behavior
+
             const bahan_id = $('#id_bahan').val();
             const kode = $('#kode_bahan').val();
             const nama = $('#nama_bahan').val();
@@ -321,29 +396,29 @@
             }
 
             $.ajax({
-                // url: 'bahan/save_transferstok_temp',
                 url: "<?= base_url('bahan/save_transferstok_temp'); ?>",
-
                 method: 'POST',
                 data: {
-                    "bahan_id": bahan_id,
-                    "kode": kode,
-                    "nama": nama,
-                    "quantity": quantity,
+                    bahan_id,
+                    kode,
+                    nama,
+                    quantity
                 },
                 dataType: 'json',
-                timeout: 6000,
-                success: function(response) {
-                    const result = JSON.parse(response);
+                success: function(result) {
                     if (result.status === 'exists') {
                         alert(result.message);
                     } else {
-                        loadTemporaryTable();
+                        loadTemporaryTable(); // Now it should work
                         $('#id_bahan').val('');
                         $('#kode_bahan').val('');
                         $('#nama_bahan').val('');
                         $('#quantity').val('');
                     }
+                },
+                error: function(xhr) {
+                    console.error("Error:", xhr.responseText);
+                    alert("Gagal menyimpan data. Lihat konsol untuk detail.");
                 }
             });
         });
@@ -452,7 +527,7 @@
                             $('#id_cabang').val('');
                             $('#no_surat').val('');
                             $('#keterangan').val('');
-                            alert(response.message);
+                            // alert(response.message);
 
                         },
                         // error: function(data) {

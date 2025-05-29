@@ -21,7 +21,9 @@
 </head>
 
 <body>
+
     <section class="container forms">
+
         <div class="form login">
             <?php if (!empty($this->session->flashdata('failed'))) { ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -33,8 +35,8 @@
                 </div>
             <?php } ?>
             <div class="form-content">
-                <header>SAM NDUT</header>
-                <header>Login</header>
+                <header>WARMINDO SAM NDUT</header>
+                <header class="mt-5">Login</header>
                 <form method="POST" action="<?= base_url('login/proses'); ?>">
                     <div class="field input-field">
                         <!-- <input type="email" placeholder="Email" class="input"> -->

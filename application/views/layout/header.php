@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main.css?v=' . time()); ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/plugins/sweetalert2/sweetalert2.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/sidebarstyle.css'); ?>" />
+    <!-- <link rel="stylesheet" href="<?= base_url('assets/css/sidebarstyle.css'); ?>" /> -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/sidebar.css'); ?>" />
 
     <!-- Optional JavaScript -->
     <!-- DATATABLES BS 4-->
@@ -84,7 +85,7 @@
     </style>
 </head>
 
-<body class="bg-dark">
+<body class="">
     <!-- header -->
     <div id="header">
         <nav class="navbar navbar-expand-lg active navbar-light bg-light sticky-top">
@@ -93,8 +94,30 @@
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+                        <!-- ADMIN KASIR -->
+                        <?php if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
+                            <!-- MENU HOME -->
+                            <li class="nav-item active">
+                                <a class="nav-link" href="<?= base_url('home'); ?>">HOME <span class="sr-only">(current)</span></a>
+                            </li>
+
+                            <!-- MENU STOK -->
+                            <li class="nav-item dropdown active">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STOK</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                    <a class="dropdown-item" href="<?= base_url('bahan/stok'); ?>"><i class="fa fa-cubes pr-1"></i> Daftar Stok Bahan</a>
+                                    <a class="dropdown-item" href="<?= base_url('bahan/stokawal'); ?>"><i class="fa fa-cubes pr-1"></i> Stok Awal Bahan</a>
+                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-cubes pr-1"></i> Transfer Stok</a>
+                                </div>
+                            </li>
+                        <?php } ?>
+
+                        <!-- KASIR -->
+
                         <?php if ($this->session->userdata('ses_level') != 'AdminKasir') { ?>
 
+                            <!-- MENU HOME -->
                             <li class="nav-item active">
                                 <a class="nav-link" href="<?= base_url('home'); ?>">HOME <span class="sr-only">(current)</span></a>
                             </li>
@@ -103,8 +126,6 @@
                             // if ($this->session->userdata('ses_level') == 'Admin') { 
                             if (in_array($this->session->userdata('ses_level'), array('Admin', 'SuperAdmin'))) {
                             ?>
-
-
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdo wn-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DATA MASTER</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownId">
@@ -129,14 +150,12 @@
                                         <?php } ?>
                                     </div>
                                 </li>
-
-
                             <?php } ?>
 
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STOK</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownId">
-                                    <?php if ($this->session->userdata('ses_level') == 'Admin') { ?>
+                                    <?php if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
 
                                         <!-- <a class="dropdown-item" href="<?= base_url('bahan'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Tambah/Ubah Bahan</a> -->
@@ -161,59 +180,54 @@
                                         <i class="fa fa-list pr-1"></i> Daftar Stok Menu</a> -->
                                 </div>
                             </li>
+
+                            <!-- MENU KASIR -->
                             <?php if ($this->session->userdata('ses_level') == 'Admin') { ?>
 
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR STOK</a>
+                                    <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR </a>
                                 </li>
                             <?php } ?>
                             <?php if ($this->session->userdata('ses_level') == 'Kasir') { ?>
-                                <?php if ((int)$this->session->userdata('ses_id') == 44) { ?>
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR STOK</a>
-                                    </li>
-                                <?php } else { ?>
+                                <!-- 
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasir">KASIR</a>
+                                </li> -->
 
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="<?= base_url('kasir'); ?>" id="btnKasir">KASIR</a>
-                                    </li>
-                                <?php } ?>
-
-
-                                <!-- <li class="nav-item active"> -->
-                                <!-- <a class="nav-link" href="http://salasatekno.com/demo-saresto/RawBT_v5.0.2.apk" id="btnKasir">Download</a> -->
-                                <!-- </li> -->
-
-                                <li class="nav-item">
+                                <!-- MENU PENGELUARAN -->
+                                <li class="nav-item active">
                                     <a class="nav-link" href="<?= base_url('keuangan/pengeluaran'); ?>">PENGELUARAN</a>
                                 </li>
 
                                 <?php
-                                $day = $this->db->get_where('transaksi', ['date'  => date('Y-m-d')])->num_rows();
+                                // $day = $this->db->get_where('transaksi', ['date'  => date('Y-m-d')])->num_rows();
                                 // $co = $this->db->get_where('transaksi', ['status' => 'Bayar Nanti'])->num_rows();
-                                $cdo = $this->db->get_where('transaksi', [
-                                    // 'status' => 'Bayar Nanti',
-                                    'status' => 'Cash',
-                                    'date'  => date('Y-m-d')
-                                ])->num_rows();
-                                $cbo = $this->db->get_where('transaksi', [
-                                    // 'status' => 'Bayar Nanti',
-                                    'status' => 'QRIS',
-                                    'date'  => date('Y-m-d')
-                                ])->num_rows();
-                                $clo = $this->db->get_where('transaksi', [
-                                    // 'status' => 'Bayar Nanti',
-                                    'status' => 'Online',
-                                    'date'  => date('Y-m-d')
-                                ])->num_rows();
+                                // $cdo = $this->db->get_where('transaksi', [
+                                // 'status' => 'Bayar Nanti',
+                                // 'status' => 'Cash',
+                                // 'date'  => date('Y-m-d')
+                                // ])->num_rows();
+                                // $cbo = $this->db->get_where('transaksi', [
+                                // 'status' => 'Bayar Nanti',
+                                // 'status' => 'QRIS',
+                                // 'date'  => date('Y-m-d')
+                                // ])->num_rows();
+                                // $clo = $this->db->get_where('transaksi', [
+                                // 'status' => 'Bayar Nanti',
+                                // 'status' => 'Online',
+                                // 'date'  => date('Y-m-d')
+                                // ])->num_rows();
                                 ?>
-                                <li class="nav-item dropdown">
+
+                                <!-- MENU ORDER -->
+                                <!-- <li class="nav-item  active">
+                                    <a class="nav-link" href="<?= base_url('order'); ?>">ORDER</a>
+                                </li> -->
+                                <!-- <li class="nav-item dropdown active">
                                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ORDER
                                         <span class="badge badge-danger"><? //echo $co; 
                                                                             ?></span></a>
                                     <div class="dropdown-menu " aria-labelledby="dropdownId">
-                                        <!--<a class="dropdown-item" href="#">CEK ORDER</a>
-                                <div class="dropdown-divider"></div>-->
                                         <a class="dropdown-item" href="<?= base_url('order'); ?>">All Order
                                             <span class="badge badge-secondary float-right"><?= $day; ?></span>
                                         </a>
@@ -227,11 +241,11 @@
                                         <a class="dropdown-item" href="<?= base_url('order?jenis=3'); ?>">Online
                                             <span class="badge badge-success float-right"><?= $clo; ?></a>
                                         <div class="dropdown-divider"></div>
-                                        <!-- <a class="dropdown-item" href="<?= base_url('order?jenis=4'); ?>"> Blm Lunas
+                                        <a class="dropdown-item" href="<?= base_url('order?jenis=4'); ?>"> Blm Lunas
                                     <span class="badge badge-danger float-right"><? //echo $co; 
-                                                                                    ?></a> -->
+                                                                                    ?></a>
                                     </div>
-                                </li>
+                                </li> -->
 
                             <?php } ?>
                         <?php } ?>
@@ -248,35 +262,8 @@
                             </li> -->
                         <?php } ?>
 
-                        <!-- <div class="nav-item dropdown">
-                            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
-                                Dropdown <span class="caret"></span>
-                            </a> 
-                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">LAPORAN</a>
-
-                            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                                <li><a href="#">Some action</a></li>
-                                <li><a href="#">Some other action</a></li>
-                                <li class="divider"></li>
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#">Hover me for more options</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="#">Second level</a></li>
-                                        <li class="dropdown-submenu">
-                                            <a href="#">Even More..</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">3rd level</a></li>
-                                                <li><a href="#">3rd level</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Second level</a></li>
-                                        <li><a href="#">Second level</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div> -->
-
-                        <li class="nav-item dropdown">
+                        <!-- MENU LAPORAN -->
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">LAPORAN</a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownId">
@@ -290,7 +277,7 @@
                                     <a class="dropdown-item" href="<?= base_url('laporan?kasir=' . $this->session->userdata('ses_id')); ?>">Transaksi per Kasir
                                         Penjualan</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/closing?kasir=' . $this->session->userdata('ses_id')); ?>">Closing per Kasir</a>
-                                    <a class="dropdown-item" href="<?= base_url('laporan/lap_kartustok_pershift?shift='); ?>">Kartu Stok per Shift</a>
+                                    <a class="dropdown-item" href="<?= base_url('laporan/kartustok?kasir=' . $this->session->userdata('ses_id')); ?>">Kartu Stok per Kasir</a>
                                 <?php } ?>
                                 <!-- <div class="dropdown-divider"></div> -->
                                 <!-- <a class="dropdown-item" href="<?= base_url('laporan/produk'); ?>">History Per Menu</a> -->
@@ -321,7 +308,7 @@
                     <ul class="navbar-nav ml-auto mr-4">
                         <!-- <div class="py-2 mr-2"><b> SHIFT <? // echo $shift->nama; 
                                                                 ?></b></div> -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user-circle"></i> <?= $profil->nama_user; ?>
                             </a>

@@ -21,8 +21,10 @@
   width: 100%;
   padding: 30px;
   border-radius: 6px;
-  background: #fff;
-  background: rgb(244, 64, 64);
+  /* background: #fff; */
+  /* background: rgb(244, 64, 64); */
+  /* background: linear-gradient(to right, #ff0000 0%, #ff0000 33.33%, #00ff00 33.33%, #00ff00 66.66%, #0000ff 66.66%, #0000ff 100%); */
+  background: linear-gradient(to bottom, #ff0000 0%, #ff0000 15%, #fcf351 15%, #fcf351 18%, #4ea956 18%, #4ea956 100%);
 }
 .form.signup {
   opacity: 0;
@@ -82,8 +84,8 @@ form {
 }
 .field button {
   color: #fff;
-  background-color: rgb(19, 211, 1);
-  /* background-color: #0171d3; */
+  /* background-color: rgb(19, 211, 1); */
+  background-color: #0171d3;
   transition: all 0.3s ease;
   cursor: pointer;
 }
@@ -108,8 +110,8 @@ form {
   color: #016dcb;
 }
 .form a {
-  /* color: #0171d3; */
-  color: rgb(19, 211, 1);
+  color: #0171d3;
+  /* color: rgb(19, 211, 1); */
   text-decoration: none;
 }
 .form-content a:hover {
