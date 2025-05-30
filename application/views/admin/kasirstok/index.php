@@ -13,7 +13,8 @@
         }
         ?>
         <div class="row no-gutters">
-            <div class="col-8 mt-3 pr-2">
+            <!-- <div class="col-8 mt-3 pr-2"> -->
+            <div class="col-12 col-md-8 mt-3 pr-md-2">
                 <div class="card card-rounded">
                     <!-- <div class="card-header bg-primary text-white">
                         <i class="fa fa-cubes"></i> Data Menu Utama
@@ -152,7 +153,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 mt-3 pl-2">
+            <!-- <div class="col-4 mt-3 pl-2"> -->
+            <div class="col-12 col-md-4 mt-3 pr-md-2">
                 <div class="card card-rounded ">
                     <div class="card-header bg-primary text-white">
                         <i class="fa fa-shopping-cart"></i> Keranjang
@@ -305,14 +307,14 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-8 mt-3">
 
             </div>
             <div class="col-4 mt-3">
 
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- Button trigger modal -->
