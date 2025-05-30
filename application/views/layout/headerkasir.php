@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="<?= base_url('assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css'); ?>" />
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/plugins/magnific/magnific-popup.css'); ?>">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap/css/bootstrap.min.css'); ?>">
@@ -377,6 +378,7 @@
     <!-- </div> -->
     <!-- header -->
     <div class="wrapper d-flex align-items-stretch">
+        <!-- <nav id="sidebar" class="active"> -->
         <nav id="sidebar" class="active">
             <ul class="list-unstyled components mb-5">
 
@@ -387,7 +389,8 @@
                                                                 echo "";
                                                             } ?>>
                         <!-- <span class="fa fa-book"></span> -->
-                        Semua</a>
+                        <span class="icon"><i class="fa fa-cutlery" aria-hidden="true"></i></span>
+                        <span class="menu-text">Semua</span></a>
                 </li>
                 <?php foreach ($kat as $r) { ?>
                     <li>
@@ -399,8 +402,28 @@
                                     echo "";
                                 }
                             } ?>>
+                            <?php
+                            $icon = "";
+                            if (!empty($r->id)) {
+                                if ($r->id == 1) {
+                                    $icon = '<i class="fi fi-rr-noodles" aria-hidden="true"></i>';
+                                } else if ($r->id == 2) {
+                                    $icon = '<i class="fa fa-coffee" aria-hidden="true"></i>';
+                                } else if ($r->id == 3) {
+                                    $icon = '<i class="fi fi-rr-sandwich" aria-hidden="true"></i>';
+                                } else if ($r->id == 4) {
+                                    $icon = '<i class="fi fi-rr-smoking" aria-hidden="true"></i>';
+                                } else {
+                                    $icon = '<i class="fa fa-cutlery" aria-hidden="true"></i>';
+                                }
+                            }
+                            ?>
+                            <span class="icon mr-2"><?= $icon; ?></span>
 
-                            <?= $r->kategori; ?></a>
+                            <!-- <span class="icon"><i class="fa fa-cutlery" aria-hidden="true"></i></span> -->
+                            <span class="menu-text"><?= $r->kategori; ?></span>
+
+                        </a>
                     </li>
                 <?php } ?>
 

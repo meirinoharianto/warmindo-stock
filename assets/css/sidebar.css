@@ -10667,7 +10667,7 @@ h5,
 #sidebar.active ul.components li a span {
   margin-right: 0;
   display: block;
-  font-size: 24px;
+  font-size: 14px;
 }
 #sidebar.active .logo {
   padding: 10px 0;
@@ -10691,12 +10691,24 @@ h5,
     transition: none;
   }
 }
-#sidebar ul.components {
+
+#sidebar ul.components li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 5px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+
+/* #sidebar ul.components {
   padding: 0;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
-}
+} */
 @media (prefers-reduced-motion: reduce) {
   #sidebar ul.components {
     -webkit-transition: none;
@@ -10765,6 +10777,93 @@ a[data-toggle="collapse"] {
     display: none;
   }
 }
+
+/* START */
+
+/* Mobile-first approach for sidebar */
+@media (max-width: 575.98px) {
+  #sidebar {
+    min-width: 40px !important;
+    max-width: 40px !important;
+    text-align: center;
+  }
+
+  #sidebar .menu-text {
+    display: none !important;
+  }
+
+  #sidebar ul.components li {
+    font-size: 12px;
+    height: 60px;
+    position: relative;
+    list-style-type: none;
+    text-align: center;
+  }
+
+  #sidebar ul.components li a {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #sidebar ul.components li a span.icon {
+    font-size: 20px;
+    margin-right: 0;
+  }
+
+  #sidebar .logo,
+  #sidebar .footer {
+    display: none;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) - keep your existing behavior */
+@media (min-width: 576px) {
+  #sidebar {
+    min-width: 270px;
+    max-width: 270px;
+  }
+
+  #sidebar.active {
+    min-width: 80px;
+    max-width: 80px;
+  }
+
+  /* Rest of your existing active state styles */
+}
+
+/* Optional: Add hover tooltip for collapsed state */
+#sidebar.active .menu-text,
+#sidebar .menu-text {
+  transition: all 0.3s;
+}
+/* 
+#sidebar.active li a:hover::after,
+#sidebar li a:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0c4e68;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  margin-left: 10px;
+  z-index: 1000;
+  display: none;
+}
+
+@media (min-width: 576px) {
+  #sidebar.active li a:hover::after {
+    display: block;
+  }
+} */
+
+/* END */
 
 .footer {
   padding: 0 30px;
