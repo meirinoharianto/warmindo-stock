@@ -45,12 +45,12 @@ class Closing extends CI_Controller
             $tgltrans = $ps->date;
             if ($shift_id <> $shift_ses) {
                 $this->session->set_flashdata('failed', '[' . $shift_id . '<>' . $shift_ses . '] <strong>Proses Closing Gagal,</strong> Anda tidak diijinkan closing shift ini !');
-                redirect(base_url('kasir'));
+                redirect(base_url('kasirstok'));
                 exit;
             }
         } else {
             $this->session->set_flashdata('failed', '<strong>Closing Gagal,</strong> Belum ada data transaksi !');
-            redirect(base_url('kasir'));
+            redirect(base_url('kasirstok'));
             exit;
 
             // $this->session->set_flashdata("failed", " Closing belum diijinkan ! ");
@@ -130,7 +130,7 @@ class Closing extends CI_Controller
         } else {
             // $this->session->set_flashdata('failed', 'id-' . $ps->shift_id . '-shift_now-' . $shift_now->id . '<strong>Closing Gagal,</strong> Belum diijinkan untuk shift ini !');
             $this->session->set_flashdata('failed', '<strong>Closing Gagal,</strong> Belum diijinkan untuk shift ini !');
-            redirect(base_url('kasir'));
+            redirect(base_url('kasirstok'));
             exit;
         }
     }

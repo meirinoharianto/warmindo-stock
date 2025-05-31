@@ -13,6 +13,19 @@ if (!function_exists('alert_failed')) {
     }
 }
 
+if (!function_exists('alert_error')) {
+    function alert_error($html)
+    {
+        $alert = '<div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        ' . $html . '
+                    </div>';
+        return $alert;
+    }
+}
+
 if (!function_exists('alert_success')) {
     function alert_success($html)
     {

@@ -101,10 +101,10 @@
                                     </button> -->
                                     <?php if ($id_cabang > 0) {
                                     ?>
-                                        <button type="submit" class="btn btn-primary btn-md">
+                                        <button type="submit" id="prosesClosing" class="btn btn-primary btn-md">
                                             <b><i class="fa fa-save"></i> Simpan Closing</b></button>
                                     <?php } ?>
-                                    <a href="<?= base_url('kasir'); ?>" class="btn btn-danger btn-md">
+                                    <a href="<?= base_url('kasirstok'); ?>" class="btn btn-danger btn-md">
                                         <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
                                 </div>
                             </div>
@@ -157,11 +157,18 @@
                             // alert("data");
                             if (result == 'gagal') {
                                 Swal.fire('Data closing gagal disimpan', '', 'error')
+
+                                $('#prosesClosing').attr('disabled', false);
+                                $('#prosesClosing').addClass('btn-primary').removeClass('btn-success');
+                                $("#prosesClosing").html('<i class="fa fa-save"></i> Simpan Closing');
                             } else {
                                 // if (result == 'Kurang') {
                                 // Swal.fire(result, '', 'success');
                                 Swal.fire('Data closing berhasil disimpan', '', 'success');
-                                window.location = '<?= base_url('kasir'); ?>';
+                                $('#prosesClosing').attr('disabled', true);
+                                // $('#prosesClosing').addClass('btn-primary').removeClass('btn-success');
+                                $("#prosesClosing").html('<i class="fa fa-save"></i> Data Closing Sudah Tersimpan');
+                                // window.location = '<?= base_url('kasir'); ?>';
                                 // alert('Pembayaran Anda Kurang Dari Total Bayar !');
                                 //     $('#prosesTransaksi').attr('disabled', false);
                                 //     $('#prosesTransaksi').addClass('btn-primary').removeClass(
@@ -195,9 +202,7 @@
                                 // }
                             }
 
-                            $('#prosesClosing').attr('disabled', false);
-                            $('#prosesClosing').addClass('btn-primary').removeClass('btn-success');
-                            $("#prosesClosing").html('<i class="fa fa-save"></i> Simpan Closing');
+
                         },
                         error: function(xmlhttprequest, textstatus, message) {
                             if (textstatus === "timeout") {

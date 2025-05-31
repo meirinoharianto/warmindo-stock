@@ -110,6 +110,7 @@ class Login extends CI_Controller
                     $this->session->set_userdata('ses_nama_toko', $profil_toko->nama_toko);
                 }
 
+
                 $this->session->set_flashdata('success', '<strong>Hai ' . $hasil_login['nama_user'] . '!</strong> Selamat datang Kembali ..');
                 redirect(base_url('home'));
             } else {

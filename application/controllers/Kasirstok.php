@@ -23,6 +23,9 @@ class Kasirstok extends CI_Controller
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kode_cabang = $this->session->userdata('ses_kode_cabang');
+
+
+
         $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
         $atas_nama = $this->session->userdata('ses_atas_nama');
 
@@ -34,6 +37,37 @@ class Kasirstok extends CI_Controller
         } else {
             $no_bon_next = 1;
         }
+
+
+        // CEK CLOSING SHIFT SEBELUMNYA
+        // START
+
+        $shift_now = $this->session->userdata('ses_shift');
+        $tanggal = date('Y-m-d H:i:s');
+        $waktu = date('H');
+        $tgl = date_create($tanggal);
+        if (($shift_now == 3) && ($waktu <= 7)) {
+            date_sub($tgl, date_interval_create_from_date_string("1 days"));
+        }
+        $tanggal = date_format($tgl, 'Y-m-d');
+        $shift = $this->db->query("SELECT transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id,shift.nama AS 'namaShift',concat(transaksi.date, transaksi.shift_id) AS 'tes' FROM transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND concat(transaksi.date, transaksi.shift_id) <> '" . $tanggal . $shift_now . "' AND transaksi.cabang_id=" . $cabang_id . " GROUP BY transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id ORDER BY transaksi.date ");
+
+        if ($shift === false) {
+            // Handle query error
+            $error = $this->db->error();
+            log_message('error', 'Database error: ' . $error['message']);
+            // You might want to return or throw an exception here
+        } elseif ($shift->num_rows() > 0) {
+            $pesan = " <strong>PERINGATAN !!!</strong> Ada data penjualan sebelumnya yang belum di closing ! </br>";
+            $shift_result = $shift->result_array(); // Convert result to an array of rows
+            foreach ($shift_result as $isi) {
+                $newDate = date('d-m-Y', strtotime($isi['date']));
+                $pesan = $pesan . "<strong>[" . $newDate . "] [" . $isi['namaShift'] . "]</strong> data closing belum tersimpan.</br>";
+            }
+            $this->session->set_flashdata('failed', $pesan);
+        }
+
+        // END
 
         $this->data = [
             'title_web' => 'Kasir Stok',

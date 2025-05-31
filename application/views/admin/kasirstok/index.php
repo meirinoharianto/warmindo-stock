@@ -6,7 +6,7 @@
             echo alert_success($this->session->flashdata('success'));
         }
         if (!empty($this->session->flashdata('failed'))) {
-            echo alert_failed($this->session->flashdata('failed'));
+            echo alert_error($this->session->flashdata('failed'));
         }
         if (!empty($this->session->flashdata('warning'))) {
             echo alert_failed($this->session->flashdata('warning'));
