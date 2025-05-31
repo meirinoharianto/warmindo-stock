@@ -64,17 +64,6 @@
                         </div>
                     <?php } ?>
 
-                    <p>
-                        Cabang:
-                        <select id="table-cabang">
-                            <option value="">All</option>
-                            <option value="Warmindo Sam Ndut 1">Warmindo Sam Ndut 1</option>
-                            <option value="Warmindo Sam Ndut 2">Warmindo Sam Ndut 2</option>
-                            <option>Warmindo Sam Ndut 3</option>
-                            <option>Warmindo Sam Ndut 4</option>
-                        </select>
-                    </p>
-
                 </form>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-sm table-striped table" width="100%">
@@ -257,9 +246,7 @@ if ($this->session->userdata('ses_level') == 'Admin') {
             "ajax": {
                 "url": "<?= $url; ?>", // URL file untuk proses select datanya
                 "data": function(d) {
-                    return $.extend({}, d, {
-                        "search_keywords": $('#table-cabang').val().toLowerCase()
-                    });
+
                 },
                 "type": "POST"
             },
@@ -418,10 +405,7 @@ if ($this->session->userdata('ses_level') == 'Admin') {
 
         tabel.draw();
 
-        $('#table-cabang').bind("keyup change", function() {
-            tabel.draw();
-            // this.form.submit();
-        });
+
     });
     // $('#table-filter').on('change', function() {
     //     tabel.search(this.value).draw();
