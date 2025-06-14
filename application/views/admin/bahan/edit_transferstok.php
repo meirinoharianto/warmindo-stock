@@ -25,11 +25,14 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" value="<?= $edit->id; ?>" name="id" id="id" placeholder="" />
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Tanggal</label>
-                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $this->input->post('date') ?>">
+                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $edit->date; ?>">
                                 </div>
                             </div>
                             <div class="col">
@@ -37,8 +40,10 @@
                                     <label for="">Cabang Tujuan</label>
                                     <select class="form-control" name="id_cabang" id="id_cabang">
                                         <option value="" disabled selected>- pilih -</option>
-                                        <?php foreach ($cab as $r) { ?>
-                                            <option value="<?= $r->id; ?>"><?= $r->nama_toko; ?></option>
+                                        <?php foreach ($cab as $r) {
+                                            $selected = ($r->id == $edit->cabangtujuan_id) ? "selected" : "";
+                                        ?>
+                                            <option value="<?= $r->id; ?>" <?= $selected; ?>><?= $r->nama_toko; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -48,14 +53,13 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="">No Surat</label>
-                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
+                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="" value="<?= $edit->no_surat; ?>">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keterangan"
-                                        placeholder=""></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" value="<?= $edit->keterangan; ?>"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +134,7 @@
 
                         <!-- <button type="submit" class="btn btn-primary btn-md">
                             <b><i class="fa fa-save"></i> Simpan</b></button> -->
-                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Simpan</b></button>
+                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Ubah</b></button>
 
                         <button class="btn btn-warning delete-all"><b><i class="fa fa-trash"></i> Hapus Semua</b></button>
 
@@ -326,13 +330,6 @@
     $(document).ready(function() {
         loadBarangTable();
         loadTemporaryTable();
-        // $('#search').on('keyup', function() {
-        //     var keyword = $(this).val().toLowerCase();
-        //     var filtered = barang.filter(function(item) {
-        //         return item.nama.toLowerCase().includes(keyword);
-        //     });
-        //     loadBarangTable(1, filtered);
-        // });
 
         $(document).on('click', '.pilih-barang', function() {
             $('#id_bahan').val($(this).data('id'));
@@ -340,47 +337,6 @@
             $('#nama_bahan').val($(this).data('nama'));
             $('#bahanModal').modal('hide');
         });
-
-        // $('#addToTemporaryTable').on('click', function(e) {
-        //     e.preventDefault(); // Stop default behavior
-
-        //     const bahan_id = $('#id_bahan').val();
-        //     const kode = $('#kode_bahan').val();
-        //     const nama = $('#nama_bahan').val();
-        //     const quantity = $('#quantity').val();
-
-        //     if (!bahan_id || !quantity) {
-        //         alert('Silakan lengkapi data!');
-        //         return;
-        //     }
-
-        //     $.ajax({
-        //         // url: 'bahan/save_transferstok_temp',
-        //         url: "<?= base_url('bahan/save_transferstok_temp'); ?>",
-
-        //         method: 'POST',
-        //         data: {
-        //             "bahan_id": bahan_id,
-        //             "kode": kode,
-        //             "nama": nama,
-        //             "quantity": quantity,
-        //         },
-        //         dataType: 'json',
-        //         timeout: 6000,
-        //         success: function(response) {
-        //             const result = JSON.parse(response);
-        //             if (result.status === 'exists') {
-        //                 alert(result.message);
-        //             } else {
-        //                 loadTemporaryTable();
-        //                 // $('#id_bahan').val('');
-        //                 // $('#kode_bahan').val('');
-        //                 // $('#nama_bahan').val('');
-        //                 // $('#quantity').val('');
-        //             }
-        //         }
-        //     });
-        // });
 
         $('#addToTemporaryTable').on('click', function(e) {
             e.preventDefault(); // Stop default behavior
@@ -438,15 +394,7 @@
                     alert(response.message);
 
                 },
-                // success: function (response) {
-                //     if (response.status === 'success') {
-                //         // Hapus baris dari tabel
-                //         $('#row-' + id).remove();
-                //         alert(response.message);
-                //     } else {
-                //         alert(response.message);
-                //     }
-                // },
+
                 error: function() {
                     alert('Terjadi kesalahan. Bahan tidak dapat dihapus.');
                 }
@@ -466,12 +414,9 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        // url: `BarangController/deleteTemporaryBarang/${id}`,
                         url: "<?= base_url('bahan/delete_transferstok_temp_all'); ?>",
                         method: 'POST',
-                        data: {
-                            // "id": id
-                        },
+                        data: {},
                         dataType: 'json',
                         success: function(response) {
                             loadTemporaryTable();
@@ -489,21 +434,22 @@
         });
 
         $(document).on('click', '.saveData', function(e) {
+            const id = $('#id').val();
             const date = $('#date').val();
             const id_cabang = $('#id_cabang').val();
             const no_surat = $('#no_surat').val();
             const keterangan = $('#keterangan').val();
 
-            if (!date || !id_cabang || !no_surat) {
-                alert('Silakan lengkapi data!');
+            if (!id || !date || !id_cabang || !no_surat) {
+                Swal.fire('Peringatan!', 'Silakan lengkapi semua data yang diperlukan!', 'warning');
                 return;
             }
 
             e.preventDefault();
 
-            swal.fire({
-                title: 'Simpan Transfer Stok ! ',
-                text: "Apakah anda yakin simpan data ini ? ",
+            Swal.fire({
+                title: 'Simpan Transfer Stok',
+                text: "Apakah anda yakin simpan data ini?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: 'Ya, Simpan',
@@ -512,9 +458,10 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "<?= base_url('bahan/save_transferstok'); ?>",
+                        url: "<?= base_url('bahan/update_transferstok'); ?>",
                         method: 'POST',
                         data: {
+                            "id": id,
                             "date": date,
                             "id_cabang": id_cabang,
                             "no_surat": no_surat,
@@ -532,6 +479,7 @@
                                 }
                             });
                         },
+
                         success: function(response) {
                             if (response.success) {
                                 // Clear form fields
@@ -558,7 +506,7 @@
                                 });
                             } else {
                                 // Show error from server
-                                Swal.fire('Gagal!', response.message + 'Terjadi kesalahan saat menyimpan', 'error');
+                                Swal.fire('Gagal!', response.message || 'Terjadi kesalahan saat menyimpan', 'error');
                             }
                         },
                         error: function(xhr, status, error) {
@@ -570,9 +518,6 @@
                             });
                             console.error(xhr);
                         }
-                        // error: function(response) {
-                        //     alert(response.message);
-                        // }
                     });
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire('Dibatalkan', 'Data tidak disimpan', 'info');

@@ -273,9 +273,9 @@
                                     <a class="dropdown-item" href="<?= base_url('laporan/closing'); ?>">Closing</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/pengeluaran'); ?>">Pengeluaran</a>
                                     <!-- <a class="dropdown-item" href="<?= base_url('laporan/penjualan'); ?>">Penjualan</a> -->
+                                    <!-- <a class="dropdown-item" href="<?= base_url('laporan/penjualan'); ?>">Penjualan</a> -->
                                 <?php } else { ?>
-                                    <a class="dropdown-item" href="<?= base_url('laporan?kasir=' . $this->session->userdata('ses_id')); ?>">Transaksi per Kasir
-                                        Penjualan</a>
+                                    <a class="dropdown-item" href="<?= base_url('laporan?kasir=' . $this->session->userdata('ses_id')); ?>">Transaksi per Kasir Penjualan</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/closing?kasir=' . $this->session->userdata('ses_id')); ?>">Closing per Kasir</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/kartustok?kasir=' . $this->session->userdata('ses_id')); ?>">Kartu Stok per Kasir</a>
                                 <?php } ?>
@@ -284,6 +284,7 @@
                                 <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('laporan/kartustok'); ?>">Kartu Stok</a>
+                                    <!-- <a class="dropdown-item" href="<?= base_url('laporan/kartustok_cabang'); ?>">Kartu Stok per Cabang</a> -->
 
                                     <!-- <a class="dropdown-item" href="<?= base_url('laporan/cash'); ?>">Cash Flow</a> -->
                                 <?php } ?>

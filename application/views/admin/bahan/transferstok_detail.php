@@ -55,9 +55,9 @@
                     <?php
                     if ($edit->status == 0) {
                     ?>
-                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Terima Stok</b></button>
+                        <!-- <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Terima Stok</b></button> -->
                     <?php } ?>
-                    <a href="<?= base_url('bahan/transferstok_terima'); ?>" class="btn btn-danger btn-md">
+                    <a href="<?= base_url('bahan/transferstok'); ?>" class="btn btn-danger btn-md">
                         <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
                 </div>
             </div>
@@ -205,10 +205,9 @@
                 title: 'Simpan Terima Stok ! ',
                 text: "Apakah anda yakin simpan data ini ? ",
                 icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: 'Ya, Simpan',
-                cancelButtonText: 'Tidak, Batalkan',
-                reverseButtons: true
+                showDenyButton: true,
+                confirmButtonText: 'Ya',
+                denyButtonText: 'Tidak',
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -219,49 +218,31 @@
                             "id": id,
                         },
                         dataType: 'json',
-                        beforeSend: function() {
-                            // Show loading indicator
-                            Swal.fire({
-                                title: 'Menyimpan...',
-                                html: 'Sedang memproses data',
-                                allowOutsideClick: false,
-                                didOpen: () => {
-                                    Swal.showLoading()
-                                }
-                            });
-                        },
-                        success: function(response) {
-                            if (response.success) {
+                        // success: function(data) {
+                        //     console.log(data); // Cek di console browser
 
-                                // Show success message with redirect confirmation
-                                Swal.fire({
-                                    title: 'Berhasil!',
-                                    text: 'Data berhasil disimpan',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirect after user clicks OK
-                                        window.location.href = "<?= base_url('bahan/transferstok_terima'); ?>";
-                                    }
-                                });
-                            } else {
-                                // Show error from server
-                                Swal.fire('Gagal!', response.message || 'Terjadi kesalahan saat menyimpan', 'error');
-                            }
+                        // },
+                        success: function(response) {
+                            // $('#id').val('');
+                            alert(response.message);
+
                         },
                         error: function(xhr, status, error) {
-                            // Show AJAX error
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Terjadi kesalahan: ' + (xhr.responseJSON?.message || xhr.statusText || 'Unknown error'),
-                                icon: 'error'
-                            });
-                            console.error(xhr);
+                            console.error("Terjadi kesalahan:", error);
                         }
+
+                        // error: function(data) {
+                        //     alert(data);
+                        // }
+                        // error: function(xhr, ajaxOptions, thrownError) {
+                        //     alert(xhr.status);
+                        // },
+                        // error: function(response) {
+                        //     alert(response.message);
+                        // }
                     });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire('Dibatalkan', 'Data tidak disimpan', 'info');
+                } else {
+                    Swal.fire('Data Batal Disimpan', '', 'error')
                 }
             });
         });

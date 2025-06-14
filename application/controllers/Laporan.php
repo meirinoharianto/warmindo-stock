@@ -896,10 +896,14 @@ class Laporan extends CI_Controller
 
     public function kartustok()
     {
-        $cabang_id = htmlentities($this->input->get('cabang', true));
-
-        // $cabang_id = $this->session->userdata('ses_cabang_id');
         $level = $this->session->userdata('ses_level');
+
+        if (in_array($level, array('Admin', 'AdminKasir'))) {
+            $cabang_id = htmlentities($this->input->get('cabang', true));
+        } else {
+            $cabang_id = $this->session->userdata('ses_cabang_id');
+            $shift_id = $this->session->userdata('ses_shift');
+        }
         $kasir_id = $this->session->userdata('ses_id');
         $iswhere = '';
         $iscabang = '';
@@ -909,6 +913,10 @@ class Laporan extends CI_Controller
         if (in_array($level, array('Admin', 'AdminKasir'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
+                $iscabang = ' AND cabang_id = ' . $cabang_id;
+                $namacabang = $this->db->query('SELECT nama_toko  FROM profil_toko where cabang_id = ' . $cabang_id)->row();
+            } else {
+                $cabang_id = 1;
                 $iscabang = ' AND cabang_id = ' . $cabang_id;
                 $namacabang = $this->db->query('SELECT nama_toko  FROM profil_toko where cabang_id = ' . $cabang_id)->row();
             }
@@ -945,8 +953,8 @@ class Laporan extends CI_Controller
             if (!empty(htmlentities($this->input->get('a', true)))) {
                 $a = htmlentities($this->input->get('a', true));
                 $b = htmlentities($this->input->get('b', true));
-                if ($this->input->get('shift')) {
-                    $ks = $this->input->get('shift');
+                if ($shift_id) {
+                    $ks = $shift_id;
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
                     $iswhere = ' WHERE (kasir_id = ' . $kasir_id . ') AND (bahan_kartustok.tanggal BETWEEN "' . $a . '" AND "' . $b . '") ';
                     $periode = 'Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
@@ -957,8 +965,8 @@ class Laporan extends CI_Controller
                     $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
                 }
             } else {
-                if ($this->input->get('shift')) {
-                    $ks = $this->input->get('shift');
+                if ($shift_id) {
+                    $ks = $shift_id;
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
                     $iswhere = ' WHERE (kasir_id = ' . $kasir_id . ') AND shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '"';
                     $periode = 'Shift : ' . $shift->nama;
@@ -999,7 +1007,7 @@ class Laporan extends CI_Controller
         $this->load->view('layout/footer', $this->data);
     }
 
-    public function data_kartustok()
+    public function data_kartustok_tgl()
     {
         $wcabang = "";
         if ($this->input->method(true) == 'POST') :
@@ -1039,7 +1047,6 @@ class Laporan extends CI_Controller
                 $b = htmlentities($this->input->get('b', true));
                 $iswhere = 'tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
             } else {
-
                 $iswhere = 'periode = "' . date('Y-m') . '"';
             }
 
@@ -1049,75 +1056,216 @@ class Laporan extends CI_Controller
         // echo "<pre>Last Query:\n" . $this->db->last_query() . "</pre>";
         endif;
     }
-    //     public function data_kartustok()
-    //     {
 
-    //         // $cabang_id =  $this->session->userdata('ses_cabang_id');
-    //         $level =  $this->session->userdata('ses_level');
-    //         $where = '';
+    public function data_kartustok()
+    {
+        $where = null;
+        $iswhere = null;
+        $awalwhere = "";
+        $tglwhere = "";
+        $shift_id = "";
+        if (!empty(htmlentities($this->input->get('a', true)))) {
+            $a = htmlentities($this->input->get('a', true));
+            $b = htmlentities($this->input->get('b', true));
+            // $iswhere = 'tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
+            $awalwhere = ' bk.tanggal < "' . $a . '"';
+            $tglwhere = ' bk.tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
+        } else {
+            // $iswhere = ' periode = "' . date('Y-m') . '"';
+            $awalwhere = ' bk.tanggal < "' . date('Y-m') . '-01"';
+            $tglwhere = ' bk.periode = "' . date('Y-m') . '"';
+        }
 
-    //         if ($this->input->method(true) == 'POST') :
-    //             // $query = "SELECT kategori_bahan.nama_kategori, cabang.kode_cabang, bahan.* FROM bahan LEFT JOIN kategori_bahan ON bahan.id_kategori_bahan = kategori_bahan.id LEFT JOIN cabang ON bahan.cabang_id = cabang.id ";
-    //             //             $query = "SELECT b.periode,b.kode_bahan, b.nama_bahan, SUM(saldoawal) AS 'saldo_awal', SUM(masuk) AS 'masuk', SUM(keluar) AS 'keluar', 0 as 'akhir' FROM (
-    //             // SELECT bahan_kartustok.periode,bahan_kartustok.tipe_transaksi,
-    //             //     IF(bahan_kartustok.tipe_transaksi = 'Saldo Awal', jumlah_perubahan, 0) as saldoawal,
-    //             //     IF(bahan_kartustok.tipe_transaksi = 'Transfer In', jumlah_perubahan, 0) as masuk,
-    //             //     IF(bahan_kartustok.tipe_transaksi in ('Transfer Out','Penjualan PAGI','Penjualan SORE','Penjualan MALAM'), jumlah_perubahan, 0) as keluar,
-    //             //     bahan.* 
-    //             //   FROM bahan
-    //             // LEFT OUTER JOIN bahan_kartustok ON bahan_kartustok.bahan_id = bahan.id) b
-    //             // GROUP BY b.kode_bahan";
-    //             $wcabang = "";
-    //             if ((int)$this->input->get('id')) {
-    //                 $wcabang = " AND bk.cabang_id = " . $this->input->get('id') . " ";
+        $andwhere = "";
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (!empty(htmlentities($this->input->get('cabang', true)))) {
+                $cabang_id = htmlentities($this->input->get('cabang', true));
+                if (!empty(htmlentities($this->input->get('shift', true)))) {
+                    $shift_id = htmlentities($this->input->get('shift', true));
+                    // $where = array('cabang_id' => $cabang_id, 'shift_id' => $shift_id);
+                    $andwhere = " AND bk.cabang_id = " . $cabang_id . " AND bk.shift_id = " . $shift_id;
+                } else {
+                    // $where = array('cabang_id' => $cabang_id);
+                    $andwhere = " AND bk.cabang_id = " . $cabang_id;
+                }
+            } else {
+                // $where = null;
+                $andwhere = " AND bk.cabang_id = 1";
+            }
+        } else {
+            // $where = array('login_id' => $this->session->userdata('ses_id'));
+            $login_id = $this->session->userdata('ses_id');
+            $andwhere = " AND bk.login_id = " . $login_id;
+        }
 
-    //                 // $where  = array('cabang_id' => $cabang_id, 'id_kategori' => (int)$this->input->get('id'));
-    //             } else {
-    //             }
-    //             $query = "SELECT * FROM (SELECT id,kode_bahan,nama_bahan,SUM(awal) AS awal,SUM(masuk) AS masuk,SUM(keluar) AS keluar,(SUM(awal+masuk-keluar)) AS akhir, tanggal FROM (
+        if ($this->input->method(true) == 'POST') :
+            $query = "SELECT *, (SELECT kode_cabang from cabang where id = cabang_id) AS cabang, '$shift_id' AS shift_id FROM 
+(SELECT 
+ 		cabang_id , 
+ 		id, 
+ 		kode_bahan,
+ 		nama_bahan,
+ 		SUM(awal) AS awal,
+ 		SUM(masuk) AS masuk,
+ 		SUM(keluar) AS keluar,
+ 		(SUM(awal)+SUM(masuk)-SUM(keluar)) AS akhir
+ FROM (
+    SELECT 
+     		bk.cabang_id,
+     		b.id, 
+     		b.kode_bahan, 
+     		b.nama_bahan, 
+         	SUM(bk.jumlah_perubahan) AS awal,
+     		0 AS masuk,
+     		0 AS keluar
+    		FROM bahan b 
+    		LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id 
+ 			WHERE $awalwhere 
+ 			$andwhere
+     GROUP BY cabang_id,id,kode_bahan,nama_bahan
+     UNION ALL
+     SELECT 
+     		bk.cabang_id,
+     		b.id, 
+     		b.kode_bahan, 
+     		b.nama_bahan, 
+         	0 AS awal,
+     		IFNULL(IF(bk.jumlah_perubahan>0,bk.jumlah_perubahan,0),0) AS masuk,
+     		IFNULL(IF(bk.jumlah_perubahan<0,ABS(bk.jumlah_perubahan),0),0) AS keluar
+    		FROM bahan b 
+    		LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id 
+ 			WHERE $tglwhere
+ 			$andwhere
+ ) stok_perubahan
+ 
+    		GROUP BY cabang_id,id,kode_bahan,nama_bahan) kartustok ";
+            //         $query = "SELECT *, (SELECT kode_cabang from cabang where id = cabang_id) AS cabang FROM (SELECT periode,login_id,shift_id, cabang_id , id,kode_bahan,nama_bahan,SUM(awal) AS awal,SUM(masuk) AS masuk,SUM(keluar) AS keluar,(SUM(awal+masuk-keluar)) AS akhir, tanggal FROM (
+            //  SELECT bk.periode,bk.login_id,bk.shift_id,bk.cabang_id,b.id, b.kode_bahan, b.nama_bahan, 
+            //      0 AS awal,
+            //  IFNULL(IF(bk.jumlah_perubahan>0,bk.jumlah_perubahan,0),0) AS masuk,
+            //  IFNULL(IF(bk.jumlah_perubahan<0,0-bk.jumlah_perubahan,0),0) AS keluar, bk.tanggal AS tanggal
+            // FROM bahan b 
+            // LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id ) kartustok
+            // GROUP BY periode,login_id,shift_id,cabang_id,id,kode_bahan,nama_bahan,tanggal) kartustok2 ";
+            $search = [
+                'kode_bahan',
+                'nama_bahan'
+            ];
+            // $search = [];
 
-    // SELECT b.id, b.kode_bahan, b.nama_bahan, 
-    //     0 AS awal,
-    // IFNULL(IF(bk.jumlah_perubahan>0,bk.jumlah_perubahan,0),0) AS masuk,
-    // IFNULL(IF(bk.jumlah_perubahan<0,0-bk.jumlah_perubahan,0),0) AS keluar, bk.tanggal AS tanggal
-    // FROM bahan b 
-    // LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id " . $wcabang . " ) kartustok
-    // GROUP BY id,kode_bahan,nama_bahan) kartustok2 ";
-    //             // $search = array('kode_bahan', 'kategori_bahan.nama_kategori', 'nama_bahan', 'harga_pokok', 'harga_jual', 'keterangan', 'cabang.kode_cabang');
-    //             $search = array('kode_bahan', 'nama_bahan');
-    //             // $search = null;
+            // if ($this->session->userdata('ses_level') == 'Admin') {
 
-    //             if ($this->input->get('cek')) {
-    //                 $iswhere = " stok <= stok_minim ";
-    //             } else {
-    //                 $iswhere = null;
-    //             }
+            header('Content-Type: application/json');
+            echo $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
+        // $result = $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
+        // echo "<pre>Last Query:\n" . $query . "</pre>";
+        endif;
+    }
 
-    //             if (!empty(htmlentities($this->input->get('a', true)))) {
-    //                 $a = htmlentities($this->input->get('a', true));
-    //                 $b = htmlentities($this->input->get('b', true));
-    //                 // if ($this->input->get('shift')) {
-    //                 //     $shift_id = $this->input->get('shift');
-    //                 //     $iswhere = 'closing.date BETWEEN "' . $a . '" AND "' . $b . '" AND closing.shift_id = ' . $shift_id;
-    //                 // } else {
-    //                 $iswhere = ' tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
-    //                 // }
-    //             } else {
-    //                 // if ($this->input->get('shift')) {
-    //                 //     $shift_id = $this->input->get('shift');
-    //                 //     $iswhere = 'closing.shift_id = ' . $shift_id . '" AND periode = "' . date('Y-m') . '"';
-    //                 // } else {
-    //                 // $iswhere = 'closing.periode = "' . date('Y-m') . '"';
-    //                 // }
-    //                 $iswhere = null;
-    //             }
+    public function kartustok_cabang()
+    {
+        $level = $this->session->userdata('ses_level');
 
-    //             header('Content-Type: application/json');
-    //             echo $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
-    //         // echo $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
-    //         // echo '<script>console.log(' . json_encode($data) . ');</script>';
-    //         // exit();
+        if (in_array($level, array('Admin', 'AdminKasir'))) {
+            $cabang_id = htmlentities($this->input->get('cabang', true));
+        } else {
+            $cabang_id = $this->session->userdata('ses_cabang_id');
+        }
+        $iswhere = '';
+        $iscabang = '';
+        $namacabang = '';
 
-    //         endif;
-    //     }
+        // if ($level == 'Admin') {
+        if (in_array($level, array('Admin', 'AdminKasir'))) {
+            if (!empty(htmlentities($this->input->get('cabang', true)))) {
+                $cabang_id = htmlentities($this->input->get('cabang', true));
+                $iscabang = ' AND cabang_id = ' . $cabang_id;
+                $namacabang = $this->db->query('SELECT nama_toko  FROM profil_toko where cabang_id = ' . $cabang_id)->row();
+            }
+
+            if (!empty(htmlentities($this->input->get('a', true)))) {
+                $a = htmlentities($this->input->get('a', true));
+                $b = htmlentities($this->input->get('b', true));
+                if ($this->input->get('shift')) {
+                    // $ks = $this->input->get('shift');
+                    // $shift = $this->db->get_where('shift', ['id' => $ks])->row();
+                    // $iswhere = ' WHERE (bahan_kartustok.tanggal BETWEEN "' . $a . '" AND "' . $b . '") AND ( shift_id = ' . $shift->id . ' ) ';
+                    // $periode = 'Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                    // $urlexcel = base_url('laporan/excel?shift=' . $ks . '&a=' . $a . '&b=' . $b);
+                } else {
+                    $iswhere = ' WHERE bahan_kartustok.tanggal BETWEEN "' . $a . '" AND "' . $b . '" ';
+                    $periode = 'Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                    // $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
+                }
+            } else {
+                if ($this->input->get('shift')) {
+                    // $ks = $this->input->get('shift');
+                    // $shift = $this->db->get_where('shift', ['id' => $ks])->row();
+                    // $iswhere = ' WHERE shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '" ';
+                    // $periode = 'Shift : ' . $shift->nama;
+                    // $urlexcel = base_url('laporan/excel?shift=' . $ks);
+                } else {
+                    $iswhere = ' WHERE periode = "' . date('Y-m') . '"';
+                    $periode = 'Periode ' . bln('id') . ' ' . date('Y');
+                    $urlexcel = base_url('laporan/excel');
+                }
+            }
+            $iswhere = $iswhere . $iscabang;
+        } else {
+            if (!empty(htmlentities($this->input->get('a', true)))) {
+                $a = htmlentities($this->input->get('a', true));
+                $b = htmlentities($this->input->get('b', true));
+                // if ($shift_id) {
+                // $ks = $shift_id;
+                // $shift = $this->db->get_where('shift', ['id' => $ks])->row();
+                // $iswhere = ' WHERE (kasir_id = ' . $kasir_id . ') AND (bahan_kartustok.tanggal BETWEEN "' . $a . '" AND "' . $b . '") ';
+                // $periode = 'Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                // $urlexcel = base_url('laporan/excel?shift=' . $ks . '&a=' . $a . '&b=' . $b);
+                // } else {
+                $iswhere = ' WHERE bahan_kartustok.tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
+                $periode = 'Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
+                // }
+            } else {
+                // if ($shift_id) {
+                //     $ks = $shift_id;
+                //     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
+                //     $iswhere = ' WHERE (kasir_id = ' . $kasir_id . ') AND shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '"';
+                //     $periode = 'Shift : ' . $shift->nama;
+                //     $urlexcel = base_url('laporan/excel?shift=' . $ks);
+                // } else {
+                $iswhere = ' WHERE periode = "' . date('Y-m') . '"';
+                // $iswhere = ' WHERE closing_id = 0 AND transaksi.status != "Bayar Nanti" ';
+                $periode = 'Periode ' . bln('id') . ' ' . date('Y');
+                $urlexcel = base_url('laporan/excel');
+                // }
+            }
+        }
+        // echo 'SELECT SUM(pemasukan) as pm, SUM(pengeluaran) as pg, SUM(sisa_uang) as su FROM closing ' . $iswhere;
+        // echo $iswhere;
+        // $total = $this->db->query('SELECT SUM(jumlah) as jum FROM transaksi_keluar ' . $iswhere)->row();
+        $total = 0;
+
+        if ($namacabang) {
+            $this->data = [
+                'title_web' => 'Laporan Kartu Stok',
+                'cabangpilih' =>  $namacabang->nama_toko,
+                'periode' => $periode,
+                'total' => $total,
+                'urlexcel' => '' //$urlexcel
+            ];
+        } else {
+            $this->data = [
+                'title_web' => 'Laporan Kartu Stok',
+                'cabangpilih' =>  '',
+                'periode' => $periode,
+                'total' => $total,
+                'urlexcel' => '' //$urlexcel
+            ];
+        }
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/laporan/kartustok_cabang', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
 }

@@ -1,5 +1,6 @@
 <div class="clearfix"></div>
 
+
 <?php if (!empty($this->input->get('cabang'))) {
     $idcabang = $this->input->get('cabang');
 } else {
@@ -10,7 +11,6 @@
 } else {
     $idshift = 0;
 } ?>
-
 
 <div id="home" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
@@ -27,11 +27,10 @@
                                 <!-- <div class="card-body text-center"> -->
                                 <div class="row">
                                     <div class="col-12 mb-3 border w-100 rounded-lg p-2">
-
                                         <!-- FORM PENCARIAN -->
-                                        <form method="GET" action="<?= base_url('laporan/pengeluaran') ?>" class="form-inline">
+                                        <form method="GET" action="<?= base_url('laporan/closing') ?>" class="form-inline">
                                             <div class="d-flex flex-wrap align-items-center">
-                                                <div class="form-group mr-3 mb-2">
+                                                <div class="form-group mr-3">
                                                     <label class="mr-2">Cabang</label>
                                                     <select name="cabang" class="form-control form-control-sm">
                                                         <option value="">- Pilih Cabang -</option>
@@ -48,7 +47,7 @@
                                                 </div>
 
                                                 <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
-                                                    <div class="form-group mr-3 mb-2">
+                                                    <div class="form-group mr-3">
                                                         <label class="mr-2">Shift <small class="text-danger">(opsional)</small></label>
                                                         <select class="form-control form-control-sm" name="shift">
                                                             <option value="" selected>- pilih -</option>
@@ -61,18 +60,18 @@
                                                     </div>
                                                 <?php } ?>
 
-                                                <div class="form-group mr-3 mb-2">
+                                                <div class="form-group mr-3">
                                                     <label class="mr-2">Tanggal Start</label>
                                                     <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('a') ?>" name="a">
                                                     <!-- <input type="text" class="form-control" value="<?= $this->input->get('cabang') ?>" name="cabang" hidden> -->
                                                 </div>
 
-                                                <div class="form-group mr-3 mb-2">
+                                                <div class="form-group mr-3">
                                                     <label class="mr-2">Tanggal End</label>
                                                     <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('b') ?>" name="b">
                                                 </div>
 
-                                                <div class="form-group mb-2">
+                                                <div class="form-group ">
                                                     <button type="submit" class="btn btn-primary btn-sm mr-2">
                                                         <i class="fa fa-search"></i>
                                                     </button>
@@ -82,7 +81,6 @@
                                                 </div>
                                             </div>
                                         </form>
-
 
                                     </div>
                                 </div>
@@ -99,18 +97,25 @@
                                                             <th class="all">Tanggal</th>
                                                             <th class="all">Shift</th>
                                                             <th class="all">Kasir</th>
-                                                            <th class="all">Kategori</th>
-                                                            <th class="all">Keterangan</th>
-                                                            <th class="all">No Bon</th>
-                                                            <th class="all">Jumlah</th>
+                                                            <th class="all">Total</th>
+                                                            <th class="all">QRIS</th>
+                                                            <th class="all">Online</th>
+                                                            <th class="all">Cash</th>
+                                                            <th class="all">Pengeluaran</th>
+                                                            <th class="all">Sisa Cash</th>
                                                             <th class="all">Aksi</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th colspan="8">Total</th>
-                                                            <th>Rp<?= number_format($total->jum ?? 0); ?></th>
+                                                            <th colspan="5">Total</th>
+                                                            <th>Rp<?= number_format($total->qr + $total->ol + $total->pm ?? 0); ?></th>
+                                                            <th>Rp<?= number_format($total->qr ?? 0); ?></th>
+                                                            <th>Rp<?= number_format($total->ol ?? 0); ?></th>
+                                                            <th>Rp<?= number_format($total->pm ?? 0); ?></th>
+                                                            <th>Rp<?= number_format($total->pg ?? 0); ?></th>
+                                                            <th>Rp<?= number_format($total->su ?? 0); ?></th>
                                                             <th></th>
                                                         </tr>
                                                     </tfoot>
@@ -119,7 +124,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -128,16 +132,6 @@
         </div>
     </div>
 </div>
-
-
-
-<!-- <div id="home"> -->
-
-
-<!-- Modal -->
-
-
-
 
 <?php
 
@@ -158,15 +152,15 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
             $shift_id = $this->input->get('shift');
 
             if (!empty($this->input->get('a'))) {
-                $url = base_url('laporan/data_pengeluaran?cabang=' . $cabang_id . '&shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+                $url = base_url('laporan/data_closing?cabang=' . $cabang_id . '&shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
             } else {
-                $url = base_url('laporan/data_pengeluaran?cabang=' . $cabang_id);
+                $url = base_url('laporan/data_closing?cabang=' . $cabang_id);
             }
         } else {
             if (!empty($this->input->get('a'))) {
-                $url = base_url('laporan/data_pengeluaran?cabang=' . $cabang_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+                $url = base_url('laporan/data_closing?cabang=' . $cabang_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
             } else {
-                $url = base_url('laporan/data_pengeluaran?cabang=' . $cabang_id);
+                $url = base_url('laporan/data_closing?cabang=' . $cabang_id);
             }
         }
     } else {
@@ -174,15 +168,15 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
             $shift_id = $this->input->get('shift');
 
             if (!empty($this->input->get('a'))) {
-                $url = base_url('laporan/data_pengeluaran?shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+                $url = base_url('laporan/data_closing?shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
             } else {
-                $url = base_url('laporan/data_pengeluaran?shift=' . $shift_id);
+                $url = base_url('laporan/data_closing?shift=' . $shift_id);
             }
         } else {
             if (!empty($this->input->get('a'))) {
-                $url = base_url('laporan/data_pengeluaran?a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+                $url = base_url('laporan/data_closing?a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
             } else {
-                $url = base_url('laporan/data_pengeluaran');
+                $url = base_url('laporan/data_closing');
             }
         }
     }
@@ -199,14 +193,41 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
     //     }
     // } else {
     if (!empty($this->input->get('a'))) {
-        $url = base_url('laporan/data_pengeluaran?kasir=' . $kasir_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+        $url = base_url('laporan/data_closing?kasir=' . $kasir_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
     } else {
-        $url = base_url('laporan/data_pengeluaran?kasir=' . $kasir_id);
+        $url = base_url('laporan/data_closing?kasir=' . $kasir_id);
     }
     // }
 }
 
 
+
+
+
+// if (!empty($this->input->get('a'))) {
+//     if ($this->input->get('shift')) {
+//         $url = base_url('laporan/data_order?shift=' . $ks . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+//     } else {
+//         $url = base_url('laporan/data_order?a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+//     }
+// } else {
+//     if ($this->input->get('shift')) {
+//         if ($this->session->userdata('ses_level') == 'Admin') {
+//             $url = base_url('laporan/data_order?shift=' . $ks);
+//         } else {
+//             // $url = base_url('laporan/data_order?shift=' . $ks);
+//             $url = base_url('laporan/data_order?kasir=' . $this->session->userdata('ses_id'));
+//         }
+//     } else {
+//         if ($this->session->userdata('ses_level') == 'Admin') {
+//             $url = base_url('laporan/data_order');
+//         } else {
+//             // $url = base_url('laporan/data_order?shift=' . $ks);
+//             $url = base_url('laporan/data_order?kasir=' . $this->session->userdata('ses_id'));
+//         }
+//     }
+// }
+// echo $url;
 ?>
 <script>
     var tabel = null;
@@ -242,7 +263,6 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
             "ajax": {
                 "url": "<?= $url; ?>", // URL file untuk proses select datanya
                 "type": "POST"
-
             },
             "deferRender": true,
             "lengthMenu": [
@@ -269,7 +289,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                     "render": function(data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
-                        return (date.getDate().toString().length > 1 ? date.getDate() : "0" + date.getDate()) + "-" + (month.toString().length > 1 ? month : "0" + month) + "-" + date.getFullYear();
+                        return date.getDate() + "-" + (month.toString().length > 1 ? month : "0" + month) + "-" + date.getFullYear();
                     }
                 },
                 {
@@ -280,25 +300,37 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                     'data': 'nama_user'
                 },
                 {
-                    'data': 'kategori_keluar'
-                },
-                {
-                    'data': 'keterangan'
-                },
-                {
-                    'data': 'no_bon'
-                },
-                {
-                    'data': 'jumlah',
+                    'data': 'total',
                     render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
                     className: "text-right"
                 },
-
+                {
+                    'data': 'qris',
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: "text-right"
+                },
+                {
+                    'data': 'online',
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: "text-right"
+                }, {
+                    'data': 'pemasukan',
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: "text-right"
+                },
+                {
+                    'data': 'pengeluaran',
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: "text-right"
+                },
+                {
+                    'data': 'sisa_uang',
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: "text-right"
+                },
                 {
                     "data": "id",
                     "render": function(data, type, row, meta) {
-                        var date = new Date(row.date);
-                        var month = date.getMonth() + 1;
 
                         <?php if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
                             return `<div class="dropdown open">
@@ -308,10 +340,9 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                                             </button>
                                         <div class="dropdown-menu" aria-labelledby="triggerId">
                                         <button type="button" class="btn btn-primary btn-sm w-100" data-toggle="modal" data-target="#modelIdUbah${row.id}">
-                                        <i class="fa fa-edit mr-1"></i> Ubah Pengeluaran
+                                        <i class="fa fa-edit mr-1"></i> Ubah Closing
                 </button>
                 <!-- 
-
                                             <a href="${base_url}closing/edit/${row.id}" 
                                                 class="dropdown-item" title="Ubah Closing" role="button">
                                                 <i class="fa fa-edit mr-1"></i> Ubah Closing
@@ -335,7 +366,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="<?= base_url('keuangan/ubah_lappengeluaran'); ?>" enctype="multipart/form-data">
+            <form method="POST" action="<?= base_url('closing/ubah'); ?>" enctype="multipart/form-data">
                 <div class="modal-body">
                     
                     <div class="form-group">
@@ -345,48 +376,12 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
 
                        
                     </div>
-                    <div class="form-group">
-                        <label for="">Tanggal</label>
-                        <input type="text" class="form-control" required value="${(date.getDate().toString().length > 1 ? date.getDate() : "0" + date.getDate()) + "-" + (month.toString().length > 1 ? month : "0" + month) + "-" + date.getFullYear()}" name="tanggal" id="tanggal" placeholder="" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Shift</label>
-                        <input type="text" class="form-control" required value="${row.nama}" name="shift" id="shift" placeholder="" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Kasir</label>
-                        <input type="text" class="form-control" required value="${row.nama_user}" name="kasir" id="kasir" placeholder="" readonly>
-                    </div>
-                    <div class="form-group">
-                   
-                        <label for="">Kategori</label>
-                        <select class="form-control" name="kategori" id="kategori">
-                            <option value="" >- pilih -</option>
-                            <?php $kategori = $this->db->get('kategori_keluar')->result();
-                            foreach ($kategori as $r) {
-                            ?>
-                                <option value="<?= $r->kategori_keluar; ?>" ><?= $r->kategori_keluar; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">No Bon</label>
-                        <input type="text" class="form-control" name="no_bon" id="no_bon" value="${row.no_bon}" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Keterangan</label>
-                        <input type="text" class="form-control" name="keterangan" id="keterangan" value="${row.keterangan}" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Jumlah</label>
-                        <input type="number" class="form-control" required value="${row.jumlah}" name="jumlah" id="jumlah" placeholder="">
-                    </div>
                     <!-- 
                     <div class="form-group">
                         <label for="">Total</label>
                         <input type="number" class="form-control" required value="${row.total}" name="total" id="total" placeholder="" readonly>
                     </div>
-                   
+                    -->
                     <div class="form-group">
                         <label for="">QRIS</label>
                         <input type="number" class="form-control" required value="${row.qris}" name="qris" id="qris" placeholder="">
@@ -403,7 +398,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                         <label for="">Pengeluaran</label>
                         <input type="number" class="form-control" required value="${row.pengeluaran}" name="pengeluaran" id="pengeluaran" placeholder="">
                     </div>
-                    
+                    <!-- 
                     <div class="form-group">
                         <label for="">Sisa Cash</label>
                         <input type="number" class="form-control" required value="${row.sisa_uang}" name="sisa_uang" id="sisa_uang" placeholder="" readonly>

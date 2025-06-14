@@ -194,6 +194,12 @@ class M_Datatables extends CI_Model
             } else {
                 $sql = $this->db->query($query);
             }
+
+            if ($sql === false) {
+                // Handle error - the query failed
+                die("Query failed: " . $query);
+            }
+
             $sql_count = $sql->num_rows();
 
             $cari = implode(" LIKE '%" . $search . "%' OR ", $cari) . " LIKE '%" . $search . "%'";
@@ -217,6 +223,12 @@ class M_Datatables extends CI_Model
                 } else {
                     $sql_cari =  $this->db->query($query . " WHERE (" . $cari . ")");
                 }
+
+                if ($sql_cari === false) {
+                    // Handle error - the query failed
+                    die("Query cari failed: " . $this->db->last_query());
+                }
+
                 $sql_filter_count = $sql_cari->num_rows();
             } else {
                 if (!empty($iswhere)) {

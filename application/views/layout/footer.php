@@ -43,7 +43,25 @@ toggleFullScreen();
 function toggleFullScreen() {
 // alert("coba");
 // if (!document.fullscreenElement) {
-var elem = document.documentElement;
+// var elem = document.documentElement;
+
+// if (elem.requestFullscreen) {
+// elem.requestFullscreen();
+// } else if (elem.webkitRequestFullscreen) { /* Safari */
+// elem.webkitRequestFullscreen();
+// } else if (elem.msRequestFullscreen) { /* IE11 */
+// elem.msRequestFullscreen();
+// }
+// } else {
+// if (document.exitFullscreen) {
+// document.exitFullscreen();
+// }
+// }
+}
+
+// Request fullscreen on page load
+document.addEventListener('DOMContentLoaded', () => {
+const elem = document.documentElement;
 
 if (elem.requestFullscreen) {
 elem.requestFullscreen();
@@ -52,12 +70,20 @@ elem.webkitRequestFullscreen();
 } else if (elem.msRequestFullscreen) { /* IE11 */
 elem.msRequestFullscreen();
 }
-// } else {
-// if (document.exitFullscreen) {
-// document.exitFullscreen();
-// }
-// }
+});
+
+// Exit fullscreen on ESC key (optional)
+document.addEventListener('keydown', (e) => {
+if (e.key === "Escape") {
+if (document.exitFullscreen) {
+document.exitFullscreen();
+} else if (document.webkitExitFullscreen) { /* Safari */
+document.webkitExitFullscreen();
+} else if (document.msExitFullscreen) { /* IE11 */
+document.msExitFullscreen();
 }
+}
+});
 </script>
 
 </body>

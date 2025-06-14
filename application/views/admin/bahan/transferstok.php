@@ -46,6 +46,8 @@
                                 <!-- <th>Cabang Asal</th> -->
                                 <th>Cabang Tujuan</th>
                                 <th>Tgl Diterima</th>
+                                <th>Aksi</th>
+
                                 <!-- <th>Jumlah</th> -->
                                 <!-- <th>Aksi</th> -->
                             </tr>
@@ -97,28 +99,36 @@
                 },
                 {
                     'data': 'diterima_tgl'
-                }
-                // 
+                },
+                {
+                    "data": "id",
+                    "render": function(data, type, row, meta) {
+                        // <a href="${base_url}bahan/transferstok_detail/${row.id}" 
+                        //                                                 class="dropdown-item" title="Detail Transfer Stok" role="button">
+                        //                                                 <i class="fa fa-eye mr-1"></i> Detail Transfer Stok
+                        //                                             </a>
+                        return `<div class="dropdown open">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                                <i class="fa fa-cog mr-1"></i> pilih aksi
+                                            </button>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId">
 
-                // {
-                //     "data": "id",
-                //     render: function(data, type, row, meta) {
-                //         return 'tes';
-                //     }
-                // },
-                // {
-                //     "data": "id",
-                //     render: function(data, type, row, meta) {
-                //         return 'tes';
-                //     }
-                // },
-                // {
-                //     "data": "id",
-                //     render: function(data, type, row, meta) {
-                //         return 'tes';
-                //     }
-                // }
+                                            <a href="${base_url}bahan/edit_transferstok/${row.id}" 
+                                                class="dropdown-item" title="Edit Transfer Stok" role="button">
+                                                <i class="fa fa-edit mr-1"></i> Edit Transfer Stok
+                                            </a>
+                                            <a href="${base_url}bahan/transferstok_delete?id=${row.id}" 
+                                                onclick="javascript:return confirm('Apakah data ini di hapus ?');" 
+                                                class="dropdown-item" title="Hapus Transfer Stok" role="button">
+                                                <i class="fa fa-times mr-1"></i> Hapus Transfer Stok
+                                            </a>
+                                        </div>
+                                    </div>
+                                    `;
 
+                    }
+                },
             ],
             "fnDrawCallback": function() {
                 $('.portfolio-popup').magnificPopup({

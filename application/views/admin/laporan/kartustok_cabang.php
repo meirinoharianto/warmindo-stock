@@ -29,7 +29,7 @@
                                     <div class="col-12 mb-3 border w-100 rounded-lg p-2">
 
                                         <!-- FORM PENCARIAN -->
-                                        <form method="GET" action="<?= base_url('laporan/kartustok') ?>" class="form-inline">
+                                        <form method="GET" action="<?= base_url('laporan/kartustok_cabang') ?>" class="form-inline">
                                             <div class="d-flex flex-wrap align-items-center">
 
                                                 <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
@@ -49,19 +49,6 @@
                                                         </select>
                                                     </div>
 
-                                                    <div class="form-group mr-3 mb-2">
-                                                        <label class="mr-2">Shift
-                                                            <!-- <small class="text-danger">(opsional)</small> -->
-                                                        </label>
-                                                        <select class="form-control form-control-sm" name="shift">
-                                                            <option value="" selected> SEMUA SHIFT</option>
-                                                            <?php $shift = $this->db->get('shift')->result();
-                                                            foreach ($shift as $r) {
-                                                            ?>
-                                                                <option value="<?= $r->id; ?>" <?= ($idshift == $r->id) ? 'selected' : '' ?>><?= $r->nama . ' (' . $r->open . '-' . $r->close . ')'; ?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
                                                 <?php } ?>
 
                                                 <div class="form-group mr-3 mb-2">
@@ -96,9 +83,6 @@
                                                 <table id="example1" class="table table-bordered table-sm table-striped" width="100%">
                                                     <thead>
                                                         <tr>
-                                                            <th class="all">Cabang</th>
-                                                            <!-- <th class="all">Tanggal</th> -->
-                                                            <th class="all">Shift</th>
                                                             <th class="all">Kode Bahan</th>
                                                             <th class="all">Nama Bahan</th>
                                                             <th class="all">Saldo Awal</th>
@@ -124,27 +108,9 @@
     </div>
 </div>
 
-
-
-<!-- <div id="home"> -->
-
-
-<!-- Modal -->
-
-
-
-
 <?php
 
-// if ($this->session->userdata('ses_level') == 'Admin') {
-//     $ks = $this->input->get('shift');
-// } else {
-//     $ks = $this->session->userdata('ses_id');
-//     // $ks = $this->input->get('shift');
-// }
 
-
-// if ($this->session->userdata('ses_level') == 'Admin') {
 if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
     if ($this->input->get('cabang')) {
         $cabang_id = $this->input->get('cabang');
@@ -184,21 +150,11 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
 } else {
     $kasir_id = $this->session->userdata('ses_level');
 
-    // if ($this->input->get('shift')) {
-    //     $shift_id = $this->input->get('shift');
-
-    //     if (!empty($this->input->get('a'))) {
-    //         $url = base_url('laporan/data_closing?kasir=' . $kasir_id . '&shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
-    //     } else {
-    //         $url = base_url('laporan/data_closing?kasir=' . $kasir_id . '&shift=' . $shift_id);
-    //     }
-    // } else {
     if (!empty($this->input->get('a'))) {
         $url = base_url('laporan/data_kartustok?kasir=' . $kasir_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
     } else {
         $url = base_url('laporan/data_kartustok?kasir=' . $kasir_id);
     }
-    // }
 }
 
 
@@ -221,18 +177,13 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                     }
                 }
             }],
-            // dom: 'Bfrtip',
-            // buttons: [
-            //     'excelHtml5'
-            // ],
 
-            // "pageLength": all,
             "processing": true,
             "serverSide": true,
             'responsive': true,
             "ordering": true, // Set true agar bisa di sorting
             "order": [
-                [1, 'asc']
+                [0, 'asc']
             ], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
             "ajax": {
                 "url": "<?= $url; ?>", // URL file untuk proses select datanya
@@ -244,57 +195,9 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                 [100, 0],
                 [100, 'Semua']
             ],
-            // "aLengthMenu": [
-            //     [10, 25, 50, 100, 150],
-            //     [10, 25, 50, 100, 150]
-            // ], 
-            // Combobox Limit
+
             "columns": [
-                // {
-                //     "data": 'id',
-                //     "sortable": false,
-                //     render: function(data, type, row, meta) {
-                //         return meta.row + meta.settings._iDisplayStart + 1;
-                //     }
-                // },
-                {
-                    'data': 'cabang'
-                },
-                // {
-                //     "data": 'tanggal',
-                //     "render": function(data) {
-                //         var date = new Date(data);
-                //         var month = date.getMonth() + 1;
-                //         return date.getDate() + "-" + (month.toString().length > 1 ? month : "0" + month) + "-" + date.getFullYear();
-                //     }
-                // },
-                {
-                    'data': 'shift_id',
-                    render: function(data, type, row) {
-                        let shiftText, badgeClass;
 
-                        // Determine text and color based on shift_id
-                        switch (data) {
-                            case '1':
-                                shiftText = 'PAGI';
-                                badgeClass = 'bg-success'; // Green for morning
-                                break;
-                            case '2':
-                                shiftText = 'SORE';
-                                badgeClass = 'bg-warning text-dark'; // Yellow for afternoon
-                                break;
-                            case '3':
-                                shiftText = 'MALAM';
-                                badgeClass = 'bg-dark text-light'; // Dark for night
-                                break;
-                            default:
-                                shiftText = 'SEMUA SHIFT'; // Fallback to raw value if not 1-3
-                                badgeClass = 'bg-secondary text-light';
-                        }
-
-                        return `<span class="badge ${badgeClass}">${shiftText}</span>`;
-                    }
-                },
                 {
                     'data': 'kode_bahan'
                 },
@@ -313,26 +216,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                 {
                     'data': 'akhir'
                 },
-            ],
-            "fnDrawCallback": function() {
-                $('.portfolio-popup').magnificPopup({
-                    type: 'image',
-                    removalDelay: 300,
-                    mainClass: 'mfp-fade',
-                    gallery: {
-                        enabled: true
-                    },
-                    zoom: {
-                        enabled: true,
-                        duration: 300,
-                        easing: 'ease-in-out',
-                        opener: function(openerElement) {
-                            return openerElement.is('img') ? openerElement : openerElement
-                                .find('img');
-                        }
-                    }
-                });
-            }
+            ]
         });
     });
 </script>

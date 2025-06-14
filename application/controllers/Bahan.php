@@ -752,6 +752,8 @@ class Bahan extends CI_Controller
         $this->load->view('layout/footer', $this->data);
     }
 
+
+
     public function transferstok_terima_detail()
     {
         $id = (int)$this->uri->segment('3');
@@ -857,7 +859,8 @@ class Bahan extends CI_Controller
         // } else {
         //     $kode_num = 1;
         // }
-
+        $login_id =  $this->session->userdata('ses_id');
+        $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
         $this->data = [
             'title_web' => 'Tambah Transfer Stok Bahan',
             // 'kode'  	=> 'P000'.$kode_cus,
@@ -872,15 +875,174 @@ class Bahan extends CI_Controller
         $this->load->view('layout/footer', $this->data);
     }
 
+    public function edit_transferstok()
+    {
+        $id = (int)$this->uri->segment('3');
+        $cek = $this->db->get_where("transferstok", ["id" => $id]); // tulis id yang dituju
+        if ($cek->num_rows() > 0) {
+            $edit = $cek->row();
+            if ($edit->status == 0) {
+                $transferstok_temp = $this->db->get_where("transferstok_bahan", ["transferstok_id" => $id]); // tulis id yang dituju
+                // Check if any rows were returned
+                if ($transferstok_temp->num_rows() > 0) {
+                    // Get all rows as an array
+                    $rows = $transferstok_temp->result_array();
+                    $login_id =  $this->session->userdata('ses_id');
+                    $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+
+                    // Insert each row into the destination table
+                    foreach ($rows as $row) {
+                        $cari = $this->db->get_where("bahan", ["id" => $row['bahan_id']]); // tulis id yang dituju
+                        $bahan = $cari->row();
+                        $insert_data = [
+                            'login_id' => htmlspecialchars($login_id, ENT_QUOTES),
+                            'bahan_id' => $row['bahan_id'],
+                            'qty' => $row['qty'],
+                            'kode_bahan' => $bahan->kode_bahan,
+                            'nama_bahan' => $bahan->nama_bahan
+                        ];
+
+                        $this->db->insert('transferstok_bahan_temp', $insert_data);
+                    }
+                }
+            } else {
+                $this->session->set_flashdata("failed", " Data Transfer Stok yang sudah diterima tidak bisa di edit! ");
+                redirect(base_url('bahan/transferstok'));
+            }
+        } else {
+            $this->session->set_flashdata("failed", " Tidak ditemukan data ID dari Transfer Stok ! ");
+            redirect(base_url('bahan/transferstok'));
+        }
+
+        $this->data = [
+            'title_web' => 'Edit Transfer Stok',
+            'edit'        => $edit,
+            'cab'       => $this->db->query("SELECT profil_toko.nama_toko,cabang.* FROM cabang LEFT JOIN profil_toko ON profil_toko.cabang_id = cabang.id WHERE cabang.id > 1 ORDER BY length(kode_cabang),kode_cabang ASC")->result(),
+
+            // 'kat'       => $this->db->get('kategori_bahan')->result()
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/bahan/edit_transferstok', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
+
     public function transferstok_detail()
     {
+        $id = (int)$this->uri->segment('3');
+
+        $cek = $this->db->get_where("transferstok", ["id" => $id]); // tulis id yang dituju
+        if ($cek->num_rows() > 0) {
+            $edit = $cek->row();
+        } else {
+            $this->session->set_flashdata("failed", " Tidak ditemukan data transfer stok ! ");
+            redirect(base_url('bahan/transferstok'));
+        }
+
         $this->data = [
-            'title_web'  => 'Detail Terima Stok Bahan',
+            'title_web'  => 'Data Transfer Stok bahan',
+            'edit'        => $edit,
+
         ];
 
         $this->load->view('layout/header', $this->data);
         $this->load->view('admin/bahan/transferstok_detail', $this->data);
         $this->load->view('layout/footer', $this->data);
+    }
+
+    public function transferstok_delete()
+    {
+        $login_id = $this->session->userdata('ses_id');
+        $id = (int)$this->input->get("id");
+        $transferstok_id = $id;
+        $cek = $this->db->get_where("transferstok", ["id" => $id]); // tulis id yang dituju
+        if ($cek->num_rows() > 0) {
+            // $hasil = $cek->row();
+            $tanggal = date('Y-m-d');
+            $tgl = date_create($tanggal);
+            if (!$tgl) {
+                throw new Exception("Invalid date format");
+            }
+
+            // RECURSIVE TRANSFER STOK BAHAN
+            // START
+            $beforeData = $this->db->get_where("transferstok_bahan", ["transferstok_id" => $transferstok_id])->result_array();
+            if (empty($beforeData)) {
+                echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel detail transfer stok.' . $transferstok_id]);
+                return;
+            }
+
+            foreach ($beforeData as $isiData) {
+
+                $this->db->where('bahan_id', $isiData['bahan_id']);
+                $this->db->where('cabang_id', 1);
+                $querystok = $this->db->get('bahan_stok');
+
+                $total_stok = 0;
+                if ($querystok->num_rows() == 0) {
+                    $data_stok = [
+                        'cabang_id' => 1,
+                        'bahan_id' => $isiData['bahan_id'],
+                        'jumlah_stok' => $isiData['qty']
+                    ];
+
+                    if (!$this->db->insert("bahan_stok", $data_stok)) {
+                        throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
+                    }
+                } else {
+                    $row = $querystok->row();
+                    $total_stok = $row->jumlah_stok;
+
+                    $this->db->set('jumlah_stok', 'jumlah_stok+' . $isiData['qty'], false);
+                    $this->db->where('bahan_id', $isiData['bahan_id']);
+                    $this->db->where('cabang_id', 1);
+                    if (!$this->db->update("bahan_stok")) {
+                        throw new Exception("Failed to update bahan_stok: " . $this->db->error()['message']);
+                    }
+                }
+
+                $data_kartustok[] = array(
+                    'cabang_id' => 1,
+                    'bahan_id' => $isiData['bahan_id'],
+                    'tipe_transaksi' => "Cancelled Transfer Out",
+                    'transaksi_id' => $transferstok_id,
+                    'jumlah_perubahan' => $isiData['qty'],
+                    'harga_beli' => 0,
+                    'jumlah_harga' => 0,
+                    'total_stok' => $total_stok + $isiData['qty'],
+                    'total_jumlah_harga' => 0,
+                    'tanggal' => date_format($tgl, 'Y-m-d'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'periode' => date_format($tgl, 'Y-m'),
+                    'tahun' => date_format($tgl, 'Y'),
+                    'shift_id' => 0,
+                    'login_id' => $login_id
+                );
+            }
+            if (!$this->db->delete('transferstok_bahan', ['transferstok_id' => $transferstok_id])) {
+                throw new Exception("Failed to delete transferstok_bahan: " . $this->db->error()['message']);
+            }
+
+            if (!empty($data_kartustok)) {
+                if (!$this->db->insert_batch('bahan_kartustok', $data_kartustok)) {
+                    throw new Exception("Failed to insert batch bahan_kartustok: " . $this->db->error()['message']);
+                }
+            }
+
+            // END
+
+            $this->db->where("transferstok_id", $id); // tulis id yang dituju
+            $this->db->delete("transferstok_bahan");
+            $this->db->where("id", $id); // tulis id yang dituju
+            $this->db->delete("transferstok");
+
+
+            $this->session->set_flashdata("success", " Berhasil Hapus Data ! ");
+            redirect(base_url("bahan/transferstok"));
+        } else {
+            $this->session->set_flashdata("failed", " Gagal Hapus Data ! " . validation_errors());
+            redirect(base_url("bahan/transferstok"));
+        }
     }
 
     public function cari_bahan($term)
@@ -1045,119 +1207,490 @@ class Bahan extends CI_Controller
         }
     }
 
+    // public function save_transferstok()
+    // {
+
+    //     $this->form_validation->set_rules("date", "Tanggal", "required");
+    //     $this->form_validation->set_rules("id_cabang", "Cabang Tujuan", "required");
+    //     $this->form_validation->set_rules("no_surat", "No Surat", "required");
+    //     $login_id =  $this->session->userdata('ses_id');
+
+    //     if ($this->form_validation->run() != false) {
+    //         $this->load->database();
+    //         // $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
+    //         $temporaryData = $this->db->get_where("transferstok_bahan_temp", ["login_id" => $login_id])->result_array();
+    //         if (empty($temporaryData)) {
+    //             echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara']);
+    //             return;
+    //         }
+
+    //         // $tanggal = date('Y-m-d H:i:s');
+    //         $tanggal = $this->input->post("date", true);
+    //         $tgl = date_create($tanggal);
+    //         $idcabang = $this->input->post("id_cabang", true);
+    //         $no_surat = $this->input->post("no_surat", true);
+    //         $keterangan = $this->input->post("keterangan", true);
+
+    //         // $data_transferstok[] = array(
+    //         $data_transferstok = array(
+    //             'no_surat' => $no_surat,
+    //             'cabangasal_id' => 1,
+    //             'cabangtujuan_id' => $idcabang,
+    //             'keterangan' => $keterangan,
+    //             'created_at' => date('Y-m-d H:i:s'),
+    //             'date' => date_format($tgl, 'Y-m-d'),
+    //             'periode' => date_format($tgl, 'Y-m'),
+    //             'year' => date_format($tgl, 'Y'),
+    //             'login_id' => $login_id,
+    //             'status' => 0,
+    //         );
+
+    //         $this->db->trans_start();
+    //         $this->db->insert('transferstok', $data_transferstok);
+    //         $transferstok_id = $this->db->insert_id();
+
+    //         foreach ($temporaryData as $isi) {
+    //             $data_transferstok_bahan[] = array(
+    //                 'transferstok_id' => $transferstok_id,
+    //                 'bahan_id' => $isi['bahan_id'],
+    //                 'qty' => $isi['qty']
+    //             );
+
+    //             $this->db->where('bahan_id', $isi['bahan_id']);
+    //             $this->db->where('cabang_id', 1);
+    //             $querystok = $this->db->get('bahan_stok');
+    //             $total_stok = 0;
+    //             if ($querystok->num_rows() == 0) { // jika belum ada
+    //                 $data_stok = [
+    //                     'cabang_id'   => 1,
+    //                     'bahan_id'     => $isi['bahan_id'],
+    //                     'jumlah_stok'     => 0 - $isi['qty']
+    //                 ];
+
+    //                 $this->db->insert("bahan_stok", $data_stok);
+    //             } else {
+    //                 $total_stok = $querystok['jumlah_stok'];
+
+    //                 $data_stok = [
+    //                     'cabang_id'   => 1,
+    //                     'bahan_id'     => $isi['bahan_id']
+    //                     // 'jumlah_stok'     => 'jumlah_stok' - $isi['qty']
+    //                 ];
+    //                 $this->db->set('jumlah_stok', 'jumlah_stok-' . $isi['qty'], false);
+    //                 $this->db->where('bahan_id', $isi['bahan_id']);
+    //                 $this->db->where('cabang_id', 1);
+    //                 $this->db->update("bahan_stok", $data_stok);
+    //             }; // jika sudah ada
+
+    //             $data_kartustok[] = array(
+    //                 'cabang_id'   => 1,
+    //                 'bahan_id'     => $isi['bahan_id'],
+    //                 'tipe_transaksi'     => "Transfer Out",
+    //                 'transaksi_id'     => $transferstok_id,
+    //                 'jumlah_perubahan'     => 0 - $isi['qty'],
+    //                 'harga_beli'   => 0,
+    //                 'jumlah_harga'   => 0,
+    //                 'total_stok'   => $total_stok - $isi['qty'],
+    //                 'total_jumlah_harga'   => 0,
+    //                 'tanggal' => date_format($tgl, 'Y-m-d'),
+    //                 'created_at'    => date('Y-m-d H:i:s'),
+    //                 'periode' => date_format($tgl, 'Y-m'),
+    //                 'tahun' => date_format($tgl, 'Y'),
+    //                 'shift_id' => 0,
+    //                 'login_id' => $login_id
+    //             );
+    //         }
+
+    //         $this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan);
+
+    //         $this->db->insert_batch('bahan_kartustok', $data_kartustok);
+
+    //         // $this->db->insert_batch('bahan_kartustok', $data_kartustok_in);
+
+    //         $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+
+    //         $this->db->trans_complete();
+
+    //         echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+    //         // $this->session->set_flashdata("success", " Berhasil Simpan Data ! ");
+    //         // redirect(base_url("bahan/transferstok"));
+    //     } else {
+    //         echo json_encode(['status' => 'error', 'message' => 'Data gagal disimpan']);
+    //         // $this->session->set_flashdata("failed", " Gagal Simpan Data !");
+    //         // redirect(base_url("bahan/tambah_transferstok"));
+    //     }
+    // }
+
     public function save_transferstok()
     {
+        try {
+            $this->form_validation->set_rules("date", "Tanggal", "required");
+            $this->form_validation->set_rules("id_cabang", "Cabang Tujuan", "required");
+            $this->form_validation->set_rules("no_surat", "No Surat", "required");
+            $login_id = $this->session->userdata('ses_id');
 
-        $this->form_validation->set_rules("date", "Tanggal", "required");
-        $this->form_validation->set_rules("id_cabang", "Cabang Tujuan", "required");
-        $this->form_validation->set_rules("no_surat", "No Surat", "required");
-        $login_id =  $this->session->userdata('ses_id');
+            if ($this->form_validation->run() != false) {
+                $this->load->database();
 
-        if ($this->form_validation->run() != false) {
-            $this->load->database();
-            // $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
-            $temporaryData = $this->db->get_where("transferstok_bahan_temp", ["login_id" => $login_id])->result_array();
-            if (empty($temporaryData)) {
-                echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara']);
-                return;
-            }
+                // Initialize arrays
+                $data_transferstok_bahan = array();
+                $data_kartustok = array();
 
-            // $tanggal = date('Y-m-d H:i:s');
-            $tanggal = $this->input->post("date", true);
-            $tgl = date_create($tanggal);
-            $idcabang = $this->input->post("id_cabang", true);
-            $no_surat = $this->input->post("no_surat", true);
-            $keterangan = $this->input->post("keterangan", true);
+                $temporaryData = $this->db->get_where("transferstok_bahan_temp", ["login_id" => $login_id])->result_array();
+                if (empty($temporaryData)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara']);
+                    return;
+                }
 
-            // $data_transferstok[] = array(
-            $data_transferstok = array(
-                'no_surat' => $no_surat,
-                'cabangasal_id' => 1,
-                'cabangtujuan_id' => $idcabang,
-                'keterangan' => $keterangan,
-                'created_at' => date('Y-m-d H:i:s'),
-                'date' => date_format($tgl, 'Y-m-d'),
-                'periode' => date_format($tgl, 'Y-m'),
-                'year' => date_format($tgl, 'Y'),
-                'login_id' => $login_id,
-                'status' => 0,
-            );
+                $tanggal = $this->input->post("date", true);
+                $tgl = date_create($tanggal);
+                if (!$tgl) {
+                    throw new Exception("Invalid date format");
+                }
 
-            $this->db->trans_start();
-            $this->db->insert('transferstok', $data_transferstok);
-            $transferstok_id = $this->db->insert_id();
+                $idcabang = $this->input->post("id_cabang", true);
+                $no_surat = $this->input->post("no_surat", true);
+                $keterangan = $this->input->post("keterangan", true);
 
-            foreach ($temporaryData as $isi) {
-                $data_transferstok_bahan[] = array(
-                    'transferstok_id' => $transferstok_id,
-                    'bahan_id' => $isi['bahan_id'],
-                    'qty' => $isi['qty']
+                $data_transferstok = array(
+                    'no_surat' => $no_surat,
+                    'cabangasal_id' => 1,
+                    'cabangtujuan_id' => $idcabang,
+                    'keterangan' => $keterangan,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'date' => date_format($tgl, 'Y-m-d'),
+                    'periode' => date_format($tgl, 'Y-m'),
+                    'year' => date_format($tgl, 'Y'),
+                    'login_id' => $login_id,
+                    'status' => 0,
                 );
 
-                $this->db->where('bahan_id', $isi['bahan_id']);
-                $this->db->where('cabang_id', 1);
-                $querystok = $this->db->get('bahan_stok');
-                $total_stok = 0;
-                if ($querystok->num_rows() == 0) { // jika belum ada
-                    $data_stok = [
-                        'cabang_id'   => 1,
-                        'bahan_id'     => $isi['bahan_id'],
-                        'jumlah_stok'     => 0 - $isi['qty']
-                    ];
+                $this->db->trans_start();
 
-                    $this->db->insert("bahan_stok", $data_stok);
-                } else {
-                    $total_stok = $querystok['jumlah_stok'];
+                // Insert main transfer record
+                if (!$this->db->insert('transferstok', $data_transferstok)) {
+                    throw new Exception("Failed to insert transferstok: " . $this->db->error()['message']);
+                }
 
-                    $data_stok = [
-                        'cabang_id'   => 1,
-                        'bahan_id'     => $isi['bahan_id']
-                        // 'jumlah_stok'     => 'jumlah_stok' - $isi['qty']
-                    ];
-                    $this->db->set('jumlah_stok', 'jumlah_stok-' . $isi['qty'], false);
+                $transferstok_id = $this->db->insert_id();
+
+                foreach ($temporaryData as $isi) {
+                    $data_transferstok_bahan[] = array(
+                        'transferstok_id' => $transferstok_id,
+                        'bahan_id' => $isi['bahan_id'],
+                        'qty' => $isi['qty']
+                    );
+
                     $this->db->where('bahan_id', $isi['bahan_id']);
                     $this->db->where('cabang_id', 1);
-                    $this->db->update("bahan_stok", $data_stok);
-                }; // jika sudah ada
+                    $querystok = $this->db->get('bahan_stok');
 
-                $data_kartustok[] = array(
-                    'cabang_id'   => 1,
-                    'bahan_id'     => $isi['bahan_id'],
-                    'tipe_transaksi'     => "Transfer Out",
-                    'transaksi_id'     => $transferstok_id,
-                    'jumlah_perubahan'     => 0 - $isi['qty'],
-                    'harga_beli'   => 0,
-                    'jumlah_harga'   => 0,
-                    'total_stok'   => $total_stok - $isi['qty'],
-                    'total_jumlah_harga'   => 0,
-                    'tanggal' => date_format($tgl, 'Y-m-d'),
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'periode' => date_format($tgl, 'Y-m'),
-                    'tahun' => date_format($tgl, 'Y'),
-                    'shift_id' => 0,
-                    'login_id' => $login_id
-                );
+                    $total_stok = 0;
+                    if ($querystok->num_rows() == 0) {
+                        $data_stok = [
+                            'cabang_id' => 1,
+                            'bahan_id' => $isi['bahan_id'],
+                            'jumlah_stok' => 0 - $isi['qty']
+                        ];
+
+                        if (!$this->db->insert("bahan_stok", $data_stok)) {
+                            throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
+                        }
+                    } else {
+                        $row = $querystok->row();
+                        $total_stok = $row->jumlah_stok;
+
+                        $this->db->set('jumlah_stok', 'jumlah_stok-' . $isi['qty'], false);
+                        $this->db->where('bahan_id', $isi['bahan_id']);
+                        $this->db->where('cabang_id', 1);
+                        if (!$this->db->update("bahan_stok")) {
+                            throw new Exception("Failed to update bahan_stok: " . $this->db->error()['message']);
+                        }
+                    }
+
+                    $data_kartustok[] = array(
+                        'cabang_id' => 1,
+                        'bahan_id' => $isi['bahan_id'],
+                        'tipe_transaksi' => "Transfer Out",
+                        'transaksi_id' => $transferstok_id,
+                        'jumlah_perubahan' => 0 - $isi['qty'],
+                        'harga_beli' => 0,
+                        'jumlah_harga' => 0,
+                        'total_stok' => $total_stok - $isi['qty'],
+                        'total_jumlah_harga' => 0,
+                        'tanggal' => date_format($tgl, 'Y-m-d'),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'periode' => date_format($tgl, 'Y-m'),
+                        'tahun' => date_format($tgl, 'Y'),
+                        'shift_id' => 0,
+                        'login_id' => $login_id
+                    );
+                }
+
+                if (!empty($data_transferstok_bahan)) {
+                    if (!$this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan)) {
+                        throw new Exception("Failed to insert batch transferstok_bahan: " . $this->db->error()['message']);
+                    }
+                }
+
+                if (!empty($data_kartustok)) {
+                    if (!$this->db->insert_batch('bahan_kartustok', $data_kartustok)) {
+                        throw new Exception("Failed to insert batch bahan_kartustok: " . $this->db->error()['message']);
+                    }
+                }
+
+                $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+
+                if ($this->db->trans_status() === FALSE) {
+                    throw new Exception("Transaction failed");
+                } else {
+                    $this->db->trans_commit();
+                    // echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+                    echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
+                }
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Data gagal disimpan',
+                    'errors' => validation_errors()
+                ]);
             }
-
-            $this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan);
-
-            $this->db->insert_batch('bahan_kartustok', $data_kartustok);
-
-            // $this->db->insert_batch('bahan_kartustok', $data_kartustok_in);
-
-            $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
-
-            $this->db->trans_complete();
-
-            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
-            // $this->session->set_flashdata("success", " Berhasil Simpan Data ! ");
-            // redirect(base_url("bahan/transferstok"));
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Data gagal disimpan']);
-            // $this->session->set_flashdata("failed", " Gagal Simpan Data !");
-            // redirect(base_url("bahan/tambah_transferstok"));
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            log_message('error', 'Error in save_transferstok: ' . $e->getMessage());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
         }
     }
+
+
+    public function update_transferstok()
+    {
+        try {
+            $this->form_validation->set_rules("date", "Tanggal", "required");
+            $this->form_validation->set_rules("id_cabang", "Cabang Tujuan", "required");
+            $this->form_validation->set_rules("no_surat", "No Surat", "required");
+            $login_id = $this->session->userdata('ses_id');
+            $transferstok_id = $this->input->post("id", true);
+            $tanggal = $this->input->post("date", true);
+
+            $tgl = date_create($tanggal);
+            if (!$tgl) {
+                throw new Exception("Invalid date format");
+            }
+
+            if ($this->form_validation->run() != false) {
+                $this->load->database();
+
+                // Initialize arrays
+                $data_transferstok_bahan = array();
+                $data_kartustok = array();
+
+
+                // RECURSIVE TRANSFER STOK BAHAN
+                // START
+                $beforeData = $this->db->get_where("transferstok_bahan", ["transferstok_id" => $transferstok_id])->result_array();
+                if (empty($beforeData)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel detail transfer stok.' . $transferstok_id]);
+                    return;
+                } else {
+
+                    foreach ($beforeData as $isiData) {
+                        // $data_transferstok_bahan[] = array(
+                        //     'transferstok_id' => $transferstok_id,
+                        //     'bahan_id' => $isiData['bahan_id'],
+                        //     'qty' => $isiData['qty']
+                        // );
+
+                        $this->db->where('bahan_id', $isiData['bahan_id']);
+                        $this->db->where('cabang_id', 1);
+                        $querystok = $this->db->get('bahan_stok');
+
+                        $total_stok = 0;
+                        if ($querystok->num_rows() == 0) {
+                            $data_stok = [
+                                'cabang_id' => 1,
+                                'bahan_id' => $isiData['bahan_id'],
+                                'jumlah_stok' => $isiData['qty']
+                            ];
+
+                            if (!$this->db->insert("bahan_stok", $data_stok)) {
+                                throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
+                            }
+                        } else {
+                            $row = $querystok->row();
+                            $total_stok = $row->jumlah_stok;
+
+                            $this->db->set('jumlah_stok', 'jumlah_stok+' . $isiData['qty'], false);
+                            $this->db->where('bahan_id', $isiData['bahan_id']);
+                            $this->db->where('cabang_id', 1);
+                            if (!$this->db->update("bahan_stok")) {
+                                throw new Exception("Failed to update bahan_stok: " . $this->db->error()['message']);
+                            }
+                        }
+
+                        $data_kartustok[] = array(
+                            'cabang_id' => 1,
+                            'bahan_id' => $isiData['bahan_id'],
+                            'tipe_transaksi' => "Cancelled Transfer Out",
+                            'transaksi_id' => $transferstok_id,
+                            'jumlah_perubahan' => $isiData['qty'],
+                            'harga_beli' => 0,
+                            'jumlah_harga' => 0,
+                            'total_stok' => $total_stok + $isiData['qty'],
+                            'total_jumlah_harga' => 0,
+                            'tanggal' => date_format($tgl, 'Y-m-d'),
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'periode' => date_format($tgl, 'Y-m'),
+                            'tahun' => date_format($tgl, 'Y'),
+                            'shift_id' => 0,
+                            'login_id' => $login_id
+                        );
+                    }
+                    if (!$this->db->delete('transferstok_bahan', ['transferstok_id' => $transferstok_id])) {
+                        throw new Exception("Failed to delete transferstok_bahan: " . $this->db->error()['message']);
+                    }
+
+                    if (!empty($data_kartustok)) {
+                        if (!$this->db->insert_batch('bahan_kartustok', $data_kartustok)) {
+                            throw new Exception("Failed to insert batch bahan_kartustok: " . $this->db->error()['message']);
+                        }
+                    }
+                }
+                // END
+
+                $temporaryData = $this->db->get_where("transferstok_bahan_temp", ["login_id" => $login_id])->result_array();
+
+                if (empty($temporaryData)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara.']);
+                    return;
+                }
+
+                $idcabang = $this->input->post("id_cabang", true);
+                $no_surat = $this->input->post("no_surat", true);
+                $keterangan = $this->input->post("keterangan", true);
+
+                $date_formatted = $tgl->format('Y-m-d'); // DATE format for MySQL
+                $periode_formatted = $tgl->format('Y-m'); // VARCHAR format (e.g., "2023-12")
+                $year_formatted = $tgl->format('Y');      // VARCHAR format (e.g., "2023")
+
+                $this->db->where('id', $transferstok_id);
+                $querystok = $this->db->get('transferstok');
+                $this->db->trans_start();
+
+                $this->db->set('no_surat', $no_surat);
+                $this->db->set('cabangtujuan_id', $idcabang);
+                $this->db->set('keterangan', $keterangan);
+                $this->db->set('date', $date_formatted);
+                $this->db->set('periode', $periode_formatted);
+                $this->db->set('year', $year_formatted);
+                $this->db->set('login_id', $login_id);
+
+                $this->db->where('id', $transferstok_id);
+
+
+                // update main transfer record
+                if (!$this->db->update("transferstok")) {
+                    throw new Exception("Failed to update transferstok: " . $transferstok_id . " pesan :" . $this->db->error()['message'] . " query: " . $this->db->last_query());
+                }
+
+                // $transferstok_id = $this->db->insert_id();
+                $data_transferstok_bahan = array();
+                $data_kartustok = array();
+
+                foreach ($temporaryData as $isi) {
+                    $data_transferstok_bahan[] = array(
+                        'transferstok_id' => $transferstok_id,
+                        'bahan_id' => $isi['bahan_id'],
+                        'qty' => $isi['qty']
+                    );
+
+                    $this->db->where('bahan_id', $isi['bahan_id']);
+                    $this->db->where('cabang_id', 1);
+                    $querystok = $this->db->get('bahan_stok');
+
+                    $total_stok = 0;
+                    if ($querystok->num_rows() == 0) {
+                        $data_stok = [
+                            'cabang_id' => 1,
+                            'bahan_id' => $isi['bahan_id'],
+                            'jumlah_stok' => 0 - $isi['qty']
+                        ];
+
+                        if (!$this->db->insert("bahan_stok", $data_stok)) {
+                            throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
+                        }
+                    } else {
+                        $row = $querystok->row();
+                        $total_stok = $row->jumlah_stok;
+
+                        $this->db->set('jumlah_stok', 'jumlah_stok-' . $isi['qty'], false);
+                        $this->db->where('bahan_id', $isi['bahan_id']);
+                        $this->db->where('cabang_id', 1);
+                        if (!$this->db->update("bahan_stok")) {
+                            throw new Exception("Failed to update bahan_stok: " . $this->db->error()['message']);
+                        }
+                    }
+
+                    $data_kartustok[] = array(
+                        'cabang_id' => 1,
+                        'bahan_id' => $isi['bahan_id'],
+                        'tipe_transaksi' => "Transfer Out",
+                        'transaksi_id' => $transferstok_id,
+                        'jumlah_perubahan' => 0 - $isi['qty'],
+                        'harga_beli' => 0,
+                        'jumlah_harga' => 0,
+                        'total_stok' => $total_stok - $isi['qty'],
+                        'total_jumlah_harga' => 0,
+                        'tanggal' => date_format($tgl, 'Y-m-d'),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'periode' => date_format($tgl, 'Y-m'),
+                        'tahun' => date_format($tgl, 'Y'),
+                        'shift_id' => 0,
+                        'login_id' => $login_id
+                    );
+                }
+
+                if (!empty($data_transferstok_bahan)) {
+                    if (!$this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan)) {
+                        throw new Exception("Failed to insert batch transferstok_bahan: " . $this->db->error()['message']);
+                    }
+                }
+
+                if (!empty($data_kartustok)) {
+                    if (!$this->db->insert_batch('bahan_kartustok', $data_kartustok)) {
+                        throw new Exception("Failed to insert batch bahan_kartustok: " . $this->db->error()['message']);
+                    }
+                }
+
+                $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+
+                if ($this->db->trans_status() === FALSE) {
+                    throw new Exception("Transaction failed");
+                } else {
+                    $this->db->trans_commit();
+                    // echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+                    echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
+                }
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Data gagal disimpan',
+                    'errors' => validation_errors()
+                ]);
+            }
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            log_message('error', 'Error in save_transferstok: ' . $e->getMessage());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
+
 
     public function save_terimastok()
     {
@@ -1199,7 +1732,6 @@ class Bahan extends CI_Controller
             $tgl = date_create(date('Y-m-d H:i:s'));
             foreach ($temporaryData as $isi) {
 
-
                 $this->db->where('bahan_id', $isi['bahan_id']);
                 $this->db->where('cabang_id', $cabang_id);
                 $querystok = $this->db->get('bahan_stok');
@@ -1213,7 +1745,10 @@ class Bahan extends CI_Controller
 
                     $this->db->insert("bahan_stok", $data_stok);
                 } else {
-                    $total_stok = $querystok['jumlah_stok'];
+                    // $total_stok = $querystok['jumlah_stok'];
+                    $row = $querystok->row();
+                    $total_stok = $row->jumlah_stok;
+
                     $data_stok = [
                         'cabang_id'   => $cabang_id,
                         'bahan_id'     => $isi['bahan_id']
@@ -1248,11 +1783,17 @@ class Bahan extends CI_Controller
 
             $this->db->trans_complete();
 
-            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+            // echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+            echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
             // $this->session->set_flashdata("success", " Berhasil Simpan Data ! ");
-            redirect(base_url("bahan/transferstok_terima"));
+            // redirect(base_url("bahan/transferstok_terima"));
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Data gagal disimpan']);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Data gagal disimpan',
+                'errors' => validation_errors()
+            ]);
+            // echo json_encode(['status' => 'error', 'message' => 'Data gagal disimpan']);
             // $this->session->set_flashdata("failed", " Gagal Simpan Data !");
             // redirect(base_url("bahan/tambah_transferstok"));
         }
