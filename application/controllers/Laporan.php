@@ -533,6 +533,11 @@ class Laporan extends CI_Controller
                 } else {
                     $where = null;
                 }
+                if ($this->input->get('shift')) {
+                    $shift_id = $this->input->get('shift');
+                    // $where = 'closing.date BETWEEN "' . $a . '" AND "' . $b . '" AND closing.shift_id = ' . $shift_id;
+                    $where += array('closing.shift_id' => $shift_id);
+                }
             } else {
                 $where = array('closing.kasir_id' => $this->session->userdata('ses_id'));
             }

@@ -29,7 +29,7 @@
                                     <div class="col-12 mb-3 border w-100 rounded-lg p-2">
 
                                         <!-- FORM PENCARIAN -->
-                                        <form method="GET" action="<?= base_url('laporan/closing') ?>" class="form-inline">
+                                        <form method="GET" action="<?= base_url('laporan/kasir') ?>" class="form-inline">
                                             <div class="d-flex flex-wrap align-items-center">
 
 
@@ -184,7 +184,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
         }
     }
 } else {
-    $kasir_id = $this->session->userdata('ses_id');
+    $kasir_id = $this->session->userdata('ses_level');
 
     // if ($this->input->get('shift')) {
     //     $shift_id = $this->input->get('shift');
