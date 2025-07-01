@@ -1115,7 +1115,7 @@ class Bahan extends CI_Controller
         ];
         $this->db->insert("transferstok_bahan_temp", $data);
 
-        $this->session->set_flashdata("success", " Berhasil menambahkan data bahan ! ");
+        $this->session->set_flashdata("success", " Berhasil menambahkan data bahan !");
         echo json_encode(['status' => 'success', 'message' => 'Barang berhasil ditambahkan']);
 
         // redirect(base_url("bahan/stokawal"));
