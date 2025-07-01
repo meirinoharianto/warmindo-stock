@@ -59,7 +59,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" value="<?= $edit->keterangan; ?>"></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""><?= $edit->keterangan; ?></textarea>
                                 </div>
                             </div>
                         </div>

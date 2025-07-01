@@ -859,8 +859,11 @@ class Bahan extends CI_Controller
         // } else {
         //     $kode_num = 1;
         // }
-        $login_id =  $this->session->userdata('ses_id');
-        $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+        $imp = $this->uri->segment('3');
+        if ($imp <> 'import') {
+            $login_id =  $this->session->userdata('ses_id');
+            $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+        }
         $this->data = [
             'title_web' => 'Tambah Transfer Stok Bahan',
             // 'kode'  	=> 'P000'.$kode_cus,
@@ -1171,10 +1174,19 @@ class Bahan extends CI_Controller
             $sheetData = $spreadsheet->getActiveSheet()->toArray();
 
             $login_id =  $this->session->userdata('ses_id');
+            $cekdata = '';
+
+            // for ($i = 1; $i < count($sheetData); $i++) {
             for ($i = 1; $i < count($sheetData); $i++) {
+                // Skip if the entire row is empty
+                if (empty(array_filter($sheetData[$i]))) {
+                    continue;
+                }
                 // $bahan_id = $sheetData[$i]['2'];
                 $quantity = $sheetData[$i]['3'];
-                $kode_bahan = $sheetData[$i]['1'];
+                $old_str = $sheetData[$i]['1'];
+                $kode_bahan = str_replace(' ', '', $old_str);
+
                 // $nama_bahan = $sheetData[$i]['2'];
                 // if ($sheetData[$i]['2'] == null) {
                 //     $kategori = 1;
@@ -1193,14 +1205,16 @@ class Bahan extends CI_Controller
                         'nama_bahan'     => htmlspecialchars($cari->nama_bahan, ENT_QUOTES),
                     ];
                     $this->db->insert("transferstok_bahan_temp", $data);
+                    // $cekdata = $cekdata . $data['login_id'] . "," . $data['bahan_id'] . "," . $data['qty'] . "," . $data['kode_bahan'] . "," . $data['nama_bahan'] . ";";
                 } else {
-                    // $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan");
-                    // redirect(base_url("bahan/tambah_transferstok"));
+                    // $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan. " . count($sheetData) . " First : '" . str_replace(' ', '', $old_str) . "' Query : " . $this->db->last_query());
+                    $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan. ");
+                    redirect(base_url("bahan/tambah_transferstok"));
                 }
             }
 
-            $this->session->set_flashdata("success", " Berhasil Import Data ! ");
-            redirect(base_url("bahan/tambah_transferstok"));
+            $this->session->set_flashdata("success", " Berhasil Import Data !");
+            redirect(base_url("bahan/tambah_transferstok/import"));
         } else {
             $this->session->set_flashdata("failed", " Gagal Import Data !  Berkas harus berextensi excel");
             redirect(base_url("bahan/tambah_transferstok"));
