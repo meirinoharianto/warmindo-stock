@@ -1730,11 +1730,14 @@ class Bahan extends CI_Controller
                 echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara']);
                 exit;
             }
-            // echo json_encode($temporaryData);
+            $temp_transferstok = $this->db->get_where('transferstok', ['id' => $id])->row_array();
+            // echo json_encode(temp_transferstok);
             // exit;
+            $tgl = date_create($temp_transferstok['date']);
 
             $data_transferstok = array(
-                'diterima_tgl' => date('Y-m-d H:i:s'),
+                // 'diterima_tgl' => date('Y-m-d H:i:s'),
+                'diterima_tgl' => date_format($tgl, 'Y-m-d H:i:s'),
                 'status' => 1,
             );
 
@@ -1743,7 +1746,7 @@ class Bahan extends CI_Controller
             $this->db->update("transferstok", $data_transferstok);
 
             $transferstok_id = $id;
-            $tgl = date_create(date('Y-m-d H:i:s'));
+            // $tgl = date_create(date('Y-m-d H:i:s'));
             foreach ($temporaryData as $isi) {
 
                 $this->db->where('bahan_id', $isi['bahan_id']);

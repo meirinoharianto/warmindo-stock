@@ -87,7 +87,14 @@
                     }
                 },
                 {
-                    'data': 'date'
+                    "data": "date",
+                    "render": function(data, type, row) {
+                        if (!data) return '';
+                        const date = new Date(data);
+                        return ('0' + date.getDate()).slice(-2) + '-' +
+                            ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                            date.getFullYear();
+                    }
                 },
                 {
                     'data': 'no_surat'
@@ -96,7 +103,14 @@
                     'data': 'kode_cabang_tujuan'
                 },
                 {
-                    'data': 'diterima_tgl'
+                    "data": "diterima_tgl",
+                    "render": function(data, type, row) {
+                        if (!data) return '';
+                        const date = new Date(data);
+                        return ('0' + date.getDate()).slice(-2) + '-' +
+                            ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                            date.getFullYear();
+                    }
                 },
                 {
                     "data": "id",
