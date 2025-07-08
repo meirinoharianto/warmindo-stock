@@ -62,7 +62,7 @@
                 <div class="form-link">
                     <span>Copyright &copy; 2023 SARESTO</span>
                     <span> <a href="https://www.salasatekno.com" class="link signup-link"><b>Salasa Teknologi Solusindo</b></a></span>
-                    <span>2.00.00</span>
+                    <span>2.00.01</span>
                 </div>
             </div>
 
