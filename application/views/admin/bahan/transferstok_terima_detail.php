@@ -55,7 +55,7 @@
                     <?php
                     if ($edit->status == 0) {
                     ?>
-                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Terima Stok</b></button>
+                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Terima Stok Cabang</b></button>
                     <?php } ?>
                     <a href="<?= base_url('bahan/transferstok_terima'); ?>" class="btn btn-danger btn-md">
                         <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
