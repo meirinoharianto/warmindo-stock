@@ -128,16 +128,23 @@
                                                 <i class="fa fa-cog mr-1"></i> pilih aksi
                                             </button>
                                         <div class="dropdown-menu" aria-labelledby="triggerId">
+<a href="${base_url}bahan/detail_transferstok/${row.id}" 
+                                                class="dropdown-item" title="Lihat Detail" role="button">
+                                                <i class="fa fa-eye mr-1"></i> Lihat Detail
+                                            </a>
 
                                             <a href="${base_url}bahan/edit_transferstok/${row.id}" 
                                                 class="dropdown-item" title="Edit Transfer Stok" role="button">
                                                 <i class="fa fa-edit mr-1"></i> Edit Transfer Stok
                                             </a>
-                                            <a href="${base_url}bahan/transferstok_delete?id=${row.id}" 
-                                                onclick="javascript:return confirm('Apakah data ini di hapus ?');" 
-                                                class="dropdown-item" title="Hapus Transfer Stok" role="button">
-                                                <i class="fa fa-times mr-1"></i> Hapus Transfer Stok
-                                            </a>
+<a href="#" 
+                        class="dropdown-item btn-delete-transferstok" 
+                        data-id="${row.id}" 
+                        title="Hapus Transfer Stok" role="button">
+                        <i class="fa fa-times mr-1"></i> Hapus Transfer Stok
+                    </a>
+
+                                            
                                         </div>
                                     </div>
                                     `;
@@ -163,6 +170,31 @@
                         }
                     }
                 });
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).on('click', '.btn-delete-transferstok', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        let url = `${base_url}bahan/transferstok_delete?id=${id}`;
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: "Data akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true, // ⬅️ Swap buttons
+            focusCancel: true // ⬅️ Focus cancel by default
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
             }
         });
     });
