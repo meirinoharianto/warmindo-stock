@@ -24,11 +24,11 @@
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                     class="form-control" id="exampleInputFile">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-md">Import</button>
+                            <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-upload"></i> Import</button>
                             <a href="<?= base_url() . 'assets/file/format_import_transferstok.xlsx'; ?>" class="btn btn-success btn-md">
                                 <i class="fa fa-download mr-1"></i> Format File Excel
                             </a>
-                            <a href="<?= base_url('bahan/tambah_transferstok'); ?>" class="btn btn-danger btn-md">Back</a>
+                            <a href="<?= base_url('bahan/tambah_transferstok'); ?>" class="btn btn-danger btn-md"><i class="fa fa-angle-double-left"></i> Kembali</a>
                         </form>
                     </div>
                 </div>

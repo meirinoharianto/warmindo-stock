@@ -1,9 +1,29 @@
 <div class="clearfix"></div>
-<?php if (!empty($this->input->post('date'))) {
+<?php
+if (!empty($temptanggal)) {
+    $tgl = date('Y-m-d', strtotime(str_replace('/', '-', $temptanggal)));
+} else if (!empty($this->input->post('date'))) {
     $tgl = $this->input->post('date');
 } else {
     $tgl = 0;
-} ?>
+}
+
+if (!empty($tempnosurat)) {
+    $nosurat = $tempnosurat;
+} else if (!empty($this->input->post('no_surat'))) {
+    $nosurat = $this->input->post('no_surat');
+} else {
+    $nosurat = '';
+}
+
+if (!empty($temptujuan)) {
+    $tujuan = $temptujuan;
+} else if (!empty($this->input->post('id_cabang'))) {
+    $tujuan = $this->input->post('id_cabang');
+} else {
+    $tujuan = '';
+}
+?>
 <div id="home">
     <div class="container mt-5">
         <div class="row">
@@ -26,10 +46,16 @@
 
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-12">
+                                <a href="<?= base_url('bahan/import_transferstok'); ?>" class="btn btn-success btn-block mb-2">
+                                    Import Transfer Stok Excel</a>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Tanggal</label>
-                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $this->input->post('date') ?>">
+                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $tgl ?>">
                                 </div>
                             </div>
                             <div class="col">
@@ -37,8 +63,13 @@
                                     <label for="">Cabang Tujuan</label>
                                     <select class="form-control" name="id_cabang" id="id_cabang">
                                         <option value="" disabled selected>- pilih -</option>
-                                        <?php foreach ($cab as $r) { ?>
+                                        <!-- <?php foreach ($cab as $r) { ?>
                                             <option value="<?= $r->id; ?>"><?= $r->nama_toko; ?></option>
+                                        <?php } ?> -->
+                                        <?php foreach ($cab as $r) {
+                                            $selected = ($r->id == $tujuan) ? "selected" : "";
+                                        ?>
+                                            <option value="<?= $r->id; ?>" <?= $selected; ?>><?= $r->nama_toko; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -48,7 +79,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="">No Surat</label>
-                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
+                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="" value="<?= $nosurat ?>">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -57,12 +88,6 @@
                                     <textarea class="form-control" name="keterangan" id="keterangan"
                                         placeholder=""></textarea>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <a href="<?= base_url('bahan/import_transferstok'); ?>" class="btn btn-success btn-block mb-2">
-                                    Import Transfer Stok Excel</a>
                             </div>
                         </div>
 

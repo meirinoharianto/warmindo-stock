@@ -403,7 +403,7 @@ class Bahan extends CI_Controller
 
         if ($this->input->method(true) == 'POST') :
             // $query = "SELECT cabang.kode_cabang, bahan.nama_bahan,bahan.satuan,bahan_stokawal.* FROM bahan_stokawal LEFT JOIN bahan ON bahan_stokawal.bahan_id = bahan.id LEFT JOIN cabang ON bahan_stokawal.cabang_id = cabang.id ";
-            $query = "SELECT cabang.kode_cabang, bahan.nama_bahan,bahan.konversi,bahan_stok.* 
+            $query = "SELECT cabang.kode_cabang,bahan.kode_bahan, bahan.nama_bahan,bahan.konversi,bahan_stok.* 
                 FROM bahan_stok
                 LEFT JOIN bahan ON bahan_stok.bahan_id = bahan.id 
                 LEFT JOIN cabang ON bahan_stok.cabang_id = cabang.id ";
@@ -864,10 +864,27 @@ class Bahan extends CI_Controller
             $login_id =  $this->session->userdata('ses_id');
             $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
         }
+        $temp_tanggal =  $this->session->userdata('ses_temp_tanggal');
+        $temp_nosurat =  $this->session->userdata('ses_temp_nosurat');
+        $temp_tujuan =  $this->session->userdata('ses_temp_tujuan');
+        $cek = $this->db->get_where("profil_toko", ["nama_toko" => $temp_tujuan]); // tulis id yang dituju
+        if ($cek->num_rows() > 0) {
+            $tujuan = $cek->row();
+            $temp_tujuan = $tujuan->cabang_id;
+            // } else {
+            //     $this->session->set_flashdata("failed", " Tidak ditemukan data transfer stok ! ");
+            //     redirect(base_url('bahan/transferstok_terima'));
+        }
+        $this->session->set_userdata('ses_temp_tanggal', '');
+        $this->session->set_userdata('ses_temp_nosurat', '');
+        $this->session->set_userdata('ses_temp_tujuan', '');
         $this->data = [
             'title_web' => 'Tambah Transfer Stok Bahan',
             // 'kode'  	=> 'P000'.$kode_cus,
             // 'kode'      => 'BN' . sprintf('%06d', intval($kode_num)),
+            'temptanggal' => $temp_tanggal,
+            'tempnosurat' => $temp_nosurat,
+            'temptujuan' => $temp_tujuan,
             'kode'      => '',
             'cab'       => $this->db->query("SELECT profil_toko.nama_toko,cabang.* FROM cabang LEFT JOIN profil_toko ON profil_toko.cabang_id = cabang.id WHERE cabang.id > 1 ORDER BY length(kode_cabang),kode_cabang ASC")->result(),
             'bahan'       => $this->db->get('bahan')->result()
@@ -1233,7 +1250,9 @@ class Bahan extends CI_Controller
 
             $login_id =  $this->session->userdata('ses_id');
             $cekdata = '';
-
+            $tanggal = $sheetData[1]['4'];
+            $nosurat = $sheetData[1]['5'];
+            $tujuan = $sheetData[1]['6'];
             // for ($i = 1; $i < count($sheetData); $i++) {
             for ($i = 1; $i < count($sheetData); $i++) {
                 // Skip if the entire row is empty
@@ -1262,7 +1281,11 @@ class Bahan extends CI_Controller
                         'kode_bahan'     => htmlspecialchars($kode_bahan, ENT_QUOTES),
                         'nama_bahan'     => htmlspecialchars($cari->nama_bahan, ENT_QUOTES),
                     ];
+                    $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
                     $this->db->insert("transferstok_bahan_temp", $data);
+                    $this->session->set_userdata('ses_temp_tanggal', $tanggal);
+                    $this->session->set_userdata('ses_temp_nosurat', $nosurat);
+                    $this->session->set_userdata('ses_temp_tujuan', $tujuan);
                     // $cekdata = $cekdata . $data['login_id'] . "," . $data['bahan_id'] . "," . $data['qty'] . "," . $data['kode_bahan'] . "," . $data['nama_bahan'] . ";";
                 } else {
                     // $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan. " . count($sheetData) . " First : '" . str_replace(' ', '', $old_str) . "' Query : " . $this->db->last_query());

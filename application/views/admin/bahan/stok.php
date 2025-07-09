@@ -79,6 +79,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Cabang</th>
+                                <th>Kode Bahan</th>
                                 <th>Nama Bahan</th>
                                 <th>Stok</th>
                                 <!-- <th>Aksi</th> -->
@@ -123,6 +124,9 @@
                 },
                 {
                     'data': 'kode_cabang'
+                },
+                {
+                    'data': 'kode_bahan'
                 },
                 {
                     'data': 'nama_bahan'
