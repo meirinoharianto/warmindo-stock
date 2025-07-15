@@ -1253,6 +1253,8 @@ class Bahan extends CI_Controller
             $tanggal = $sheetData[1]['4'];
             $nosurat = $sheetData[1]['5'];
             $tujuan = $sheetData[1]['6'];
+            $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+
             // for ($i = 1; $i < count($sheetData); $i++) {
             for ($i = 1; $i < count($sheetData); $i++) {
                 // Skip if the entire row is empty
@@ -1281,7 +1283,7 @@ class Bahan extends CI_Controller
                         'kode_bahan'     => htmlspecialchars($kode_bahan, ENT_QUOTES),
                         'nama_bahan'     => htmlspecialchars($cari->nama_bahan, ENT_QUOTES),
                     ];
-
+                    $this->db->insert("transferstok_bahan_temp", $data);
                     // $cekdata = $cekdata . $data['login_id'] . "," . $data['bahan_id'] . "," . $data['qty'] . "," . $data['kode_bahan'] . "," . $data['nama_bahan'] . ";";
                 } else {
                     // $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan. " . count($sheetData) . " First : '" . str_replace(' ', '', $old_str) . "' Query : " . $this->db->last_query());
@@ -1290,8 +1292,7 @@ class Bahan extends CI_Controller
                 }
             }
 
-            $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
-            $this->db->insert("transferstok_bahan_temp", $data);
+
             $this->session->set_userdata('ses_temp_tanggal', $tanggal);
             $this->session->set_userdata('ses_temp_nosurat', $nosurat);
             $this->session->set_userdata('ses_temp_tujuan', $tujuan);
