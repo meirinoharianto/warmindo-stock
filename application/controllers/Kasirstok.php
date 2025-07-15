@@ -605,6 +605,7 @@ class Kasirstok extends CI_Controller
             // if ($stok >= $qty) {
             $this->db->set('qty', $qty);
             $this->db->where('id_menu', $menu->id);
+            $this->db->where('harga_jual', $hargajual);
             $this->db->where('login_id', $this->session->userdata('ses_id'));
             $this->db->update('keranjang', $item);
             // echo json_encode(['status' => 'sukses']);
