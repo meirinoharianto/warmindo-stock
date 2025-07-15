@@ -1281,11 +1281,7 @@ class Bahan extends CI_Controller
                         'kode_bahan'     => htmlspecialchars($kode_bahan, ENT_QUOTES),
                         'nama_bahan'     => htmlspecialchars($cari->nama_bahan, ENT_QUOTES),
                     ];
-                    $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
-                    $this->db->insert("transferstok_bahan_temp", $data);
-                    $this->session->set_userdata('ses_temp_tanggal', $tanggal);
-                    $this->session->set_userdata('ses_temp_nosurat', $nosurat);
-                    $this->session->set_userdata('ses_temp_tujuan', $tujuan);
+
                     // $cekdata = $cekdata . $data['login_id'] . "," . $data['bahan_id'] . "," . $data['qty'] . "," . $data['kode_bahan'] . "," . $data['nama_bahan'] . ";";
                 } else {
                     // $this->session->set_flashdata("failed", " Gagal Ambil Data !  Kode Bahan " . $kode_bahan . " tidak ditemukan. " . count($sheetData) . " First : '" . str_replace(' ', '', $old_str) . "' Query : " . $this->db->last_query());
@@ -1293,6 +1289,12 @@ class Bahan extends CI_Controller
                     redirect(base_url("bahan/tambah_transferstok"));
                 }
             }
+
+            $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+            $this->db->insert("transferstok_bahan_temp", $data);
+            $this->session->set_userdata('ses_temp_tanggal', $tanggal);
+            $this->session->set_userdata('ses_temp_nosurat', $nosurat);
+            $this->session->set_userdata('ses_temp_tujuan', $tujuan);
 
             $this->session->set_flashdata("success", " Berhasil Import Data !");
             redirect(base_url("bahan/tambah_transferstok/import"));
