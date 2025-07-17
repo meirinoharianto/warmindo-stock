@@ -719,7 +719,7 @@ class Bahan extends CI_Controller
             LEFT JOIN cabang AS cabang_tujuan 
                 ON transferstok.cabangtujuan_id = cabang_tujuan.id ";
 
-            $search = array('cabang_tujuan.kode_cabang');
+            $search = array('cabang_tujuan.kode_cabang', 'transferstok.no_surat');
             if ((int)$this->input->get('id')) {
                 // $where  = array('cabang_id' => $cabang_id, 'id_kategori' => (int)$this->input->get('id'));
             } else {
