@@ -407,7 +407,7 @@ class Bahan extends CI_Controller
                 FROM bahan_stok
                 LEFT JOIN bahan ON bahan_stok.bahan_id = bahan.id 
                 LEFT JOIN cabang ON bahan_stok.cabang_id = cabang.id ";
-            $search = array('nama_bahan', 'cabang.kode_cabang');
+            $search = array('nama_bahan', 'kode_bahan', 'cabang.kode_cabang');
             if ((int)$this->input->get('id')) {
                 $cabang_id = $this->input->get('id');
 
