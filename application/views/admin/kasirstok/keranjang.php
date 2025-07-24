@@ -104,9 +104,9 @@
                             <div class="text-sm text-secondary">(<?= $item['kategori']; ?>)</div>
 
                             <div>
-                                <a href="javascript:void(0)" data-minus="<?= $item['id_menu']; ?>" class="badge badge-dark p-2 minus"> - </a>
-                                <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" value="<?= $item['qty']; ?>">
-                                <a href="javascript:void(0)" data-plus="<?= $item['id_menu']; ?>" class="badge badge-dark p-2 plus"> + </a>
+                                <a href="javascript:void(0)" data-minus="<?= $item['id']; ?>" class="badge badge-dark p-2 minus"> - </a>
+                                <input type="number" class="kr_sub" min="1" data-sub="<?= $item['id_menu']; ?>" data-id="<?= $item['id']; ?>" value="<?= $item['qty']; ?>">
+                                <a href="javascript:void(0)" data-plus="<?= $item['id']; ?>" class="badge badge-dark p-2 plus"> + </a>
                             </div>
                         </td>
                         <!-- <td> -->
@@ -118,7 +118,7 @@
                         <!-- </td> -->
                         <td>Rp<?= number_format($item['harga_jual'] * $item['qty']); ?>,-</td>
                         <td>
-                            <a href="javascript:void(0)" data-id="<?= $item['id_menu']; ?>" data-hrgjual="<?= $item['harga_jual']; ?>" class="badge badge-danger del_cart">
+                            <a href="javascript:void(0)" data-id="<?= $item['id']; ?>" class="badge badge-danger del_cart">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>
@@ -148,13 +148,11 @@
     $(document).ready(function() {
         $('.del_cart').on('click', function(e) {
             var id = $(this).attr('data-id');
-            var hrgjual = $(this).attr('data-hrgjual');
             $.ajax({
                 url: "<?= base_url('kasirstok/del_cart'); ?>",
                 type: "POST",
                 data: {
-                    "id_menu": id,
-                    "hrgjual": hrgjual
+                    "id": id
                 },
                 timeout: 6000,
                 success: function(html) {
@@ -174,8 +172,8 @@
 
     $('.minus').on('click', function(e) {
         var id = $(this).attr('data-minus');
-        var matchingInput = $('.kr_sub[data-sub="' + id + '"]');
-        // var qt = $('.kr_sub').val() - 1;
+
+        var matchingInput = $('.kr_sub[data-id="' + id + '"]');
         var qt = matchingInput.val() - 1;
         var url_upd = '<?= base_url('kasirstok/update_cart?id='); ?>' + id;
         $.ajax({
@@ -208,7 +206,7 @@
     });
 
     $('.kr_sub').on('change', function(e) {
-        var id = $(this).attr('data-sub');
+        var id = $(this).attr('data-id');
         var qt1 = $(this).val();
         console.log(qt1);
         var url_keyup = '<?= base_url('kasirstok/update_cart?id='); ?>' + id;

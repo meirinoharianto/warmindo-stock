@@ -635,22 +635,10 @@ class Kasirstok extends CI_Controller
     public function update_cart()
     {
         $id = (int)$this->input->get('id');
-        $menu = $this->db->query('SELECT kategori.kategori, menu_utama.* FROM menu_utama LEFT JOIN kategori ON menu_utama.id_kategori = kategori.id 
-            WHERE menu_utama.id="' . (int)$this->input->get('id') . '"')->row();
-        $keranjang = $this->db->get_where('keranjang', ['id_menu' => $menu->id, 'login_id' => $this->session->userdata('ses_id')])->row();
-        // $stok = $menu->stok - $menu->stok_minim;
-        // if ($stok >= (int)$this->input->post('qt')) {
+        $keranjang = $this->db->get_where('keranjang', ['id' => $id, 'login_id' => $this->session->userdata('ses_id')])->row();
+
         if (isset($keranjang)) {
-            $item = [
-                'id_menu' => $menu->id,
-                'kode_menu' => $menu->kode_menu,
-                'kategori' => $menu->kategori,
-                'nama' => $menu->nama,
-                'gambar' => $menu->gambar,
-                'keterangan' =>  $keranjang->keterangan,
-                'harga_beli'  => $menu->harga_pokok,
-                'harga_jual'  => $menu->harga_jual,
-            ];
+            $item = [];
             if ($this->input->post('type') == 'minus') {
                 if ((int)$this->input->post('qt') > 0) {
                     $this->db->set('qty', $keranjang->qty - 1);
@@ -671,31 +659,13 @@ class Kasirstok extends CI_Controller
                 }
             } else {
                 $qty = $keranjang->qty + 1;
-                // if ($stok >= $qty) {
-                $this->db->set('qty', $keranjang->qty + 1);
-                // } else {
-                //     echo '<script>
-                //             Swal.fire({
-                //                 icon: "error",
-                //                 title: "Gagal !",
-                //                 text: "Stok Product telah mencapai batas minim qty .",
-                //             })</script>';
-                //     exit;
-                // }
+                $this->db->set('qty', $qty);
             }
         }
 
-        $this->db->where('id_menu', $menu->id);
+        $this->db->where('id', $id);
         $this->db->where('login_id', $this->session->userdata('ses_id'));
         $this->db->update('keranjang', $item);
-        // } else {
-        //     echo '<script>
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Gagal !",
-        //         text: "Stok Product telah mencapai batas minim qty .",
-        //     })</script>';
-        // }
     }
 
     public function update_cart_stok()
@@ -786,10 +756,8 @@ class Kasirstok extends CI_Controller
 
     public function del_cart()
     {
-        $id = $this->input->post('id_menu');
-        $hrgjual = $this->input->post('hrgjual');
-        $this->db->where('id_menu', $id);
-        $this->db->where('harga_jual', $hrgjual);
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
         $this->db->where('login_id', $this->session->userdata('ses_id'));
         $this->db->delete('keranjang');
         // redirect('jual/tambah');
