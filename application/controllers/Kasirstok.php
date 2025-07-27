@@ -24,7 +24,7 @@ class Kasirstok extends CI_Controller
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kode_cabang = $this->session->userdata('ses_kode_cabang');
 
-
+        $this->reset_harga_cart();
 
         $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
         $atas_nama = $this->session->userdata('ses_atas_nama');
@@ -77,6 +77,7 @@ class Kasirstok extends CI_Controller
             'pp'        => $this->db->get_where('profil_toko', ['cabang_id' => $cabang_id])->row(),
             'halperpage' => 12
         ];
+
 
         $this->load->view('layout/headerkasir', $this->data);
         $this->load->view('admin/kasirstok/index', $this->data);
@@ -148,7 +149,7 @@ class Kasirstok extends CI_Controller
 
         if (in_array(
             htmlspecialchars($this->input->post("status", true), ENT_QUOTES),
-            ['Cash', 'QRIS', 'Online']
+            ['Cash', 'QRIS', 'Go Food', 'Grab Food', 'Shopee Food']
         )) {
             if ($dibayar == 0) {
                 // echo 'Kurang';
@@ -158,7 +159,7 @@ class Kasirstok extends CI_Controller
             } else {
                 if ($dibayar < $grandtotal) {
                     // echo 'Kurang';
-                    $output = array('key1' => 'error', 'key2' => 'Kurang', 'key3' => '');
+                    $output = array('key1' => 'error', 'key2' => 'Kurang', 'key3' => $grandtotal);
                     echo json_encode($output);
                     exit;
                 }
@@ -482,6 +483,7 @@ class Kasirstok extends CI_Controller
 
     public function add_cart()
     {
+        $this->reset_harga_cart();
         $cabang_id = $this->session->userdata('ses_cabang_id');
 
         // $closing = $this->db->query('select * from closing where status = "OPEN"')->row();
@@ -761,5 +763,91 @@ class Kasirstok extends CI_Controller
         $this->db->where('login_id', $this->session->userdata('ses_id'));
         $this->db->delete('keranjang');
         // redirect('jual/tambah');
+    }
+
+    public function update_online_cart()
+    {
+        $tipe = $this->input->post('tipe');
+        // $keranjang = $this->db->get_where('keranjang', ['id' => $id, 'login_id' => $this->session->userdata('ses_id')])->row();
+        $keranjang = $this->db->get_where('keranjang', [
+            'login_id' => $this->session->userdata('ses_id')
+        ])->result();
+
+        if (isset($keranjang)) {
+            foreach ($keranjang as $item) {
+                $hargaonline = 0;
+                // Ambil harga dari tabel harga_online berdasarkan barang_id
+                if ($tipe == 'Go Food') {
+                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                    $hargaonline = $menuonline->harga_gofood;
+                    if ($item->kategori == 'Minuman') {
+                        if ($item->keterangan == 'Sedang') {
+                            $hargaonline = $hargaonline + $menuonline->add_gofood_sedang;
+                        } else if ($item->keterangan == 'Jumbo') {
+                            $hargaonline = $hargaonline + $menuonline->add_gofood_jumbo;
+                        }
+                    }
+                } else if ($tipe == 'Grab Food') {
+                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                    $hargaonline = $menuonline->harga_grab;
+                    if ($item->kategori == 'Minuman') {
+                        if ($item->keterangan == 'Sedang') {
+                            $hargaonline = $hargaonline + $menuonline->add_grab_sedang;
+                        } else if ($item->keterangan == 'Jumbo') {
+                            $hargaonline = $hargaonline + $menuonline->add_grab_jumbo;
+                        }
+                    }
+                } else if ($tipe == 'Shopee Food') {
+                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                    $hargaonline = $menuonline->harga_shopee;
+                    if ($item->kategori == 'Minuman') {
+                        if ($item->keterangan == 'Sedang') {
+                            $hargaonline = $hargaonline + $menuonline->add_shopee_sedang;
+                        } else if ($item->keterangan == 'Jumbo') {
+                            $hargaonline = $hargaonline + $menuonline->add_shopee_jumbo;
+                        }
+                    }
+                }
+
+                if ($menuonline) {
+                    // Update harga_jual di keranjang
+                    $this->db->where('id', $item->id);
+                    $this->db->update('keranjang', ['harga_jual' => $hargaonline]);
+                }
+            }
+        }
+
+        // $this->db->where('id', $id);
+        // $this->db->where('login_id', $this->session->userdata('ses_id'));
+        // $this->db->update('keranjang', $item);
+    }
+
+    public function reset_harga_cart()
+    {
+        $keranjang = $this->db->get_where('keranjang', [
+            'login_id' => $this->session->userdata('ses_id')
+        ])->result();
+
+        if (isset($keranjang)) {
+            foreach ($keranjang as $item) {
+                $harga = 0;
+
+                $menuutama = $this->db->get_where('menu_utama', ['id' => $item->id_menu])->row();
+                $harga = $menuutama->harga_jual;
+                if ($item->kategori == 'Minuman') {
+                    if ($item->keterangan == 'Sedang') {
+                        $harga = $menuutama->harga_sedang;
+                    } else if ($item->keterangan == 'Jumbo') {
+                        $harga = $menuutama->harga_jumbo;
+                    }
+                }
+
+                if ($menuutama) {
+                    // Update harga_jual di keranjang
+                    $this->db->where('id', $item->id);
+                    $this->db->update('keranjang', ['harga_jual' => $harga]);
+                }
+            }
+        }
     }
 }

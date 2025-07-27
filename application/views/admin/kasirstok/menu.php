@@ -129,6 +129,7 @@
                         html: 'Menu telah ditambahkan ke keranjang !' + data.teks,
 
                     })
+                    $("#status").val('');
                 }
                 // alert("Berhasil tambah keranjang !");
                 $('#modalAddOn').modal('hide');

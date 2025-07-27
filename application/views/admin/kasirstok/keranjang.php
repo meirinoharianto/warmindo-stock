@@ -141,9 +141,17 @@
         totAll = tot;
     }
 
+
     $("#total").val(totAll);
     $("#totalBayar").val(totAll);
     $("#GrandTotal").val(totAll);
+
+    var stat = $("#status").val();
+    if (stat == 'Cash') {
+        $("#rupiah1").val(0);
+    } else {
+        $("#rupiah1").val(totAll);
+    }
 
     $(document).ready(function() {
         $('.del_cart').on('click', function(e) {

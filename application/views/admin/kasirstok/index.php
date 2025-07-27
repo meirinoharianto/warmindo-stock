@@ -197,7 +197,9 @@
                                                 <!-- <option>Debit BCA</option>
                                                 <option>Debit BNI</option>
                                                 <option>Debit Mandiri</option> -->
-                                                <option>Online</option>
+                                                <option>Go Food</option>
+                                                <option>Grab Food</option>
+                                                <option>Shopee Food</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -415,24 +417,198 @@
 
     $('.dibayaraja').hide();
     $(document).ready(function() {
+
         $('#status').change(function() {
             var cek = $(this).val();
             if (cek == 'Cash') {
+                $.ajax({
+                    url: "<?= base_url('kasirstok/reset_harga_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
+
                 $('.dibayaraja').show();
-                $("#rupiah1").val(0);
+                // $("#rupiah1").val(0);
             } else if (cek == 'QRIS') {
+                $.ajax({
+                    url: "<?= base_url('kasirstok/reset_harga_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
+
                 $('.dibayaraja').hide();
-                var totTotG = $("#GrandTotal").val();
-                $("#rupiah1").val(totTotG);
-            } else if (cek == 'Online') {
+                // var totTotG = $("#GrandTotal").val();
+                // $("#rupiah1").val(totTotG);
+                // } else if (cek == 'Online') {
+                //     $('.dibayaraja').hide();
+                //     var totTotG = $("#GrandTotal").val();
+                //     $("#rupiah1").val(totTotG);
+                // } else if (cek == 'Debit Mandiri') {
+                //     $('.dibayaraja').show();
+                // } else if (cek == 'Debit BNI') {
+                //     $('.dibayaraja').show();
+            } else if (cek == 'Go Food') {
+                // var id = $(this).attr('data-id');
+                var tipe = 'Go Food';
+
+                $('#prosesTransaksi').attr('disabled', true);
+                $('#prosesTransaksi').addClass('btn-success').removeClass('btn-primary');
+                $("#prosesTransaksi").html(
+                    '<i class="fas fa-circle-notch fa-spin"></i> Loading');
+
+                $.ajax({
+                    url: "<?= base_url('kasirstok/update_online_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
+
+                $('#prosesTransaksi').attr('disabled', false);
+                $('#prosesTransaksi').addClass('btn-primary').removeClass(
+                    'btn-success');
+                $("#prosesTransaksi").html(
+                    '<i class="fa fa-save"></i> Simpan Transaksi');
+
                 $('.dibayaraja').hide();
-                var totTotG = $("#GrandTotal").val();
-                $("#rupiah1").val(totTotG);
-            } else if (cek == 'Debit Mandiri') {
-                $('.dibayaraja').show();
-            } else if (cek == 'Debit BNI') {
-                $('.dibayaraja').show();
+                // var totTotG = $("#GrandTotal").val();
+                // $("#rupiah1").val(totTotG);
+            } else if (cek == 'Grab Food') {
+                // var id = $(this).attr('data-id');
+                var tipe = 'Grab Food';
+
+                $('#prosesTransaksi').attr('disabled', true);
+                $('#prosesTransaksi').addClass('btn-success').removeClass('btn-primary');
+                $("#prosesTransaksi").html(
+                    '<i class="fas fa-circle-notch fa-spin"></i> Loading');
+
+                $.ajax({
+                    url: "<?= base_url('kasirstok/update_online_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
+
+                $('#prosesTransaksi').attr('disabled', false);
+                $('#prosesTransaksi').addClass('btn-primary').removeClass(
+                    'btn-success');
+                $("#prosesTransaksi").html(
+                    '<i class="fa fa-save"></i> Simpan Transaksi');
+
+                $('.dibayaraja').hide();
+                // var totTotG = $("#GrandTotal").val();
+                // $("#rupiah1").val(totTotG);
+            } else if (cek == 'Shopee Food') {
+                // var id = $(this).attr('data-id');
+                var tipe = 'Shopee Food';
+
+                $('#prosesTransaksi').attr('disabled', true);
+                $('#prosesTransaksi').addClass('btn-success').removeClass('btn-primary');
+                $("#prosesTransaksi").html(
+                    '<i class="fas fa-circle-notch fa-spin"></i> Loading');
+
+                $.ajax({
+                    url: "<?= base_url('kasirstok/update_online_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
+
+                $('#prosesTransaksi').attr('disabled', false);
+                $('#prosesTransaksi').addClass('btn-primary').removeClass(
+                    'btn-success');
+                $("#prosesTransaksi").html(
+                    '<i class="fa fa-save"></i> Simpan Transaksi');
+
+                $('.dibayaraja').hide();
+                // var totTotG = $("#GrandTotal").val();
+                // $("#rupiah1").val(totTotG);
             } else {
+                $.ajax({
+                    url: "<?= base_url('kasirstok/reset_harga_cart'); ?>",
+                    type: "POST",
+                    data: {
+                        "tipe": tipe
+                    },
+                    timeout: 6000,
+                    success: function(html) {
+                        $('#cart_keranjang').load('<?= base_url('kasirstok/cart'); ?>');
+                        $('#cart_modal').load('<?= base_url('kasirstok/cart_table'); ?>');
+                    },
+                    'error': function(xmlhttprequest, textstatus, message) {
+                        if (textstatus === "timeout") {
+                            alert("request timeout");
+                        } else {
+                            alert("request timeout");
+                        }
+                    }
+                });
                 $('.dibayaraja').hide();
                 $('#rupiah1').val('0');
             }
@@ -568,7 +744,7 @@ if ($pp->pajak == 0) { ?>
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Pembayaran Anda Kurang Dari Total Bayar !',
+                            text: 'Pembayaran Anda Kurang Dari Total Bayar !' + art3,
                         })
                         // alert('Pembayaran Anda Kurang Dari Total Bayar !');
                         $('#prosesTransaksi').attr('disabled', false);
