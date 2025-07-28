@@ -87,7 +87,9 @@ class Closing extends CI_Controller
                         $tot_cash += $isi['grandtotal'];
                     } else if ($isi['status'] == 'QRIS') {
                         $tot_qris += $isi['grandtotal'];
-                    } else if ($isi['status'] == 'Online') {
+                        // } else if ($isi['status'] == 'Online') {
+                        //     $tot_online += $isi['grandtotal'];
+                    } else {
                         $tot_online += $isi['grandtotal'];
                     }
                 }
@@ -181,7 +183,9 @@ class Closing extends CI_Controller
                         $tot_cash += $isi['grandtotal'];
                     } else if ($isi['status'] == 'QRIS') {
                         $tot_qris += $isi['grandtotal'];
-                    } else if ($isi['status'] == 'Online') {
+                        // } else if ($isi['status'] == 'Online') {
+                        //     $tot_online += $isi['grandtotal'];
+                    } else {
                         $tot_online += $isi['grandtotal'];
                     }
                 }
