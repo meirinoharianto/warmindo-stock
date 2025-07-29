@@ -23,10 +23,12 @@ class Kasirstok extends CI_Controller
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kode_cabang = $this->session->userdata('ses_kode_cabang');
+        $suffix = $this->session->userdata('ses_suffix');
 
         $this->reset_harga_cart();
 
-        $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
+        // $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
+        $last_trans = $this->db->query("SELECT * FROM transaksi" . $suffix . " WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
         $atas_nama = $this->session->userdata('ses_atas_nama');
 
         if ($last_trans->num_rows() > 0) {
@@ -50,7 +52,7 @@ class Kasirstok extends CI_Controller
             date_sub($tgl, date_interval_create_from_date_string("1 days"));
         }
         $tanggal = date_format($tgl, 'Y-m-d');
-        $shift = $this->db->query("SELECT transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id,shift.nama AS 'namaShift',concat(transaksi.date, transaksi.shift_id) AS 'tes' FROM transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND concat(transaksi.date, transaksi.shift_id) <> '" . $tanggal . $shift_now . "' AND transaksi.cabang_id=" . $cabang_id . " GROUP BY transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id ORDER BY transaksi.date ");
+        $shift = $this->db->query("SELECT transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id,shift.nama AS 'namaShift',concat(transaksi.date, transaksi.shift_id) AS 'tes' FROM transaksi" . $suffix . " as transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND concat(transaksi.date, transaksi.shift_id) <> '" . $tanggal . $shift_now . "' AND transaksi.cabang_id=" . $cabang_id . " GROUP BY transaksi.shift_id,transaksi.date,transaksi.closing_id,transaksi.cabang_id ORDER BY transaksi.date ");
 
         if ($shift === false) {
             // Handle query error
@@ -70,14 +72,13 @@ class Kasirstok extends CI_Controller
         // END
 
         $this->data = [
-            'title_web' => 'Kasir Stok',
+            'title_web' => 'Kasir',
             'kat'       => $this->db->get('kategori')->result(),
             'no_bon'    => $kode_cabang . "/" . date('ym') . "/" . sprintf("%05s",  $no_bon_next),
             'atas_nama'    => $atas_nama,
             'pp'        => $this->db->get_where('profil_toko', ['cabang_id' => $cabang_id])->row(),
             'halperpage' => 12
         ];
-
 
         $this->load->view('layout/headerkasir', $this->data);
         $this->load->view('admin/kasirstok/index', $this->data);
@@ -122,6 +123,7 @@ class Kasirstok extends CI_Controller
         $kembali    = $this->input->post('kembaliBayar');
         $dibayar    = $this->input->post('dibayar');
         $cabang_id = $this->session->userdata('ses_cabang_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         if (!empty($grandtotal)) {
             $grandtotal = preg_replace('/[^a-zA-Z0-9\']/', '', $grandtotal);
@@ -246,7 +248,7 @@ class Kasirstok extends CI_Controller
 
         $total_array = count($data_jual);
         if ($total_array != 0) {
-            $this->db->insert_batch('transaksi_produk', $data_jual);
+            $this->db->insert_batch('transaksi_produk' . $suffix, $data_jual);
         } else {
             exit;
         }
@@ -273,7 +275,7 @@ class Kasirstok extends CI_Controller
             'shift_id' => $shift_now,
             'cabang_id' => $cabang_id,
         );
-        $this->db->insert('transaksi', $data_trx);
+        $this->db->insert('transaksi' . $suffix, $data_trx);
         $hasil_transaksi_id = $this->db->insert_id();
 
         // $hasil_transaksi = $this->db->get_where('transaksi', ['no_bon' => $no_bon])->result_array();
@@ -398,7 +400,7 @@ class Kasirstok extends CI_Controller
         // if ($total_kartustok != 0) {
 
         if (!empty($data_kartustok)) {
-            $this->db->insert_batch('bahan_kartustok', $data_kartustok);
+            $this->db->insert_batch('bahan_kartustok' . $suffix, $data_kartustok);
         }
 
         $this->db->where('login_id', $this->session->userdata('ses_id'));
@@ -417,14 +419,15 @@ class Kasirstok extends CI_Controller
     public function show()
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         $no_bon = $this->input->get('id');
         $t  = $this->db->query("SELECT customer.nama, customer.hp, transaksi.* FROM 
-                transaksi LEFT JOIN customer ON
+                transaksi" . $suffix . " AS transaksi LEFT JOIN customer ON
                 transaksi.customer_id=customer.id 
                 WHERE transaksi.no_bon = ?", [$no_bon])->row();
 
-        $tp = $this->db->get_where("transaksi_produk", ['no_bon' => $no_bon])->result();
+        $tp = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $no_bon])->result();
         $this->data = [
             't'  => $t,
             'tp' => $tp,
@@ -438,13 +441,14 @@ class Kasirstok extends CI_Controller
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $no_bon = $this->input->get('id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         $t  = $this->db->query("SELECT customer.nama, transaksi.* FROM 
-        transaksi LEFT JOIN customer ON
+        transaksi" . $suffix . " AS transaksi LEFT JOIN customer ON
         transaksi.customer_id=customer.id 
         WHERE transaksi.no_bon = ?", [$no_bon])->row();
 
-        $tp = $this->db->get_where("transaksi_produk", ['no_bon' => $no_bon])->result();
+        $tp = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $no_bon])->result();
 
         $this->data = [
             't'  => $t,
@@ -456,6 +460,7 @@ class Kasirstok extends CI_Controller
     public function print()
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         $id = $this->input->post('id');
         $os = $this->input->post('os');
@@ -465,11 +470,11 @@ class Kasirstok extends CI_Controller
 
         $no_bon = $this->input->get('id');
         $t  = $this->db->query("SELECT customer.nama, transaksi.* FROM 
-                transaksi LEFT JOIN customer ON
+                transaksi" . $suffix . " AS transaksi LEFT JOIN customer ON
                 transaksi.customer_id=customer.id 
                 WHERE transaksi.no_bon = ?", [$no_bon])->row();
 
-        $tp = $this->db->get_where("transaksi_produk", ['no_bon' => $no_bon])->result();
+        $tp = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $no_bon])->result();
         $this->data = [
             't'  => $t,
             'tp' => $tp,
@@ -491,6 +496,7 @@ class Kasirstok extends CI_Controller
         //     echo json_encode(['status' => 'gagal_open']);
         //     exit;
         // }
+
         $id = (int)$this->input->post('id');
         $addon = (int)$this->input->post('addon');
         $atasnama = $this->input->post('atas_nama');
@@ -775,44 +781,46 @@ class Kasirstok extends CI_Controller
 
         if (isset($keranjang)) {
             foreach ($keranjang as $item) {
-                $hargaonline = 0;
-                // Ambil harga dari tabel harga_online berdasarkan barang_id
-                if ($tipe == 'Go Food') {
-                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
-                    $hargaonline = $menuonline->harga_gofood;
-                    if ($item->kategori == 'Minuman') {
-                        if ($item->keterangan == 'Sedang') {
-                            $hargaonline = $hargaonline + $menuonline->add_gofood_sedang;
-                        } else if ($item->keterangan == 'Jumbo') {
-                            $hargaonline = $hargaonline + $menuonline->add_gofood_jumbo;
+                if ($item->keterangan != 'Non') {
+                    $hargaonline = 0;
+                    // Ambil harga dari tabel harga_online berdasarkan barang_id
+                    if ($tipe == 'Go Food') {
+                        $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                        $hargaonline = $menuonline->harga_gofood;
+                        if ($item->kategori == 'Minuman') {
+                            if ($item->keterangan == 'Sedang') {
+                                $hargaonline = $hargaonline + $menuonline->add_gofood_sedang;
+                            } else if ($item->keterangan == 'Jumbo') {
+                                $hargaonline = $hargaonline + $menuonline->add_gofood_jumbo;
+                            }
+                        }
+                    } else if ($tipe == 'Grab Food') {
+                        $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                        $hargaonline = $menuonline->harga_grab;
+                        if ($item->kategori == 'Minuman') {
+                            if ($item->keterangan == 'Sedang') {
+                                $hargaonline = $hargaonline + $menuonline->add_grab_sedang;
+                            } else if ($item->keterangan == 'Jumbo') {
+                                $hargaonline = $hargaonline + $menuonline->add_grab_jumbo;
+                            }
+                        }
+                    } else if ($tipe == 'Shopee Food') {
+                        $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
+                        $hargaonline = $menuonline->harga_shopee;
+                        if ($item->kategori == 'Minuman') {
+                            if ($item->keterangan == 'Sedang') {
+                                $hargaonline = $hargaonline + $menuonline->add_shopee_sedang;
+                            } else if ($item->keterangan == 'Jumbo') {
+                                $hargaonline = $hargaonline + $menuonline->add_shopee_jumbo;
+                            }
                         }
                     }
-                } else if ($tipe == 'Grab Food') {
-                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
-                    $hargaonline = $menuonline->harga_grab;
-                    if ($item->kategori == 'Minuman') {
-                        if ($item->keterangan == 'Sedang') {
-                            $hargaonline = $hargaonline + $menuonline->add_grab_sedang;
-                        } else if ($item->keterangan == 'Jumbo') {
-                            $hargaonline = $hargaonline + $menuonline->add_grab_jumbo;
-                        }
-                    }
-                } else if ($tipe == 'Shopee Food') {
-                    $menuonline = $this->db->get_where('menu_utama_online', ['id' => $item->id_menu])->row();
-                    $hargaonline = $menuonline->harga_shopee;
-                    if ($item->kategori == 'Minuman') {
-                        if ($item->keterangan == 'Sedang') {
-                            $hargaonline = $hargaonline + $menuonline->add_shopee_sedang;
-                        } else if ($item->keterangan == 'Jumbo') {
-                            $hargaonline = $hargaonline + $menuonline->add_shopee_jumbo;
-                        }
-                    }
-                }
 
-                if ($menuonline) {
-                    // Update harga_jual di keranjang
-                    $this->db->where('id', $item->id);
-                    $this->db->update('keranjang', ['harga_jual' => $hargaonline]);
+                    if ($menuonline) {
+                        // Update harga_jual di keranjang
+                        $this->db->where('id', $item->id);
+                        $this->db->update('keranjang', ['harga_jual' => $hargaonline]);
+                    }
                 }
             }
         }
@@ -830,22 +838,24 @@ class Kasirstok extends CI_Controller
 
         if (isset($keranjang)) {
             foreach ($keranjang as $item) {
-                $harga = 0;
+                if ($item->keterangan != 'Non') {
+                    $harga = 0;
 
-                $menuutama = $this->db->get_where('menu_utama', ['id' => $item->id_menu])->row();
-                $harga = $menuutama->harga_jual;
-                if ($item->kategori == 'Minuman') {
-                    if ($item->keterangan == 'Sedang') {
-                        $harga = $menuutama->harga_sedang;
-                    } else if ($item->keterangan == 'Jumbo') {
-                        $harga = $menuutama->harga_jumbo;
+                    $menuutama = $this->db->get_where('menu_utama', ['id' => $item->id_menu])->row();
+                    $harga = $menuutama->harga_jual;
+                    if ($item->kategori == 'Minuman') {
+                        if ($item->keterangan == 'Sedang') {
+                            $harga = $menuutama->harga_sedang;
+                        } else if ($item->keterangan == 'Jumbo') {
+                            $harga = $menuutama->harga_jumbo;
+                        }
                     }
-                }
 
-                if ($menuutama) {
-                    // Update harga_jual di keranjang
-                    $this->db->where('id', $item->id);
-                    $this->db->update('keranjang', ['harga_jual' => $harga]);
+                    if ($menuutama) {
+                        // Update harga_jual di keranjang
+                        $this->db->where('id', $item->id);
+                        $this->db->update('keranjang', ['harga_jual' => $harga]);
+                    }
                 }
             }
         }
