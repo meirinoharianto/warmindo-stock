@@ -24,6 +24,8 @@ class Laporan extends CI_Controller
         $level = $this->session->userdata('ses_level');
         $kasir_id = $this->session->userdata('ses_id');
         $iswhere = '';
+        $suffix = $this->session->userdata('ses_suffix');
+
 
         if (in_array($level, array('Admin', 'AdminKasir'))) {
             // $this->session->set_flashdata('failed', '<strong>' . $level . '</strong> Tes');
@@ -87,7 +89,7 @@ class Laporan extends CI_Controller
             }
         }
         // echo 'SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $iswhere;
-        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi ' . $iswhere)->row();
+        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $suffix . ' AS transaksi ' . $iswhere)->row();
         $this->data = [
             'title_web' => 'Laporan',
             // 'title_web' =>  $iswhere,
@@ -103,8 +105,10 @@ class Laporan extends CI_Controller
 
     public function data_order()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         if ($this->input->method(true) == 'POST') :
-            $query = "SELECT customer.nama, login.nama_user, profil_toko.nama_toko, transaksi.* FROM transaksi 
+            $query = "SELECT customer.nama, login.nama_user, profil_toko.nama_toko, transaksi.* FROM transaksi" . $suffix . " AS transaksi 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
                 LEFT JOIN profil_toko ON transaksi.cabang_id = profil_toko.cabang_id 
                 LEFT JOIN login ON transaksi.kasir_id=login.id";
@@ -170,7 +174,9 @@ class Laporan extends CI_Controller
 
     public function excel()
     {
-        $query = "SELECT customer.nama, login.nama_user, (SELECT nama FROM shift WHERE closing.shift_id = shift.id) AS 'nama_shift', transaksi.* FROM transaksi 
+        $suffix = $this->session->userdata('ses_suffix');
+
+        $query = "SELECT customer.nama, login.nama_user, (SELECT nama FROM shift WHERE closing.shift_id = shift.id) AS 'nama_shift', transaksi.* FROM transaksi" . $suffix . " AS transaksi 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
                 LEFT JOIN login ON transaksi.kasir_id=login.id
                 LEFT JOIN closing ON transaksi.closing_id=closing.id";
@@ -210,6 +216,8 @@ class Laporan extends CI_Controller
 
     public function cash()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         if (!empty($this->input->get('m'))) {
             $m = $this->input->get('m');
             $y = $this->input->get('y');
@@ -220,7 +228,7 @@ class Laporan extends CI_Controller
             $periode = 'Periode ' . bln('id') . ' ' . date('Y');
         }
 
-        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $iswhere . ' AND transaksi.status != "Bayar Nanti"')->row();
+        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $suffix . ' AS transaksi ' . $iswhere . ' AND transaksi.status != "Bayar Nanti"')->row();
         $this->data = [
             'title_web' => 'Cash Flow ',
             'periode' => $periode,
@@ -238,6 +246,8 @@ class Laporan extends CI_Controller
 
     public function pdf()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         // panggil library yang kita buat sebelumnya yang bernama pdfgenerator
         $this->load->library('pdfgenerator');
         if (!empty($this->input->get('m'))) {
@@ -249,7 +259,7 @@ class Laporan extends CI_Controller
             $iswhere = ' WHERE periode = "' . date('Y-m') . '"';
             $periode = 'Periode ' . bln('id') . ' ' . date('Y');
         }
-        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $iswhere . ' AND transaksi.status != "Bayar Nanti"')->row();
+        $total = $this->db->query('SELECT SUM(grandtotal) as gr, SUM(grandmodal) as gm, SUM(total_qty) as qty FROM transaksi' . $suffix . ' AS transaksi ' . $iswhere . ' AND transaksi.status != "Bayar Nanti"')->row();
         // title dari pdf
         $this->data['title_pdf'] = 'Cash Flow ' . $periode;
         $this->data['keuangan'] = $this->db->query('SELECT keuangan_ledger.keterangan as ket, keuangan_lainnya.* 
@@ -274,6 +284,8 @@ class Laporan extends CI_Controller
     // laporan perproduk
     public function produk()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         if (!empty($this->input->get('nama', true))) {
             $nama = ' AND nama_menu LIKE "%' . $this->input->get('nama', true) . '%"';
         } else {
@@ -302,8 +314,8 @@ class Laporan extends CI_Controller
         $total = $this->db->query('SELECT SUM(transaksi_produk.harga_beli * qty) as hb, 
                         SUM(transaksi_produk.harga_jual* qty) as hj, 
                         SUM(transaksi_produk.qty) as qty,
-                        transaksi.kasir_id  FROM transaksi_produk 
-                        LEFT JOIN transaksi ON transaksi_produk.no_bon=transaksi.no_bon ' . $iswhere)->row();
+                        transaksi.kasir_id  FROM transaksi_produk' . $suffix . ' AS  transaksi_produk
+                        LEFT JOIN transaksi' . $suffix . ' AS transaksi ON transaksi_produk.no_bon=transaksi.no_bon ' . $iswhere)->row();
         $this->data = [
             'title_web' => 'Laporan',
             'periode' => $periode,
@@ -318,11 +330,13 @@ class Laporan extends CI_Controller
 
     public function data_produk()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         if ($this->input->method(true) == 'POST') :
             $query = "SELECT customer.nama, login.nama_user, transaksi.atas_nama, 
                 transaksi.pesanan,transaksi.status,transaksi.customer_id, 
-                transaksi_produk.* FROM transaksi_produk 
-                LEFT JOIN transaksi ON transaksi_produk.no_bon=transaksi.no_bon 
+                transaksi_produk.* FROM transaksi_produk" . $suffix . " AS transaksi_produk 
+                LEFT JOIN transaksi" . $suffix . " AS transaksi ON transaksi_produk.no_bon=transaksi.no_bon 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
                 LEFT JOIN login ON transaksi.kasir_id=login.id";
             $search = [
@@ -357,10 +371,12 @@ class Laporan extends CI_Controller
 
     public function produk_excel()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $query = "SELECT customer.nama, login.nama_user, transaksi.atas_nama, 
             transaksi.pesanan,transaksi.status,transaksi.customer_id,
-            transaksi_produk.* FROM transaksi_produk 
-            LEFT JOIN transaksi ON transaksi_produk.no_bon=transaksi.no_bon 
+            transaksi_produk.* FROM transaksi_produk" . $suffix . " AS transaksi_produk 
+            LEFT JOIN transaksi" . $suffix . " AS transaksi ON transaksi_produk.no_bon=transaksi.no_bon 
             LEFT JOIN customer ON transaksi.customer_id = customer.id 
             LEFT JOIN login ON transaksi.kasir_id=login.id";
         if (!empty(htmlentities($this->input->get('a', true)))) {
@@ -1064,6 +1080,9 @@ class Laporan extends CI_Controller
 
     public function data_kartustok()
     {
+        // $suffix = $this->session->userdata('ses_suffix');
+        $suffix = '';
+
         $where = null;
         $iswhere = null;
         $awalwhere = "";
@@ -1085,6 +1104,15 @@ class Laporan extends CI_Controller
         if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
+                $cabang = $this->db->query("select * from cabang where id = " . $cabang_id)->row();
+                $kode_cabang = $cabang->kode_cabang;
+                $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
+                if (in_array($kode_cabang, $arr_kode_cabang)) {
+                    $suffix = '';
+                } else {
+                    $suffix = '_' . $kode_cabang;
+                }
+
                 if (!empty(htmlentities($this->input->get('shift', true)))) {
                     $shift_id = htmlentities($this->input->get('shift', true));
                     // $where = array('cabang_id' => $cabang_id, 'shift_id' => $shift_id);
@@ -1124,7 +1152,7 @@ class Laporan extends CI_Controller
      		0 AS masuk,
      		0 AS keluar
     		FROM bahan b 
-    		LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id 
+    		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
  			WHERE $awalwhere 
  			$andwhere
      GROUP BY cabang_id,id,kode_bahan,nama_bahan
@@ -1138,7 +1166,7 @@ class Laporan extends CI_Controller
      		IFNULL(IF(bk.jumlah_perubahan>0,bk.jumlah_perubahan,0),0) AS masuk,
      		IFNULL(IF(bk.jumlah_perubahan<0,ABS(bk.jumlah_perubahan),0),0) AS keluar
     		FROM bahan b 
-    		LEFT OUTER JOIN bahan_kartustok bk ON bk.bahan_id = b.id 
+    		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
  			WHERE $tglwhere
  			$andwhere
  ) stok_perubahan

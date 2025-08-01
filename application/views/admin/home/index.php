@@ -143,6 +143,9 @@
                         <?php
                         // php mencari produk
                         $cabang = $idcabang;
+                        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
+                        $suffix = $caricabang->kode_cabang;
+
                         for ($n = 1; $n <= 12; $n++) {
                             if ($n > 9) {
                                 $period = $thn . '-' . $n;
@@ -152,10 +155,10 @@
                             // if ($this->session->userdata('ses_level') == 'Admin') {
                             if (in_array($this->session->userdata('ses_level'), array('Admin', 'SuperAdmin'))) {
                                 // $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk WHERE cabang_id = ?', [$cabang], ' AND periode = ?', [$period])->row();
-                                $penjualan = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi WHERE cabang_id = ? AND periode = ?', [$cabang, $period])->row();
+                                $penjualan = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' AS transaksi WHERE cabang_id = ? AND periode = ?', [$cabang, $period])->row();
                             } else {
-                                $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk 
-                                        WHERE periode = ? AND kasir_id = ?', [$period, $this->session->userdata('ses_id')])->row();
+                                $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' AS transaksi_produk 
+                                WHERE periode = ? AND kasir_id = ?', [$period, $this->session->userdata('ses_id')])->row();
                             }
                         ?>
                             <?= $penjualan->qty; ?>,

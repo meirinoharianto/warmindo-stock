@@ -106,6 +106,7 @@
                     "data": "diterima_tgl",
                     "render": function(data, type, row) {
                         if (!data) return '';
+                        if (data == '0000-00-00 00:00:00') return 'Belum diterima';
                         const date = new Date(data);
                         return ('0' + date.getDate()).slice(-2) + '-' +
                             ('0' + (date.getMonth() + 1)).slice(-2) + '-' +

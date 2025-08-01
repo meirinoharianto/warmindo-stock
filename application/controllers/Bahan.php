@@ -1794,6 +1794,7 @@ class Bahan extends CI_Controller
     {
         $shift_now = $this->session->userdata('ses_shift');
         $cabang_id =  $this->session->userdata('ses_cabang_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         // $this->form_validation->set_rules("date", "Tanggal", "required");
         $this->form_validation->set_rules("id", "ID", "required");
@@ -1880,7 +1881,7 @@ class Bahan extends CI_Controller
                 );
             }
 
-            $this->db->insert_batch('bahan_kartustok', $data_kartustok);
+            $this->db->insert_batch('bahan_kartustok' . $suffix, $data_kartustok);
 
             $this->db->trans_complete();
 

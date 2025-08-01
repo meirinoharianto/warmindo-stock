@@ -37,7 +37,8 @@ class Closing extends CI_Controller
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kode_cabang = $this->session->userdata('ses_kode_cabang');
         $shift_ses = $this->session->userdata('ses_shift');
-        $shift = $this->db->query("SELECT transaksi.*,shift.nama AS 'namaShift' FROM transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND transaksi.cabang_id=" . $cabang_id . " AND transaksi.shift_id=" . $shift_ses . " ORDER BY transaksi.date LIMIT 1");
+        $suffix = $this->session->userdata('ses_suffix');
+        $shift = $this->db->query("SELECT transaksi.*,shift.nama AS 'namaShift' FROM transaksi" . $suffix . " AS transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND transaksi.cabang_id=" . $cabang_id . " AND transaksi.shift_id=" . $shift_ses . " ORDER BY transaksi.date LIMIT 1");
         $tgltrans = '';
         if ($shift->num_rows() > 0) {
             $ps = $shift->row();
@@ -76,7 +77,7 @@ class Closing extends CI_Controller
                 // }
                 $tanggal = date_format($tgl, 'd-m-Y');
 
-                $transaksi = $this->db->query("SELECT * FROM transaksi WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
+                $transaksi = $this->db->query("SELECT * FROM transaksi" . $suffix . " AS transaksi WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
                 $tot_penjualan = 0;
                 $tot_cash = 0;
                 $tot_qris = 0;
@@ -94,7 +95,7 @@ class Closing extends CI_Controller
                     }
                 }
 
-                $pengeluaran = $this->db->query("SELECT * FROM transaksi_keluar WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
+                $pengeluaran = $this->db->query("SELECT * FROM transaksi_keluar" . $suffix . " AS transaksi_keluar WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
                 $tot_pengeluaran = 0;
                 foreach ($pengeluaran as $isipengeluaran) {
                     $tot_pengeluaran += $isipengeluaran['jumlah'];
@@ -141,7 +142,8 @@ class Closing extends CI_Controller
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $shift_ses = $this->session->userdata('ses_shift');
-        $shift = $this->db->query("SELECT transaksi.*,shift.nama AS 'namaShift' FROM transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND transaksi.cabang_id=" . $cabang_id . " AND transaksi.shift_id=" . $shift_ses . "  ORDER BY transaksi.date LIMIT 1");
+        $suffix = $this->session->userdata('ses_suffix');
+        $shift = $this->db->query("SELECT transaksi.*,shift.nama AS 'namaShift' FROM transaksi" . $suffix . " AS transaksi INNER JOIN shift ON shift.id=transaksi.shift_id WHERE transaksi.closing_id = 0 AND transaksi.cabang_id=" . $cabang_id . " AND transaksi.shift_id=" . $shift_ses . "  ORDER BY transaksi.date LIMIT 1");
 
         $tgltrans = '';
 
@@ -172,7 +174,7 @@ class Closing extends CI_Controller
                     $kode_num = 1;
                 }
 
-                $transaksi = $this->db->query("SELECT * FROM transaksi WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
+                $transaksi = $this->db->query("SELECT * FROM transaksi" . $suffix . " AS transaksi WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
                 $tot_penjualan = 0;
                 $tot_cash = 0;
                 $tot_qris = 0;
@@ -190,7 +192,7 @@ class Closing extends CI_Controller
                     }
                 }
 
-                $pengeluaran = $this->db->query("SELECT * FROM transaksi_keluar WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
+                $pengeluaran = $this->db->query("SELECT * FROM transaksi_keluar" . $suffix . " AS transaksi_keluar WHERE closing_id = 0 AND shift_id = $shift_id AND cabang_id='" . $cabang_id . "' AND date='" . $tgltrans . "'")->result_array();
                 $tot_pengeluaran = 0;
                 foreach ($pengeluaran as $isipengeluaran) {
                     $tot_pengeluaran += $isipengeluaran['jumlah'];
@@ -198,7 +200,7 @@ class Closing extends CI_Controller
                         'closing_id' => $kode_num,
                     ];
                     $this->db->where("id", $isipengeluaran['id']); // ubah id dan postnya
-                    $this->db->update("transaksi_keluar", $datapengeluaran);
+                    $this->db->update("transaksi_keluar" . $suffix, $datapengeluaran);
                 }
 
                 $dataclosing = [
@@ -231,7 +233,7 @@ class Closing extends CI_Controller
                         'closing_id' => $kode_num,
                     ];
                     $this->db->where("id", $isi['id']); // ubah id dan postnya
-                    $this->db->update("transaksi", $data);
+                    $this->db->update("transaksi" . $suffix, $data);
                 }
 
                 $this->session->set_flashdata("success", '<strong>Closing Berhasil,</strong> Data closing telah disimpan ! ');
@@ -257,6 +259,8 @@ class Closing extends CI_Controller
 
     public function simpan()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $kode = $this->db->query("SELECT * FROM closing ORDER BY id DESC LIMIT 1");
 
         if ($kode->num_rows() > 0) {
@@ -268,7 +272,7 @@ class Closing extends CI_Controller
         $no_closing = 'CL' . date('Y-m-d') . sprintf('%02d', intval($kode_num));
 
         $cabang_id = $this->session->userdata('ses_cabang_id');
-        $shift = $this->db->query("SELECT * FROM transaksi WHERE closing_id = 0 AND cabang_id='" . $cabang_id . "' ORDER BY created_at LIMIT 1");
+        $shift = $this->db->query("SELECT * FROM transaksi" . $suffix . " AS transaksi WHERE closing_id = 0 AND cabang_id='" . $cabang_id . "' ORDER BY created_at LIMIT 1");
 
         if ($shift->num_rows() > 0) {
             $ps = $shift->row();

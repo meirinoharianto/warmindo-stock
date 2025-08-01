@@ -108,6 +108,14 @@ class Login extends CI_Controller
                     $this->session->set_userdata('ses_kode_cabang', $cabang->kode_cabang);
                     $profil_toko = $this->db->get_where('profil_toko', ['cabang_id' => $cabang->id])->row();
                     $this->session->set_userdata('ses_nama_toko', $profil_toko->nama_toko);
+
+                    $kode_cabang = $cabang->kode_cabang;
+                    $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
+                    if (in_array($kode_cabang, $arr_kode_cabang)) {
+                        $this->session->set_userdata('ses_suffix', '');
+                    } else {
+                        $this->session->set_userdata('ses_suffix', '_' . $kode_cabang);
+                    }
                 }
 
 

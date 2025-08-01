@@ -98,6 +98,20 @@
                     <?php
                     // php mencari produk
                     $cabang = $idcabang;
+                    $suffix = '';
+                    if ($cabang != 0) {
+                        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
+                        $kode_cabang = $caricabang->kode_cabang;
+                        $arr_kode_cabang = array("SN1", "SN2", "SN7");
+
+                        if (in_array($kode_cabang, $arr_kode_cabang)) {
+                            $suffix = '';
+                        } else {
+                            $suffix = '_' . $kode_cabang;
+                        }
+                    }
+
+
                     for ($n = 1; $n <= 12; $n++) {
                         if ($n > 9) {
                             $period = $thn . '-' . $n;
@@ -106,9 +120,9 @@
                         }
                         if ($this->session->userdata('ses_level') == 'AdminKasir') {
                             // $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk WHERE cabang_id = ?', [$cabang], ' AND periode = ?', [$period])->row();
-                            $penjualan = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi WHERE cabang_id = ? AND periode = ?', [$cabang, $period])->row();
+                            $penjualan = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' AS transaksi WHERE cabang_id = ? AND periode = ?', [$cabang, $period])->row();
                         } else {
-                            $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk 
+                            $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' AS transaksi_produk
                                         WHERE periode = ? AND kasir_id = ?', [$period, $this->session->userdata('ses_id')])->row();
                         }
                     ?>
@@ -125,7 +139,7 @@
             scales: {
                 y: {
                     min: 0,
-                    max: 200000000,
+                    max: 2000000,
                 }
             }
         },
