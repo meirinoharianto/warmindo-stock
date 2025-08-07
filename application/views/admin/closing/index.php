@@ -62,10 +62,11 @@
 
 
                                 <?php
+                                $suffix = $this->session->userdata('ses_suffix');
                                 $tot_pengeluaran = 0;
 
                                 if ($pengeluaran > 0) {
-                                    $transaksi_keluar = $this->db->query("SELECT * FROM transaksi_keluar WHERE  closing_id = 0 AND shift_id = $id_shift AND cabang_id = $id_cabang AND date='" . $tgltrans . "'")->result_array();
+                                    $transaksi_keluar = $this->db->query("SELECT * FROM transaksi_keluar" . $suffix . " AS transaksi_keluar WHERE  closing_id = 0 AND shift_id = $id_shift AND cabang_id = $id_cabang AND date='" . $tgltrans . "'")->result_array();
                                     foreach ($transaksi_keluar as $trans) {
                                 ?>
                                         <tr>
@@ -79,7 +80,7 @@
                                 }
                                 ?>
                                 <tr>
-                                    <td><b>TOTAL PENGELUARAN</b></td>
+                                    <td><b>TOTAL PENGELUARAN </b></td>
                                     <td align="right"><b><?= 'Rp' . number_format($tot_pengeluaran); ?></b>
                                         <input type="text" class="form-control" name="pengeluaran" id="pengeluaran" value="<?= $tot_pengeluaran ?>" hidden>
                                     </td>
@@ -88,7 +89,7 @@
 
                             <br>
                             <div class="form-group">
-                                <h4><label for="">Sisa Saldo</label></h4>
+                                <h4><label for="">Sisa Saldo Cash</label></h4>
                                 <!-- <input type="text" class="form-control" name="saldo" id="saldo"> -->
                                 <input style="font-weight: bold;text-align:right;" type="text" class="form-control" name="saldo" id="saldo" value="<?= 'Rp' . number_format($penjualan_cash - $tot_pengeluaran); ?>" readonly>
                                 <input type="text" class="form-control" name="sisa_saldo" id="sisa_saldo" value="<?= $penjualan_cash - $tot_pengeluaran ?>" hidden>

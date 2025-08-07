@@ -300,12 +300,14 @@ class Keuangan extends CI_Controller
 
     public function data_pengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kasir_id = $this->session->userdata('ses_id');
 
         if ($this->input->method(true) == 'POST') :
             $query = "SELECT * 
-                        FROM transaksi_keluar";
+                        FROM transaksi_keluar" . $suffix . " AS transaksi_keluar ";
             $search = array('no_bon', 'kasir_id', 'keterangan', 'date');
             // $where  = null;
             $where = array('transaksi_keluar.cabang_id' => $cabang_id, 'transaksi_keluar.kasir_id' => $kasir_id);
@@ -368,6 +370,8 @@ class Keuangan extends CI_Controller
 
     public function store_pengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         // $shift_nilai = $this->db->query("SELECT MAX(open) as 'nilai_max', MIN(close) as 'nilai_min' FROM shift")->row();
         // $nilai_max = $shift_nilai->nilai_max;
         // $nilai_min = $shift_nilai->nilai_min;
@@ -414,7 +418,7 @@ class Keuangan extends CI_Controller
                 'kategori_keluar' => htmlspecialchars($this->input->post("kategori", true), ENT_QUOTES)
             ];
 
-            $this->db->insert("transaksi_keluar", $data);
+            $this->db->insert("transaksi_keluar" . $suffix, $data);
             $this->session->set_flashdata("success", " Berhasil Insert Data ! ");
             redirect(base_url("keuangan/pengeluaran"));
         } else {
@@ -425,10 +429,12 @@ class Keuangan extends CI_Controller
 
     public function edit_pengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $this->data = [
             'title_web' => 'Pengeluaran',
             'sidebar'   => 'pengeluaran',
-            'edit'      => $this->db->query('SELECT * FROM transaksi_keluar WHERE id = ?', [(int)$this->uri->segment('3')])->row(),
+            'edit'      => $this->db->query('SELECT * FROM transaksi_keluar' . $suffix . ' AS transaksi_keluar WHERE id = ?', [(int)$this->uri->segment('3')])->row(),
         ];
 
         $this->load->view('layout/header', $this->data);
@@ -438,11 +444,13 @@ class Keuangan extends CI_Controller
 
     public function delete_pengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $id = (int)$this->input->get("id");
         $cek = $this->db->get_where("transaksi_keluar", ["id" => $id]); // tulis id yang dituju
         if ($cek->num_rows() > 0) {
             $this->db->where("id", $id); // tulis id yang dituju
-            $this->db->delete("transaksi_keluar");
+            $this->db->delete("transaksi_keluar" . $suffix);
             $this->session->set_flashdata("success", " Berhasil Delete Data ! ");
             redirect(base_url("keuangan/pengeluaran"));
         } else {
@@ -453,6 +461,8 @@ class Keuangan extends CI_Controller
 
     public function update_pengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
         $this->form_validation->set_rules("no_bon", "No bon", "required");
         $this->form_validation->set_rules("keterangan", "Keterangan", "required");
         $this->form_validation->set_rules("jumlah", "Jumlah", "required");
@@ -474,7 +484,7 @@ class Keuangan extends CI_Controller
             ];
 
             $this->db->where('id', $id);
-            $this->db->update("transaksi_keluar", $data);
+            $this->db->update("transaksi_keluar" . $suffix, $data);
             $this->session->set_flashdata("success", " Berhasil Update Data ! ");
             redirect(base_url("keuangan/pengeluaran"));
         } else {
@@ -486,6 +496,7 @@ class Keuangan extends CI_Controller
 
     public function ubah_lappengeluaran()
     {
+        $suffix = $this->session->userdata('ses_suffix');
 
         $id =  (int)$this->input->post("id"); // parameter yang mau di update
 
@@ -504,7 +515,7 @@ class Keuangan extends CI_Controller
             ];
 
             $this->db->where("id", $id); // ubah id dan postnya
-            $this->db->update("transaksi_keluar", $data);
+            $this->db->update("transaksi_keluar" . $suffix, $data);
             $this->session->set_flashdata("success", " Berhasil Ubah Data Pengeluaran ! ");
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
