@@ -329,8 +329,10 @@ class Keuangan extends CI_Controller
         error_reporting(0);
         $cabang_id = $this->session->userdata('ses_cabang_id');
         $kasir_id = $this->session->userdata('ses_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
-        $sql = "SELECT SUM(jumlah) AS jmltotal FROM transaksi_keluar ";
+
+        $sql = "SELECT SUM(jumlah) AS jmltotal FROM transaksi_keluar" . $suffix . " AS transaksi_keluar ";
         if (!empty($this->input->get('a') && $this->input->get('b'))) {
             $a          = $this->input->get('a');
             $b          = $this->input->get('b');
