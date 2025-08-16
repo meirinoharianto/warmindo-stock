@@ -53,8 +53,11 @@ class Order extends CI_Controller
 
     public function data_order()
     {
+        $suffix = $this->session->userdata('ses_suffix');
+
+
         if ($this->input->method(true) == 'POST') :
-            $query = "SELECT customer.nama, login.nama_user, transaksi.* FROM transaksi 
+            $query = "SELECT customer.nama, login.nama_user, transaksi.* FROM transaksi" . $suffix . " AS transaksi 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
                 LEFT JOIN login ON transaksi.kasir_id=login.id";
             $search = [
@@ -117,10 +120,11 @@ class Order extends CI_Controller
     public function edit()
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
+        $suffix = $this->session->userdata('ses_suffix');
 
         $id = (int)$this->uri->segment('3');
         $t  = $this->db->query("SELECT customer.nama, customer.hp, login.nama_user, transaksi.* FROM 
-                transaksi LEFT JOIN customer ON transaksi.customer_id=customer.id 
+                transaksi" . $suffix . " AS transaksi LEFT JOIN customer ON transaksi.customer_id=customer.id 
                 LEFT JOIN login ON transaksi.kasir_id=login.id
                 WHERE transaksi.id = ?", [$id])->row();
 
@@ -129,10 +133,10 @@ class Order extends CI_Controller
             redirect(base_url("order"));
         }
 
-        $tp = $this->db->get_where("transaksi_produk", ['no_bon' => $t->no_bon])->result_array();
-        $tp1 = $this->db->get_where("transaksi_produk", ['no_bon' => $t->no_bon])->result();
+        $tp = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $t->no_bon])->result_array();
+        $tp1 = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $t->no_bon])->result();
         $this->data = [
-            'title_web'  => 'Edit Order',
+            'title_web'  => 'Detail Order',
             't'  => $t,
             'tp' => $tp,
             'tp1' => $tp1,
