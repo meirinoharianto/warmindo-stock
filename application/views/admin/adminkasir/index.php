@@ -36,7 +36,10 @@ $filter_branch_submitted = !empty($this->input->post('filter_branch'));
                                                             <!-- <option value="0">- Semua Cabang -</option> -->
                                                             <?php
                                                             $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                                                            $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
+                                                            // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
+                                                            $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                                                ->get('profil_toko')
+                                                                ->result();
                                                             foreach ($namacabang as $r) {
                                                             ?>
                                                                 <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_monthly == $r->cabang_id) ? 'selected' : '' ?>>
