@@ -1,14 +1,11 @@
 <div class="clearfix"></div>
-<?php if (!empty($this->input->post('thn'))) {
-    $thn = $this->input->post('thn');
-} else {
-    $thn = date('Y');
-} ?>
-<?php if (!empty($this->input->post('idcabang'))) {
-    $idcabang = $this->input->post('idcabang');
-} else {
-    $idcabang = 0;
-} ?>
+<?php
+// Default values
+$thn_monthly = !empty($this->input->post('thn_monthly')) ? $this->input->post('thn_monthly') : date('Y');
+$thn_branch = !empty($this->input->post('thn_branch')) ? $this->input->post('thn_branch') : date('Y');
+$bln_branch = !empty($this->input->post('bln_branch')) ? $this->input->post('bln_branch') : date('m');
+$idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->input->post('idcabang_monthly') : 0;
+?>
 
 <div id="adminkasir" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
@@ -18,63 +15,105 @@
                     <div class="col-12 mt-3 h-100">
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-bar-chart mr-1"></i> Grafik Penjualan <?= $thn; ?>
+                                <i class="fa fa-bar-chart mr-1"></i> Grafik Penjualan
                             </div>
                             <div class="card-body pl-4 pr-4">
-                                <!-- <div class="card-body text-center"> -->
-                                <div class="row">
-                                    <div class="col-12 mb-3 border w-100 rounded-lg p-2">
-
-                                        <!-- FORM PENCARIAN -->
-                                        <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline">
-                                            <div class="d-flex align-items-center flex-wrap">
-                                                <div class="mr-2">
-                                                    <select name="idcabang" class="form-control form-control-sm">
-                                                        <option value="">- Pilih Cabang -</option>
-                                                        <?php
-                                                        $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                                                        $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
-                                                        foreach ($namacabang as $r) {
-                                                        ?>
-                                                            <option value="<?= $r->cabang_id; ?>" <?= ($idcabang == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                <?= $r->nama_toko; ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
+                                <!-- Chart 1: Sales by Month -->
+                                <div class="row mb-4">
+                                    <div class="col-12 border rounded-lg p-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Penjualan per Bulan</h5>
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="mr-2">
+                                                        <select name="idcabang_monthly" class="form-control form-control-sm">
+                                                            <option value="0">- Semua Cabang -</option>
+                                                            <?php
+                                                            $this->db->order_by('length(nama_toko),nama_toko', 'asc');
+                                                            $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
+                                                            foreach ($namacabang as $r) {
+                                                            ?>
+                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_monthly == $r->cabang_id) ? 'selected' : '' ?>>
+                                                                    <?= $r->nama_toko; ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mr-2">
+                                                        <select name="thn_monthly" class="form-control form-control-sm">
+                                                            <?php
+                                                            $thn_skr = date('Y');
+                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
+                                                            ?>
+                                                                <option value="<?= $x; ?>" <?= ($thn_monthly == $x) ? 'selected' : '' ?>>
+                                                                    <?= $x; ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" name="filter_monthly" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-filter"></i> Filter
+                                                    </button>
                                                 </div>
-
-                                                <div class="mr-2">
-                                                    <select name="thn" class="form-control form-control-sm">
-                                                        <option value="">- Pilih Tahun -</option>
-                                                        <?php
-                                                        $thn_skr = date('Y');
-                                                        for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                        ?>
-                                                            <option value="<?= $x; ?>" <?= ($thn == $x) ? 'selected' : '' ?>>
-                                                                <?= $x; ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-
-                                                <a href="<?= base_url('home') ?>" class="btn btn-success btn-sm">
-                                                    <i class="fa fa-refresh"></i>
-                                                </a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 mb-3 border rounded-lg">
-                                        <div class="clearfix"></div>
+                                            </form>
+                                        </div>
                                         <canvas id="line-chart" height="180" style="height: 300px;"></canvas>
                                     </div>
                                 </div>
 
+                                <!-- Chart 2: Sales by Branch -->
+                                <div class="row">
+                                    <div class="col-12 border rounded-lg p-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Penjualan per Cabang</h5>
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="mr-2">
+                                                        <select name="bln_branch" class="form-control form-control-sm">
+                                                            <?php
+                                                            $bulan = array(
+                                                                '01' => 'Januari',
+                                                                '02' => 'Februari',
+                                                                '03' => 'Maret',
+                                                                '04' => 'April',
+                                                                '05' => 'Mei',
+                                                                '06' => 'Juni',
+                                                                '07' => 'Juli',
+                                                                '08' => 'Agustus',
+                                                                '09' => 'September',
+                                                                '10' => 'Oktober',
+                                                                '11' => 'November',
+                                                                '12' => 'Desember'
+                                                            );
+                                                            foreach ($bulan as $key => $value) {
+                                                            ?>
+                                                                <option value="<?= $key ?>" <?= ($bln_branch == $key) ? 'selected' : '' ?>>
+                                                                    <?= $value ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mr-2">
+                                                        <select name="thn_branch" class="form-control form-control-sm">
+                                                            <?php
+                                                            $thn_skr = date('Y');
+                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
+                                                            ?>
+                                                                <option value="<?= $x; ?>" <?= ($thn_branch == $x) ? 'selected' : '' ?>>
+                                                                    <?= $x; ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" name="filter_branch" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-filter"></i> Filter
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <canvas id="branch-chart" height="180" style="height: 300px;"></canvas>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,19 +124,17 @@
 </div>
 
 <script>
+    // Chart 1: Sales by Month
     var linechart = document.getElementById('line-chart');
     var chart = new Chart(linechart, {
         type: 'bar',
         data: {
-            labels: [
-                'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'
-            ], // Merubah data tanggal menjadi format JSON
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [{
                 label: "Total Transaksi",
                 data: [
                     <?php
-                    // php mencari produk
-                    $cabang = $idcabang;
+                    $cabang = $idcabang_monthly;
                     $suffix = '';
                     if ($cabang != 0) {
                         $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
@@ -111,37 +148,125 @@
                         }
                     }
 
-
                     for ($n = 1; $n <= 12; $n++) {
-                        if ($n > 9) {
-                            $period = $thn . '-' . $n;
-                        } else {
-                            $period = $thn . '-' . '0' . $n;
-                        }
+                        $period = $thn_monthly . '-' . str_pad($n, 2, '0', STR_PAD_LEFT);
                         if ($this->session->userdata('ses_level') == 'AdminKasir') {
-                            // $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk WHERE cabang_id = ?', [$cabang], ' AND periode = ?', [$period])->row();
-                            $penjualan = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' AS transaksi WHERE cabang_id = ? AND periode = ?', [$cabang, $period])->row();
+                            $penjualan = $this->db->query(
+                                'SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' WHERE cabang_id = ? AND periode LIKE ?',
+                                [$cabang, $period . '%']
+                            )->row();
                         } else {
-                            $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' AS transaksi_produk
-                                        WHERE periode = ? AND kasir_id = ?', [$period, $this->session->userdata('ses_id')])->row();
+                            $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' 
+                                WHERE periode LIKE ? AND kasir_id = ?', [$period . '%', $this->session->userdata('ses_id')])->row();
                         }
+                        echo ($penjualan->qty ?? 0) . ',';
+                    }
                     ?>
-                        <?= $penjualan->qty; ?>,
-                    <?php } ?>
                 ],
                 borderColor: '#3c73a8',
                 backgroundColor: '#3c73a8',
-                borderWidth: 4,
-            }, ],
+                borderWidth: 2,
+            }],
         },
         options: {
             responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Penjualan Tahun <?= $thn_monthly ?>' + (<?= $idcabang_monthly ?> != 0 ? ' - Cabang Terpilih' : ' - Semua Cabang')
+                }
+            },
             scales: {
                 y: {
-                    min: 0,
-                    max: 200000000,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Penjualan'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Bulan'
+                    }
                 }
             }
         },
+    });
+
+    // Chart 2: Sales by Branch
+    var branchChart = document.getElementById('branch-chart');
+    var chart2 = new Chart(branchChart, {
+        type: 'bar',
+        data: {
+            labels: [
+                <?php
+                $this->db->order_by('length(nama_toko),nama_toko', 'asc');
+                $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
+                foreach ($branches as $branch) {
+                    echo "'" . addslashes($branch->nama_toko) . "',";
+                }
+                ?>
+            ],
+            datasets: [{
+                label: "Total Penjualan",
+                data: [
+                    <?php
+                    $period = $thn_branch . '-' . $bln_branch;
+                    foreach ($branches as $branch) {
+                        $suffix = '';
+                        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$branch->cabang_id])->row();
+                        if ($caricabang) {
+                            $kode_cabang = $caricabang->kode_cabang;
+                            $arr_kode_cabang = array("SN1", "SN2", "SN7");
+
+                            if (!in_array($kode_cabang, $arr_kode_cabang)) {
+                                $suffix = '_' . $kode_cabang;
+                            }
+                        }
+
+                        $sales = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' 
+                            WHERE periode LIKE ?', [$period . '%'])->row();
+                        echo ($sales->qty ?? 0) . ',';
+                    }
+                    ?>
+                ],
+                backgroundColor: [
+                    '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                    '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#5a5c69',
+                    '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Penjualan Bulan <?= $bulan[$bln_branch] ?? '' ?> <?= $thn_branch ?> - Semua Cabang'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Penjualan'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Cabang'
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        }
     });
 </script>
