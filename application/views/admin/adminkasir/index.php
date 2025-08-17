@@ -5,6 +5,10 @@ $thn_monthly = !empty($this->input->post('thn_monthly')) ? $this->input->post('t
 $thn_branch = !empty($this->input->post('thn_branch')) ? $this->input->post('thn_branch') : date('Y');
 $bln_branch = !empty($this->input->post('bln_branch')) ? $this->input->post('bln_branch') : date('m');
 $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->input->post('idcabang_monthly') : 0;
+
+// Check which form was submitted
+$filter_monthly_submitted = !empty($this->input->post('filter_monthly'));
+$filter_branch_submitted = !empty($this->input->post('filter_branch'));
 ?>
 
 <div id="adminkasir" class="d-flex flex-column h-100">
@@ -23,8 +27,10 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline">
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="monthly-filter-form">
                                                 <div class="d-flex align-items-center">
+                                                    <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
+                                                    <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
                                                     <div class="mr-2">
                                                         <select name="idcabang_monthly" class="form-control form-control-sm">
                                                             <option value="0">- Semua Cabang -</option>
@@ -57,7 +63,17 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
                                                 </div>
                                             </form>
                                         </div>
-                                        <canvas id="line-chart" height="180" style="height: 300px;"></canvas>
+
+                                        <div id="monthly-chart-container">
+                                            <?php
+                                            // Load monthly chart partial view
+                                            $this->load->view('partials/monthly_chart', [
+                                                'thn_monthly' => $thn_monthly,
+                                                'idcabang_monthly' => $idcabang_monthly,
+                                                'filter_monthly_submitted' => $filter_monthly_submitted
+                                            ]);
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -66,8 +82,10 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Cabang</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline">
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="branch-filter-form">
                                                 <div class="d-flex align-items-center">
+                                                    <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
+                                                    <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
                                                     <div class="mr-2">
                                                         <select name="bln_branch" class="form-control form-control-sm">
                                                             <?php
@@ -111,7 +129,17 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
                                                 </div>
                                             </form>
                                         </div>
-                                        <canvas id="branch-chart" height="180" style="height: 300px;"></canvas>
+
+                                        <div id="branch-chart-container">
+                                            <?php
+                                            // Load branch chart partial view
+                                            $this->load->view('partials/branch_chart', [
+                                                'thn_branch' => $thn_branch,
+                                                'bln_branch' => $bln_branch,
+                                                'filter_branch_submitted' => $filter_branch_submitted
+                                            ]);
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -124,149 +152,35 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
 </div>
 
 <script>
-    // Chart 1: Sales by Month
-    var linechart = document.getElementById('line-chart');
-    var chart = new Chart(linechart, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
-            datasets: [{
-                label: "Total Transaksi",
-                data: [
-                    <?php
-                    $cabang = $idcabang_monthly;
-                    $suffix = '';
-                    if ($cabang != 0) {
-                        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
-                        $kode_cabang = $caricabang->kode_cabang;
-                        $arr_kode_cabang = array("SN1", "SN2", "SN7");
-
-                        if (in_array($kode_cabang, $arr_kode_cabang)) {
-                            $suffix = '';
-                        } else {
-                            $suffix = '_' . $kode_cabang;
-                        }
-                    }
-
-                    for ($n = 1; $n <= 12; $n++) {
-                        $period = $thn_monthly . '-' . str_pad($n, 2, '0', STR_PAD_LEFT);
-                        if ($this->session->userdata('ses_level') == 'AdminKasir') {
-                            $penjualan = $this->db->query(
-                                'SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' WHERE cabang_id = ? AND periode LIKE ?',
-                                [$cabang, $period . '%']
-                            )->row();
-                        } else {
-                            $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' 
-                                WHERE periode LIKE ? AND kasir_id = ?', [$period . '%', $this->session->userdata('ses_id')])->row();
-                        }
-                        echo ($penjualan->qty ?? 0) . ',';
-                    }
-                    ?>
-                ],
-                borderColor: '#3c73a8',
-                backgroundColor: '#3c73a8',
-                borderWidth: 2,
-            }],
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Penjualan Tahun <?= $thn_monthly ?>' + (<?= $idcabang_monthly ?> != 0 ? ' - Cabang Terpilih' : ' - Semua Cabang')
+    $(document).ready(function() {
+        // AJAX form submission for monthly filter
+        $('#monthly-filter-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Extract just the monthly chart container content from the response
+                    var newContent = $(response).find('#monthly-chart-container').html();
+                    $('#monthly-chart-container').html(newContent);
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Total Penjualan'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Bulan'
-                    }
-                }
-            }
-        },
-    });
+            });
+        });
 
-    // Chart 2: Sales by Branch
-    var branchChart = document.getElementById('branch-chart');
-    var chart2 = new Chart(branchChart, {
-        type: 'bar',
-        data: {
-            labels: [
-                <?php
-                $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
-                foreach ($branches as $branch) {
-                    echo "'" . addslashes($branch->nama_toko) . "',";
+        // AJAX form submission for branch filter
+        $('#branch-filter-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Extract just the branch chart container content from the response
+                    var newContent = $(response).find('#branch-chart-container').html();
+                    $('#branch-chart-container').html(newContent);
                 }
-                ?>
-            ],
-            datasets: [{
-                label: "Total Penjualan",
-                data: [
-                    <?php
-                    $period = $thn_branch . '-' . $bln_branch;
-                    foreach ($branches as $branch) {
-                        $suffix = '';
-                        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$branch->cabang_id])->row();
-                        if ($caricabang) {
-                            $kode_cabang = $caricabang->kode_cabang;
-                            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-
-                            if (!in_array($kode_cabang, $arr_kode_cabang)) {
-                                $suffix = '_' . $kode_cabang;
-                            }
-                        }
-
-                        $sales = $this->db->query('SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' 
-                            WHERE cabang_id = ' . $branch->cabang_id . ' AND periode LIKE ?', [$period . '%'])->row();
-                        echo ($sales->qty ?? 0) . ',';
-                    }
-                    ?>
-                ],
-                backgroundColor: [
-                    '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
-                    '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#5a5c69',
-                    '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Penjualan Bulan <?= $bulan[$bln_branch] ?? '' ?> <?= $thn_branch ?> - Semua Cabang'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Total Penjualan'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Cabang'
-                    },
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 45,
-                        minRotation: 45
-                    }
-                }
-            }
-        }
+            });
+        });
     });
 </script>
