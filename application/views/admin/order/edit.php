@@ -9,7 +9,8 @@
         if (!empty($this->session->flashdata('failed'))) {
             echo alert_failed($this->session->flashdata('failed'));
         }
-        if (!empty(in_array($t->status, ['Cash', 'QRIS', 'Online', 'Debit Mandiri', 'Debit']))) {
+        // if (!empty(in_array($t->status, ['Cash', 'QRIS', 'Online', 'Debit Mandiri', 'Debit']))) {
+        if (!empty(in_array($t->status, ['Cash', 'QRIS', 'Online', 'Go Food', 'Grab Food', 'Shopee Food']))) {
         ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
