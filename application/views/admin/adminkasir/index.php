@@ -33,7 +33,7 @@ $filter_branch_submitted = !empty($this->input->post('filter_branch'));
                                                     <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
                                                     <div class="mr-2">
                                                         <select name="idcabang_monthly" class="form-control form-control-sm">
-                                                            <option value="0">- Semua Cabang -</option>
+                                                            <!-- <option value="0">- Semua Cabang -</option> -->
                                                             <?php
                                                             $this->db->order_by('length(nama_toko),nama_toko', 'asc');
                                                             $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
