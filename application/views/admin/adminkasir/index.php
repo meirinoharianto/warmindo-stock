@@ -4,7 +4,7 @@
 $thn_monthly = !empty($this->input->post('thn_monthly')) ? $this->input->post('thn_monthly') : date('Y');
 $thn_branch = !empty($this->input->post('thn_branch')) ? $this->input->post('thn_branch') : date('Y');
 $bln_branch = !empty($this->input->post('bln_branch')) ? $this->input->post('bln_branch') : date('m');
-$idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->input->post('idcabang_monthly') : 1;
+$idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->input->post('idcabang_monthly') : 2;
 
 // Check which form was submitted
 $filter_monthly_submitted = !empty($this->input->post('filter_monthly'));
