@@ -9,7 +9,7 @@ if ($cabang != 0) {
     $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
     if ($caricabang) {
         $kode_cabang = $caricabang->kode_cabang;
-        $arr_kode_cabang = array("SN1", "SN2", "SN7");
+        $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
         $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
     }
 }
@@ -50,7 +50,7 @@ if ($has_monthly_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Penjualan Tahun <?= $thn_monthly ?>' + (<?= $idcabang_monthly ?> != 0 ? ' - Cabang Terpilih' : ' - Semua Cabang')
+                        text: 'Penjualan Tahun <?= $thn_monthly ?>' + (<?= $idcabang_monthly ?> != 0 ? ' - Cabang Terpilih <?= $kode_cabang ?>' : ' - Semua Cabang')
                     }
                 },
                 scales: {
