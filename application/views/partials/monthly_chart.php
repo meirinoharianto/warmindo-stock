@@ -5,6 +5,7 @@ $has_monthly_data = false;
 $cabang = $idcabang_monthly;
 $suffix = '';
 $tes = 0;
+$tes2 = '';
 
 if ($cabang != 0) {
     $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
@@ -28,6 +29,7 @@ for ($n = 1; $n <= 12; $n++) {
     }
     $monthly_data[$n] = $penjualan->qty ?? 0;
     $tes = $tes + $monthly_data[$n];
+    $tes2 = $tes2 . $cabang . ' | ' . $period;
     if ($monthly_data[$n] > 0) $has_monthly_data = true;
 }
 
