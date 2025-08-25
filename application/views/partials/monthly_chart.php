@@ -4,6 +4,7 @@ $monthly_data = [];
 $has_monthly_data = false;
 $cabang = $idcabang_monthly;
 $suffix = '';
+$tes = 0;
 
 if ($cabang != 0) {
     $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang])->row();
@@ -21,11 +22,12 @@ for ($n = 1; $n <= 12; $n++) {
             'SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' WHERE cabang_id = ? AND periode LIKE ?',
             [$cabang, $period . '%']
         )->row();
-    } else {
-        $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' 
-            WHERE periode LIKE ? AND kasir_id = ?', [$period . '%', $this->session->userdata('ses_id')])->row();
+        // } else {
+        //     $penjualan = $this->db->query('SELECT SUM(qty) as qty FROM transaksi_produk' . $suffix . ' 
+        //         WHERE periode LIKE ? AND kasir_id = ?', [$period . '%', $this->session->userdata('ses_id')])->row();
     }
     $monthly_data[$n] = $penjualan->qty ?? 0;
+    $tes = $tes + $monthly_data[$n];
     if ($monthly_data[$n] > 0) $has_monthly_data = true;
 }
 
@@ -74,7 +76,7 @@ if ($has_monthly_data): ?>
 <?php else: ?>
     <div class="alert alert-warning text-center py-4">
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
-        <h5>Data tidak ditemukan <?= $thn_monthly ?></h5>
-        <p>Tidak ada data penjualan untuk filter yang dipilih <?= $cabang ?></p>
+        <h5>Data tidak ditemukan <?= $thn_monthly ?> atau <?= $tes ?></h5>
+        <p>Tidak ada data penjualan untuk filter yang dipilih</p>
     </div>
 <?php endif; ?>
