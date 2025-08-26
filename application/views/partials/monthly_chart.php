@@ -78,7 +78,7 @@ if ($has_monthly_data): ?>
 <?php else: ?>
     <div class="alert alert-warning text-center py-4">
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
-        <h5>Data tidak ditemukan <?= $thn_monthly ?> atau <?= $tes ?> atau <?= $tes2 ?></h5>
+        <h5>Data tidak ditemukan </h5>
         <p>Tidak ada data penjualan untuk filter yang dipilih</p>
     </div>
 <?php endif; ?>
