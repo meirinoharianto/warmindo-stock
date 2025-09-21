@@ -1,6 +1,7 @@
 <?php foreach ($hasil as $r) { ?>
 
-    <div class="<?= count($hasil) === 1 ? 'col-lg-12 col-md-12' : 'col-lg-3 col-md-6'; ?> col-sm-12 mb-3">
+    <!-- <div class="<?= count($hasil) === 1 ? 'col-lg-12 col-md-12' : 'col-lg-3 col-md-6'; ?> col-sm-12 mb-3"> -->
+    <div class="<?= count($hasil) === 1 ? 'col-lg-12 col-md-12 col-sm-12' : (count($hasil) === 2 ? 'col-lg-6 col-md-6 col-sm-6' : 'col-lg-3 col-md-6'); ?> mb-3">
         <!-- <div class="col-lg-12 col-md-6 col-sm-12 mb-3"> -->
         <!-- <div class="card w-100"> -->
         <div class="card w-100 p-2 bg-light shadow">

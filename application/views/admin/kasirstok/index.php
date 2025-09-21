@@ -83,6 +83,7 @@
                                     </div> -->
                                 </div>
                             </div>
+
                             <?php
                             if ($this->input->get('id')) {
                                 $wr = ' WHERE id_kategori = ' . (int)$this->input->get('id') . ' ';
