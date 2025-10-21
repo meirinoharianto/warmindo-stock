@@ -13,18 +13,18 @@ $idcabang = !empty($this->input->get('idcabang')) ? $this->input->get('idcabang'
         <button type="button" class="btn btn-primary btn-md mt-2" data-toggle="modal" data-target="#modelIdFilter">
             <i class="fa fa-search"></i> Pencarian
         </button>
-        <a href="<?= $urlexcel; ?>" class="btn btn-success mt-2 btn-md ml-1">
+        <!-- <a href="<?= $urlexcel; ?>" class="btn btn-success mt-2 btn-md ml-1">
             <i class="fa fa-download"></i> File Excel
-        </a>
+        </a> -->
 
         <?php if ($this->input->get('a')) { ?>
-            <a href="<?= $urlexcel; ?>&cetak=print" target="_blank" class="btn btn-primary mt-2 btn-md ml-1">
+            <!-- <a href="<?= $urlexcel; ?>&cetak=print" target="_blank" class="btn btn-primary mt-2 btn-md ml-1">
                 <i class="fa fa-print"></i> Cetak
-            </a>
+            </a> -->
         <?php } else { ?>
-            <a href="<?= $urlexcel; ?>?cetak=print" target="_blank" class="btn btn-primary mt-2 btn-md ml-1">
+            <!-- <a href="<?= $urlexcel; ?>?cetak=print" target="_blank" class="btn btn-primary mt-2 btn-md ml-1">
                 <i class="fa fa-print"></i> Cetak
-            </a>
+            </a> -->
         <?php } ?>
         <a href="<?php if ($this->session->userdata('ses_level') == 'Admin') {
                         echo base_url('laporan');
@@ -264,7 +264,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
             // "searching": false,
             "processing": true,
             "serverSide": true,
-            'responsive': true,
+            "responsive": false,
             "ordering": true, // Set true agar bisa di sorting
 
             "order": [

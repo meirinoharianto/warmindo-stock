@@ -54,18 +54,18 @@ class Laporan extends CI_Controller
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
                     $iswhere = ' WHERE (transaksi.date BETWEEN "' . $a . '" AND "' . $b . '") AND ( shift_id = ' . $shift->id . ' ) AND (transaksi.status != "Bayar Nanti") ' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode =  $nama_cabang . ' Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
-                    $urlexcel = base_url('laporan/excel?shift=' . $ks . '&a=' . $a . '&b=' . $b);
+                    $urlexcel = base_url('laporan/excel?shift=' . $ks . '&a=' . $a . '&b=' . $b . '&cabang=' . $cabang_id);
                 } else {
                     $iswhere = ' WHERE transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode =  $nama_cabang . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
-                    $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
+                    $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b . '&cabang=' . $cabang_id);
                 }
             } else if (!empty(htmlentities($this->input->get('periode', true)))) {
                 if ($this->input->get('periode')) {
                     $periode = $this->input->get('periode');
                     $iswhere = ' WHERE (transaksi.periode = "' . $periode . '") AND (transaksi.status != "Bayar Nanti") ' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode =  $nama_cabang . ' Periode ' . $periode; //. time_explode_date(htmlentities($this->input->get('aperiode', true)), 'id');
-                    $urlexcel = base_url('laporan/excel?periode=' . $periode);
+                    $urlexcel = base_url('laporan/excel?periode=' . $periode . '&cabang=' . $cabang_id);
                 }
             } else {
                 if ($this->input->get('shift')) {
@@ -73,11 +73,11 @@ class Laporan extends CI_Controller
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
                     $iswhere = ' WHERE shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode = $nama_cabang . ' Shift : ' . $shift->nama;
-                    $urlexcel = base_url('laporan/excel?shift=' . $ks);
+                    $urlexcel = base_url('laporan/excel?shift=' . $ks . '&periode=' . date('Y-m') . '&cabang' . $cabang_id);
                 } else {
                     $iswhere = ' WHERE periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode = $nama_cabang . ' Periode ' . bln('id') . ' ' . date('Y');
-                    $urlexcel = base_url('laporan/excel');
+                    $urlexcel = base_url('laporan/excel?periode=' . date('Y-m') . '&cabang=' . $cabang_id);
                 }
             }
         } else {
