@@ -25,36 +25,50 @@ class Laporan extends CI_Controller
         $kasir_id = $this->session->userdata('ses_id');
         $iswhere = '';
         $suffix = $this->session->userdata('ses_suffix');
+        $nama_cabang = '';
 
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (!empty(htmlentities($this->input->get('idcabang', true)))) {
+                $cabang_id = htmlentities($this->input->get('idcabang', true));
+
+                if (!empty($cabang_id)) {
+                    $caricabang = $this->db->query('SELECT *, (SELECT nama_toko FROM profil_toko WHERE profil_toko.cabang_id = cabang.id) AS namacabang FROM cabang WHERE id = ? ', [$cabang_id])->row();
+                    if ($caricabang) {
+                        $kode_cabang = $caricabang->kode_cabang;
+                        $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
+                        $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+                        $nama_cabang = 'Cabang: ' . $caricabang->namacabang;
+                    }
+                }
+            }
+        }
 
         if (in_array($level, array('Admin', 'AdminKasir'))) {
-            // $this->session->set_flashdata('failed', '<strong>' . $level . '</strong> Tes');
-            // redirect(base_url('laporan'));
-            // exit;
+
             if (!empty(htmlentities($this->input->get('a', true)))) {
                 $a = htmlentities($this->input->get('a', true));
                 $b = htmlentities($this->input->get('b', true));
                 if ($this->input->get('shift')) {
                     $ks = $this->input->get('shift');
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
-                    $iswhere = ' WHERE (transaksi.date BETWEEN "' . $a . '" AND "' . $b . '") AND ( shift_id = ' . $shift->id . ' ) AND (transaksi.status != "Bayar Nanti")';
-                    $periode = 'Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                    $iswhere = ' WHERE (transaksi.date BETWEEN "' . $a . '" AND "' . $b . '") AND ( shift_id = ' . $shift->id . ' ) AND (transaksi.status != "Bayar Nanti") ' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    $periode =  $nama_cabang . ' Shift : ' . $shift->nama . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
                     $urlexcel = base_url('laporan/excel?shift=' . $ks . '&a=' . $a . '&b=' . $b);
                 } else {
-                    $iswhere = ' WHERE transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.status != "Bayar Nanti"';
-                    $periode = 'Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
+                    $iswhere = ' WHERE transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    $periode =  $nama_cabang . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
                     $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
                 }
             } else {
                 if ($this->input->get('shift')) {
                     $ks = $this->input->get('shift');
                     $shift = $this->db->get_where('shift', ['id' => $ks])->row();
-                    $iswhere = ' WHERE shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"';
-                    $periode = 'Shift : ' . $shift->nama;
+                    $iswhere = ' WHERE shift_id = ' . $ks . ' AND periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    $periode = $nama_cabang . ' Shift : ' . $shift->nama;
                     $urlexcel = base_url('laporan/excel?shift=' . $ks);
                 } else {
-                    $iswhere = ' WHERE periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"';
-                    $periode = 'Periode ' . bln('id') . ' ' . date('Y');
+                    $iswhere = ' WHERE periode = "' . date('Y-m') . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    $periode = $nama_cabang . ' Periode ' . bln('id') . ' ' . date('Y');
                     $urlexcel = base_url('laporan/excel');
                 }
             }
@@ -105,8 +119,22 @@ class Laporan extends CI_Controller
 
     public function data_order()
     {
-        $suffix = $this->session->userdata('ses_suffix');
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (!empty(htmlentities($this->input->get('idcabang', true)))) {
+                $cabang_id = htmlentities($this->input->get('idcabang', true));
 
+                if (!empty($cabang_id)) {
+                    $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang_id])->row();
+                    if ($caricabang) {
+                        $kode_cabang = $caricabang->kode_cabang;
+                        $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
+                        $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+                    }
+                }
+            }
+        } else {
+            $suffix = $this->session->userdata('ses_suffix');
+        }
         if ($this->input->method(true) == 'POST') :
             $query = "SELECT customer.nama, login.nama_user, profil_toko.nama_toko, transaksi.* FROM transaksi" . $suffix . " AS transaksi 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
@@ -125,46 +153,47 @@ class Laporan extends CI_Controller
             if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
                 // if ($this->session->userdata('ses_level') == 'Admin') {
                 $where = null;
-                $cabang_id = htmlentities($this->input->get('cabang', true));
+
+                if (!empty(htmlentities($this->input->get('a', true)))) {
+                    $a = htmlentities($this->input->get('a', true));
+                    $b = htmlentities($this->input->get('b', true));
+
+                    if ($this->input->get('shift')) {
+                        $shift_id = $this->input->get('shift');
+                        $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.shift_id = ' . $shift_id . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    } else {
+                        $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    }
+                } else {
+                    if ($this->input->get('shift')) {
+                        $shift_id = $this->input->get('shift');
+                        $iswhere = 'transaksi.shift_id = ' . $shift_id . '" AND periode = "' . date('Y-m') . '"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    } else {
+                        $iswhere = 'periode = "' . date('Y-m') . '"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    }
+                }
             } else {
                 $where = array('transaksi.kasir_id' => $this->session->userdata('ses_id'));
-                $cabang_id = $this->session->userdata('ses_cabang_id');
-            }
-            // $where = array('transaksi.kasir_id' => $this->session->userdata('ses_id'));
-            // }
-            // $cabang_id = $this->session->userdata('ses_cabang_id');
+                // $cabang_id = $this->session->userdata('ses_cabang_id');
 
-            // $shift = $this->db->query("SELECT * FROM transaksi WHERE closing_id = 0 AND cabang_id='" . $cabang_id . "' ORDER BY created_at LIMIT 1");
-
-            // if ($shift->num_rows() > 0) {
-            //     $ps = $shift->row();
-            //     $shift_id = $ps->shift_id;
-            // } else {
-            //     $shift_id = 0;
-            // }
-            // if ($this->input->get('kasir')) {
-            //     $kasir_id = $this->input->get('kasir');
-
-            if (!empty(htmlentities($this->input->get('a', true)))) {
-                $a = htmlentities($this->input->get('a', true));
-                $b = htmlentities($this->input->get('b', true));
-                if ($this->input->get('shift')) {
-                    $shift_id = $this->input->get('shift');
-                    $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.shift_id = ' . $shift_id;
+                if (!empty(htmlentities($this->input->get('a', true)))) {
+                    $a = htmlentities($this->input->get('a', true));
+                    $b = htmlentities($this->input->get('b', true));
+                    if ($this->input->get('shift')) {
+                        $shift_id = $this->input->get('shift');
+                        $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.shift_id = ' . $shift_id;
+                    } else {
+                        $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '"';
+                    }
                 } else {
-                    $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '"';
-                }
-            } else {
-                if ($this->input->get('shift')) {
-                    $shift_id = $this->input->get('shift');
-                    $iswhere = 'transaksi.shift_id = ' . $shift_id . '" AND periode = "' . date('Y-m') . '"';
-                } else {
-                    $iswhere = 'periode = "' . date('Y-m') . '"';
+                    if ($this->input->get('shift')) {
+                        $shift_id = $this->input->get('shift');
+                        $iswhere = 'transaksi.shift_id = ' . $shift_id . '" AND periode = "' . date('Y-m') . '"';
+                    } else {
+                        $iswhere = 'periode = "' . date('Y-m') . '"';
+                    }
                 }
             }
-            // } else {
-            // }
-
 
 
             header('Content-Type: application/json');

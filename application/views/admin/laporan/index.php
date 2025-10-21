@@ -1,4 +1,10 @@
 <div class="clearfix"></div>
+<?php
+// $thn_monthly = !empty($this->input->post('thn_monthly')) ? $this->input->post('thn_monthly') : date('Y');
+// $thn_branch = !empty($this->input->post('thn_branch')) ? $this->input->post('thn_branch') : date('Y');
+// $bln_branch = !empty($this->input->post('bln_branch')) ? $this->input->post('bln_branch') : date('m');
+$idcabang = !empty($this->input->get('idcabang')) ? $this->input->get('idcabang') : 4;
+?>
 <div id="home">
     <div class="container-fluid mt-2">
 
@@ -44,27 +50,11 @@
                 <?= $periode; ?>
             </div>
             <div class="card-body">
-                <form method="GET" action="<?= base_url('laporan'); ?>">
+                <!-- <form method="GET" action="<?= base_url('laporan'); ?>">
 
-                    <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
 
-                        <div class="form-group row">
-                            <label for="" class="col-sm-1 col-form-label">Cabang</label>
-                            <div class="col-sm">
-                                <select class="form-control" name="cabang" onchange="this.form.submit()">
-                                    <option value="all" selected>- Semua Cabang -</option>
-                                    <?php
-                                    $cabang = $this->db->get_where('cabang', 'id>1')->result();
-                                    foreach ($cabang as $c) {
-                                    ?>
-                                        <option value="<?= $c->id; ?>"><?= $c->nama_cabang; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                    <?php } ?>
 
-                </form>
+                </form> -->
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-sm table-striped table" width="100%">
                         <thead>
@@ -112,6 +102,38 @@
             </div>
             <form method="GET" action="<?= base_url('laporan'); ?>">
                 <div class="modal-body">
+                    <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
+
+                        <div class="form-group">
+                            <label for="">Cabang</label>
+
+                            <!-- <select class="form-control" name="cabang" onchange="this.form.submit()"> -->
+                            <!-- <select class="form-control" name="cabang">
+                                <option value="all" selected>- Semua Cabang -</option>
+                                <?php
+                                $cabang = $this->db->get_where('cabang', 'id>1')->result();
+                                foreach ($cabang as $c) {
+                                ?>
+                                    <option value="<?= $c->id; ?>"><?= $c->kode_cabang; ?></option>
+                                <?php } ?>
+                            </select> -->
+                            <select name="idcabang" class="form-control">
+                                <!-- <option value="0">- Semua Cabang -</option> -->
+                                <?php
+                                $this->db->order_by('length(nama_toko),nama_toko', 'asc');
+                                // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
+                                $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                    ->get('profil_toko')
+                                    ->result();
+                                foreach ($namacabang as $r) {
+                                ?>
+                                    <option value="<?= $r->cabang_id; ?>" <?= ($idcabang == $r->cabang_id) ? 'selected' : '' ?>>
+                                        <?= $r->nama_toko; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    <?php } ?>
                     <div class="form-group">
                         <label for="">Shift <small class="text-danger mr-2">( opsional )</small></label>
                         <select class="form-control" name="shift">
@@ -157,20 +179,20 @@
 // }
 
 
-if ($this->session->userdata('ses_level') == 'Admin') {
+if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
     if ($this->input->get('shift')) {
         $shift_id = $this->input->get('shift');
 
         if (!empty($this->input->get('a'))) {
-            $url = base_url('laporan/data_order?shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+            $url = base_url('laporan/data_order?shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b') . '&idcabang=' . $this->input->get('idcabang'));
         } else {
-            $url = base_url('laporan/data_order?shift=' . $shift_id);
+            $url = base_url('laporan/data_order?shift=' . $shift_id . '&idcabang=' . $this->input->get('idcabang'));
         }
     } else {
         if (!empty($this->input->get('a'))) {
-            $url = base_url('laporan/data_order?a=' . $this->input->get('a') . '&b=' . $this->input->get('b'));
+            $url = base_url('laporan/data_order?a=' . $this->input->get('a') . '&b=' . $this->input->get('b') . '&idcabang=' . $this->input->get('idcabang'));
         } else {
-            $url = base_url('laporan/data_order');
+            $url = base_url('laporan/data_order?idcabang=' . $this->input->get('idcabang'));
         }
     }
     // } else if ($this->session->userdata('ses_level') == 'AdminKasir') {
@@ -276,6 +298,7 @@ if ($this->session->userdata('ses_level') == 'Admin') {
 
                     "data": "shift_id",
                     "render": function(data, type, row, meta) {
+                        // return "<?= $url; ?>"
                         if (row.shift_id == 0) {
                             return '-';
                         } else if (row.shift_id == 1) {
