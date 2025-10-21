@@ -28,6 +28,7 @@ class Laporan extends CI_Controller
         $nama_cabang = '';
 
         if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+
             if (!empty(htmlentities($this->input->get('idcabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('idcabang', true));
 
@@ -58,6 +59,13 @@ class Laporan extends CI_Controller
                     $iswhere = ' WHERE transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.status != "Bayar Nanti"' . ' AND transaksi.cabang_id = ' . $cabang_id;
                     $periode =  $nama_cabang . ' Periode ' . time_explode_date(htmlentities($this->input->get('a', true)), 'id') . ' s.d. ' . time_explode_date(htmlentities($this->input->get('b', true)), 'id');
                     $urlexcel = base_url('laporan/excel?a=' . $a . '&b=' . $b);
+                }
+            } else if (!empty(htmlentities($this->input->get('periode', true)))) {
+                if ($this->input->get('periode')) {
+                    $periode = $this->input->get('periode');
+                    $iswhere = ' WHERE (transaksi.periode = "' . $periode . '") AND (transaksi.status != "Bayar Nanti") ' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    $periode =  $nama_cabang . ' Periode ' . $periode; //. time_explode_date(htmlentities($this->input->get('aperiode', true)), 'id');
+                    $urlexcel = base_url('laporan/excel?periode=' . $periode);
                 }
             } else {
                 if ($this->input->get('shift')) {
@@ -135,6 +143,7 @@ class Laporan extends CI_Controller
         } else {
             $suffix = $this->session->userdata('ses_suffix');
         }
+
         if ($this->input->method(true) == 'POST') :
             $query = "SELECT customer.nama, login.nama_user, profil_toko.nama_toko, transaksi.* FROM transaksi" . $suffix . " AS transaksi 
                 LEFT JOIN customer ON transaksi.customer_id = customer.id 
@@ -163,6 +172,13 @@ class Laporan extends CI_Controller
                         $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '" AND transaksi.shift_id = ' . $shift_id . ' AND transaksi.cabang_id = ' . $cabang_id;
                     } else {
                         $iswhere = 'transaksi.date BETWEEN "' . $a . '" AND "' . $b . '"' . ' AND transaksi.cabang_id = ' . $cabang_id;
+                    }
+                } else if (!empty(htmlentities($this->input->get('periode', true)))) {
+                    if ($this->input->get('periode')) {
+                        $periode = $this->input->get('periode');
+                        $iswhere = '  transaksi.periode = "' . $periode . '" AND transaksi.cabang_id = ' . $cabang_id;
+                        // $periode =  $nama_cabang . ' Periode ' . $periode; //. time_explode_date(htmlentities($this->input->get('aperiode', true)), 'id');
+                        // $urlexcel = base_url('laporan/excel?periode=' . $periode);
                     }
                 } else {
                     if ($this->input->get('shift')) {

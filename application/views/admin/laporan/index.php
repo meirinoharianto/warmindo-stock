@@ -80,7 +80,8 @@ $idcabang = !empty($this->input->get('idcabang')) ? $this->input->get('idcabang'
                                 <th colspan="8">Total</th>
                                 <th><?= $total->qty; ?></th>
                                 <!-- <th>Rp<?= number_format($total->gm ?? 0); ?>,-</th> -->
-                                <th colspan="2">Rp<?= number_format($total->gr ?? 0); ?>,-</th>
+                                <th>Rp<?= number_format($total->gr ?? 0); ?></th>
+                                <th></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -187,6 +188,10 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
             $url = base_url('laporan/data_order?shift=' . $shift_id . '&a=' . $this->input->get('a') . '&b=' . $this->input->get('b') . '&idcabang=' . $this->input->get('idcabang'));
         } else {
             $url = base_url('laporan/data_order?shift=' . $shift_id . '&idcabang=' . $this->input->get('idcabang'));
+        }
+    } else if (!empty(htmlentities($this->input->get('periode', true)))) {
+        if ($this->input->get('periode')) {
+            $url = base_url('laporan/data_order?periode=' . $this->input->get('periode') . '&idcabang=' . $this->input->get('idcabang'));
         }
     } else {
         if (!empty($this->input->get('a'))) {
@@ -373,7 +378,8 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                 // },
                 {
                     data: 'grandtotal',
-                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp')
+                    render: $.fn.dataTable.render.number(',', '.', 0, 'Rp'),
+                    className: 'text-right'
                 },
                 {
                     "data": "id",

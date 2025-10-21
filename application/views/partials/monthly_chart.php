@@ -51,6 +51,43 @@ if ($has_monthly_data): ?>
             },
             options: {
                 responsive: true,
+                // --- Bagian yang ditambahkan untuk fungsionalitas klik ---
+                onClick: function(e) {
+                    // Mendapatkan elemen (bar) yang diklik
+                    const activePoints = chart.getElementsAtEventForMode(e, 'nearest', {
+                        intersect: true
+                    }, true);
+
+                    if (activePoints.length > 0) {
+                        const firstPoint = activePoints[0];
+                        const labelIndex = firstPoint.index;
+                        const datasetIndex = firstPoint.datasetIndex;
+
+                        const label = chart.data.labels[labelIndex];
+                        const value = chart.data.datasets[datasetIndex].data[labelIndex];
+
+                        // Mendapatkan bulan dalam format angka (1-12)
+                        // Label bulan adalah 'Jan', 'Feb', dst.
+                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'];
+                        const monthNumber = monthNames.indexOf(label) + 1; // 1-based month number
+
+                        // Format periode YYYY-MM
+                        const year = <?= json_encode($thn_monthly) ?>;
+                        const period = year + '-' + String(monthNumber).padStart(2, '0');
+
+                        // Aksi yang ingin dilakukan saat bar diklik
+                        // Contoh: Menampilkan alert dengan detail
+                        // alert(`Bar diklik!\nBulan: ${label} (${period})\nTotal Penjualan: ${value}`);
+
+                        // Contoh: Mengarahkan pengguna ke halaman detail penjualan bulan tersebut
+                        // Anda dapat mengganti ini dengan fungsi/URL yang sesuai di aplikasi Anda
+                        // window.location.href = `halaman_detail_penjualan.php?periode=${period}&cabang=<?= $cabang ?>`;
+
+                        window.location.href = `<?= base_url('laporan'); ?>?periode=${period}&idcabang=<?= $cabang ?>`;
+
+                    }
+                },
+                // -----------------------------------------------------------
                 plugins: {
                     title: {
                         display: true,
