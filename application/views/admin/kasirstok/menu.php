@@ -135,13 +135,41 @@
                 // alert("Berhasil tambah keranjang !");
                 $('#modalAddOn').modal('hide');
             },
-            'error': function(xmlhttprequest, textstatus, message) {
+            error: function(xmlhttprequest, textstatus, errorthrown) {
+                // Log the error details to the browser console
+                console.error("Cart Load Error Details:", {
+                    textstatus: textstatus,
+                    errorthrown: errorthrown,
+                    status: xmlhttprequest.status,
+                    responseText: xmlhttprequest.responseText.substring(0, 500) // Show partial response
+                });
+
+                // Provide a better alert to the user
+                let errorMessage = "Error loading cart: ";
                 if (textstatus === "timeout") {
-                    alert("request timeout");
+                    errorMessage += "Request Timed Out. Server is too slow to render the cart with Product ID 48.";
+                } else if (textstatus === "parsererror") {
+                    errorMessage += "Invalid data received from server. Check for unclosed HTML/JSON tags.";
+                } else if (xmlhttprequest.status !== 0) {
+                    errorMessage += `Server responded with status code ${xmlhttprequest.status}. Check network tab.`;
                 } else {
-                    alert("request timeout");
+                    errorMessage += "Network Error or connection interrupted.";
                 }
-            },
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cart Load Failed',
+                    html: errorMessage,
+                });
+            }
+
+            //            'error': function(xmlhttprequest, textstatus, message) {
+            //                if (textstatus === "timeout") {
+            //                    alert("request timeout");
+            //                } else {
+            //                    alert("request timeout");
+            //                }
+            //            },
 
         });
     });
