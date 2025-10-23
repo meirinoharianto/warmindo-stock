@@ -45,7 +45,7 @@
                                 </div>
 
                             </div> -->
-                            <div class="col-12 mb-3">
+                            <div class="col-12 mb-2">
                                 <form method="get" action="">
                                     <div class="input-group">
                                         <input type="text" class="form-control" value="<?= $this->input->get('cari'); ?>" name="cari" id="cari" placeholder="Cari Menu">
@@ -60,6 +60,15 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <a href="<?= base_url('kasirstok?cari=kopi'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">kopi</span></a>
+                                <a href="<?= base_url('kasirstok?cari=indomie'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">indomie</span></a>
+                                <a href="<?= base_url('kasirstok?cari=paket'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">paket</span></a>
+                                <a href="<?= base_url('kasirstok?cari=sosis'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">sosis</span></a>
+                                <a href="<?= base_url('kasirstok?cari=bakso'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">bakso</span></a>
+                                <a href="<?= base_url('kasirstok?cari=pop%20ice'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">pop ice</span></a>
+                                <a href="<?= base_url('kasirstok?cari=gorengan'); ?>"><span class="btn btn-sm btn-secondary rounded-pill">gorengan</span></a>
                             </div>
                         </div>
 
