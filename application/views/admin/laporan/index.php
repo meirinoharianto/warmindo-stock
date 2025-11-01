@@ -396,7 +396,13 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </center>`;
-
+                        <?php } else if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
+                            return `<center>
+                                    <a href="${base_url}order/view/${row.cabang_id}/${row.id}" 
+                                        class="btn btn-info btn-sm" title="Lihat Detail" role="button">
+                                        <i class="fa fa-eye"></i> Lihat Detail
+                                    </a>
+                                </center>`;
                         <?php } else { ?>
                             return `<center>
                                     <a href="${base_url}order/edit/${row.id}" 

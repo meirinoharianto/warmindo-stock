@@ -149,6 +149,47 @@ class Order extends CI_Controller
         $this->load->view('layout/footer', $this->data);
     }
 
+    public function view()
+    {
+        $cabang_id = (int)$this->uri->segment('3');
+        // $suffix = $this->session->userdata('ses_suffix');
+        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang_id])->row();
+        if ($caricabang) {
+            $kode_cabang = $caricabang->kode_cabang;
+            $arr_kode_cabang = array("SN1", "SN2", "SN7");
+            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        } else {
+            $this->session->set_flashdata("failed", "Data Tidak Tersedia ! ");
+            redirect(base_url("order"));
+        }
+
+        $id = (int)$this->uri->segment('4');
+        $t  = $this->db->query("SELECT customer.nama, customer.hp, login.nama_user, transaksi.* FROM 
+                transaksi" . $suffix . " AS transaksi LEFT JOIN customer ON transaksi.customer_id=customer.id 
+                LEFT JOIN login ON transaksi.kasir_id=login.id
+                WHERE transaksi.id = ?", [$id])->row();
+
+        if (!isset($t)) {
+            $this->session->set_flashdata("failed", "Data Tidak Tersedia ! ");
+            redirect(base_url("order"));
+        }
+
+        $tp = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $t->no_bon])->result_array();
+        $tp1 = $this->db->get_where("transaksi_produk" . $suffix, ['no_bon' => $t->no_bon])->result();
+        $this->data = [
+            'title_web'  => 'Detail Order',
+            't'  => $t,
+            'tp' => $tp,
+            'tp1' => $tp1,
+            'kat' => $this->db->get('kategori')->result(),
+            'pp' => $this->db->get('profil_toko', ['id' => $cabang_id])->row()
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/order/view', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
+
     public function updated()
     {
         $no_bon = $this->input->post('no_bon');
