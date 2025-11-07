@@ -106,9 +106,10 @@
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STOK</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownId">
-                                    <a class="dropdown-item" href="<?= base_url('bahan/stok'); ?>"><i class="fa fa-cubes pr-1"></i> Daftar Stok Bahan</a>
+                                    <a class="dropdown-item" href="<?= base_url('bahan/stok'); ?>"><i class="fa fa-list pr-1"></i> Daftar Stok Bahan</a>
                                     <a class="dropdown-item" href="<?= base_url('bahan/stokawal'); ?>"><i class="fa fa-cubes pr-1"></i> Stok Awal Bahan</a>
-                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-cubes pr-1"></i> Transfer Stok</a>
+                                    <!-- <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok</a>
+                                    <a class="dropdown-item" href="<?= base_url('stok/stokadjustment'); ?>"><i class="fa fa-edit pr-1"></i> Adjustment Stok</a> -->
                                 </div>
                             </li>
                         <?php } ?>
@@ -168,6 +169,7 @@
 
                                         <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Transfer Stok</a>
+
                                     <?php } else { ?>
                                         <a class="dropdown-item" href="<?= base_url('bahan/stok?id=' . $this->session->userdata('ses_cabang_id')); ?>"><i class="fa fa-cubes pr-1"></i> Daftar Stok Bahan</a>
                                     <?php } ?>
