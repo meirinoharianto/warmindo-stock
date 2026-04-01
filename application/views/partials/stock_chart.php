@@ -30,10 +30,13 @@ foreach ($bahans as $bahan) {
     $stock_labels[] = $bahan->nama_bahan;
     if ($stock_value > 0) $has_stock_data = true;
 }
-
+$jumlahLabel = count($stock_labels); // pastikan $labels tersedia
+$minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
-    <div class="chart-scroll-container">
-        <canvas id="stock-chart" height="180" style=" height: 300px;"></canvas>
+    <div class="stock-chart-scroll">
+        <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
+            <canvas id="stock-chart" height="180" style=" height: 300px;"></canvas>
+        </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
@@ -55,6 +58,7 @@ if ($has_stock_data): ?>
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,

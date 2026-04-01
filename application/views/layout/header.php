@@ -35,6 +35,24 @@
     <script src="<?= base_url('assets/plugins/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
 
     <style>
+        .stock-chart-scroll {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .stock-chart-inner {
+            min-width: 1200px;
+            /* sesuaikan */
+            height: 400px;
+        }
+
+        .stock-chart-inner canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
         .dropdown-submenu {
             position: relative;
         }
@@ -108,8 +126,8 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownId">
                                     <a class="dropdown-item" href="<?= base_url('bahan/stok'); ?>"><i class="fa fa-list pr-1"></i> Daftar Stok Bahan</a>
                                     <a class="dropdown-item" href="<?= base_url('bahan/stokawal'); ?>"><i class="fa fa-cubes pr-1"></i> Stok Awal Bahan</a>
-                                    <!-- <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok</a>
-                                    <a class="dropdown-item" href="<?= base_url('stok/stokadjustment'); ?>"><i class="fa fa-edit pr-1"></i> Adjustment Stok</a> -->
+                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok</a>
+                                    <a class="dropdown-item" href="<?= base_url('stok/stokadjustment'); ?>"><i class="fa fa-edit pr-1"></i> Adjustment Stok</a>
                                 </div>
                             </li>
                         <?php } ?>
