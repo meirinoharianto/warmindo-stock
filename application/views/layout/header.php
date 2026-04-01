@@ -35,24 +35,6 @@
     <script src="<?= base_url('assets/plugins/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
 
     <style>
-        .stock-chart-scroll {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .stock-chart-inner {
-            min-width: 1200px;
-            /* sesuaikan */
-            height: 400px;
-        }
-
-        .stock-chart-inner canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
         .dropdown-submenu {
             position: relative;
         }
