@@ -9,7 +9,7 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
 $thn_stock = !empty($this->input->post('thn_stock')) ? $this->input->post('thn_stock') : date('Y');
 $bln_stock = !empty($this->input->post('bln_stock')) ? $this->input->post('bln_stock') : date('m');
 $idcabang_stock = !empty($this->input->post('idcabang_stock')) ? $this->input->post('idcabang_stock') : 4;
-$idbahan_stock = !empty($this->input->post('idbahan_stock')) ? $this->input->post('idbahan_stock') : 1;
+$idbahan_stock = !empty($this->input->post('idbahan_stock')) ? $this->input->post('idbahan_stock') : 0;
 
 // Check which form was submitted
 $filter_monthly_submitted = !empty($this->input->post('filter_monthly'));
@@ -216,7 +216,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                                     </div>
                                                     <div class="mr-2">
                                                         <select name="idbahan_stock" class="form-control form-control-sm">
-                                                            <!-- <option value="0">- Semua Cabang -</option> -->
+                                                            <option value="0">- Semua Bahan -</option>
                                                             <?php
                                                             $this->db->order_by('nama_bahan', 'asc');
                                                             // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
