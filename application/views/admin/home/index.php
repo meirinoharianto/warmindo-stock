@@ -72,7 +72,7 @@
             <div class="col-sm-12">
                 <div class="card card-rounded mb-4 mt-3">
                     <div class="card-header bg-primary text-white">
-                        Laporan Penjualan <?= $thn; ?>
+                        Laporan Penjualan Old<?= $thn; ?>
                     </div>
                     <div class="card-body text-center">
                         <div class="row">
