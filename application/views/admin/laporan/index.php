@@ -386,16 +386,22 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                     "render": function(data, type, row, meta) {
                         <?php if ($this->session->userdata('ses_level') == 'Admin') { ?>
                             return `<center>
-                                    <a href="${base_url}order/edit/${row.id}" 
-                                        class="btn btn-info btn-sm" title="Detail Order" role="button">
-                                        <i class="fa fa-edit"></i> Detail Order
-                                    </a>
-                                    <a href="${base_url}order/hapus/${row.id}" 
-                                        onclick="javascript:return confirm('Apakah data ingin dihapus ?')" 
-                                        class="btn btn-danger btn-sm" title="Detail Order" role="button">
-                                        <i class="fa fa-trash"></i>
+                                    <a href="${base_url}order/view/${row.cabang_id}/${row.id}" 
+                                        class="btn btn-info btn-sm" title="Lihat Detail" role="button">
+                                        <i class="fa fa-eye"></i> Lihat Detail
                                     </a>
                                 </center>`;
+                            // return `<center>
+                            //         <a href="${base_url}order/edit/${row.id}" 
+                            //             class="btn btn-info btn-sm" title="Detail Order" role="button">
+                            //             <i class="fa fa-edit"></i> Detail Order
+                            //         </a>
+                            //         <a href="${base_url}order/hapus/${row.id}" 
+                            //             onclick="javascript:return confirm('Apakah data ingin dihapus ?')" 
+                            //             class="btn btn-danger btn-sm" title="Detail Order" role="button">
+                            //             <i class="fa fa-trash"></i>
+                            //         </a>
+                            //     </center>`;
                         <?php } else if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
                             return `<center>
                                     <a href="${base_url}order/view/${row.cabang_id}/${row.id}" 
