@@ -21,8 +21,8 @@ $bahan_labels = [];
 $period_stock = $thn_stock . '-' . $bln_stock;
 
 foreach ($bahans as $bahan) {
-    $sql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
-        WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
+    // $sql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
+    //     WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
     $stock_out = $this->db->query('SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
         WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?', [$period_stock . '%'])->row();
     $stock_value = $stock_out->qty ?? 0;
@@ -88,7 +88,7 @@ if ($has_stock_data): ?>
     <div class="alert alert-warning text-center py-4">
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
-        <p><?= $sql; ?></p>
+        <p><?= $stock_out; ?></p>
         <p>Tidak ada data penjualan untuk bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?></p>
     </div>
 <?php endif; ?>
