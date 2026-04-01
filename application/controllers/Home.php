@@ -30,6 +30,7 @@ class Home extends CI_Controller
 
     public function index()
     {
+        $this->db->db_debug = TRUE;
         // if ($this->session->userdata('ses_level') == 'Admin') {
         // if (in_array($this->session->userdata('ses_level'), array('Admin', 'SuperAdmin'))) {
         //     $trx = $this->db->get('transaksi')->num_rows();
