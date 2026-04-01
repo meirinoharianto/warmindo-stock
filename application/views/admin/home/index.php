@@ -225,7 +225,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                                             foreach ($namabahan as $n) {
                                                             ?>
                                                                 <option value="<?= $n->id; ?>" <?= ($idbahan_stock == $n->id) ? 'selected' : '' ?>>
-                                                                    <?= $r->nama_bahan; ?>
+                                                                    <?= $n->nama_bahan; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
