@@ -49,10 +49,27 @@ if ($has_stock_data): ?>
                     label: "Keluar",
                     data: [<?= implode(',', $stock_data) ?>],
                     backgroundColor: [
-                        '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
-                        '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#5a5c69',
-                        '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
+                        '#1f3a5f', // navy dark
+                        '#14532d', // dark green
+                        '#0f4c5c', // teal dark
+                        '#7c2d12', // burnt orange
+                        '#7f1d1d', // dark red
+                        '#374151', // slate dark
+                        '#4b5563', // gray medium
+                        '#1e293b', // blue gray dark
+                        '#3f3f46', // zinc dark
+                        '#334155', // slate blue
+                        '#1d4ed8', // deep blue
+                        '#065f46', // emerald dark
+                        '#0e7490', // cyan dark
+                        '#92400e', // amber dark
+                        '#991b1b' // red deep
                     ],
+                    // backgroundColor: [
+                    //     '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                    //     '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#5a5c69',
+                    //     '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
+                    // ],
                     borderWidth: 1
                 }]
             },
