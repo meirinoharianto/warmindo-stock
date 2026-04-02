@@ -134,6 +134,8 @@
                                             <i class="fa fa-cubes pr-1"></i> Menu Utama</a>
                                         <a class="dropdown-item" href="<?= base_url('bahan'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Bahan</a>
+                                        <a class="dropdown-item" href="<?= base_url('coordinators'); ?>">
+                                            <i class="fa fa-cubes pr-1"></i> Koordinator</a>
                                         <!-- <a class="dropdown-item" href="<?= base_url('bahanbaku'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Bahan Baku</a> -->
                                         <!-- <div class="dropdown-divider"></div> -->
