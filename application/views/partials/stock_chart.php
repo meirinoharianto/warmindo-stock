@@ -1,5 +1,8 @@
 <?php
 // Prepare branch data
+$idbahan_stock = $this->input->post('idbahan_stock');
+$idbahan_stock = is_array($idbahan_stock) ? $idbahan_stock : [];
+
 $stock_data = [];
 $has_stock_data = false;
 $cabang = $idcabang_stock;
@@ -14,9 +17,16 @@ if ($caricabang) {
 
 $this->db->order_by('nama_bahan', 'asc');
 // $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
-$bahans = $this->db->where('nama_bahan like "%"')
-    ->get('bahan')
-    ->result();
+$this->db->order_by('nama_bahan', 'asc');
+
+if (!empty($idbahan_stock) && !in_array('0', $idbahan_stock)) {
+    $this->db->where_in('id', $idbahan_stock);
+}
+
+$bahans = $this->db->get('bahan')->result();
+// $bahans = $this->db->where('nama_bahan like "%"')
+//     ->get('bahan')
+//     ->result();
 $bahan_labels = [];
 $period_stock = $thn_stock . '-' . $bln_stock;
 
