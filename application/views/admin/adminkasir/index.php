@@ -157,7 +157,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="stock-filter-form">
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
