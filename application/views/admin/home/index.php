@@ -215,17 +215,15 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="idbahan_stock" class="form-control form-control-sm">
+                                                        <select name="idbahan_stock[]" class="form-control form-control-sm" multiple size="6">
                                                             <option value="0">- Semua Bahan -</option>
                                                             <?php
                                                             $this->db->order_by('nama_bahan', 'asc');
-                                                            // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
-                                                            // $namabahan = $this->db->where('id <> 1 AND cabang_id <> 99')
-                                                            $namabahan = $this->db->get('bahan')
-                                                                ->result();
+                                                            $namabahan = $this->db->get('bahan')->result();
                                                             foreach ($namabahan as $n) {
                                                             ?>
-                                                                <option value="<?= $n->id; ?>" <?= ($idbahan_stock == $n->id) ? 'selected' : '' ?>>
+                                                                <option value="<?= $n->id; ?>"
+                                                                    <?= (isset($idbahan_stock) && in_array($n->id, (array)$idbahan_stock)) ? 'selected' : '' ?>>
                                                                     <?= $n->nama_bahan; ?>
                                                                 </option>
                                                             <?php } ?>
