@@ -15,7 +15,7 @@ if ($caricabang) {
     $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
 }
 
-$this->db->order_by('nama_bahan', 'asc');
+// $this->db->order_by('nama_bahan', 'asc');
 // $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
 $this->db->order_by('nama_bahan', 'asc');
 
