@@ -316,6 +316,7 @@
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user-circle"></i> <?= $profil->nama_user; ?>
+                                <h6><?= $this->session->userdata('ses_level') ?></h6>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownId">
                                 <?php if ($this->session->userdata('ses_level') == 'Admin') { ?>
