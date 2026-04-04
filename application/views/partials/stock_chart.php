@@ -30,16 +30,26 @@ $bahans = $this->db->get('bahan')->result();
 $bahan_labels = [];
 $period_stock = $thn_stock . '-' . $bln_stock;
 
-foreach ($bahans as $bahan) {
-    $sql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
+$ssql = "";
+if ($cabang == 0) {
+    $ssql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
+        WHERE tipe_transaksi LIKE "Penjualan%" AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
+} else {
+    $ssql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
         WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
-    $stock_out = $this->db->query('SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
-        WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?', [$period_stock . '%'])->row();
+}
+
+foreach ($bahans as $bahan) {
+    // $sql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
+    //     WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
+
+    $stock_out = $this->db->query($ssql, [$period_stock . '%'])->row();
     $stock_value = $stock_out->qty ?? 0;
     $stock_data[] = $stock_value;
     $stock_labels[] = $bahan->nama_bahan;
     if ($stock_value > 0) $has_stock_data = true;
 }
+
 $jumlahLabel = count($stock_labels); // pastikan $labels tersedia
 $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
