@@ -91,15 +91,8 @@ foreach ($bahans as $bahan) {
     $stock_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = [
-        $bahan->nama_bahan,
-        '(' . number_format($total_qty, 0, ',', '.') . ')'
-    ];
-
+    $label_with_qty = $bahan->nama_bahan . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     $stock_labels[] = $label_with_qty;
-
-    // $label_with_qty = $bahan->nama_bahan . ' (' . number_format($total_qty, 0, ',', '.') . ')';
-    // $stock_labels[] = $label_with_qty;
 
 
     if ($total_qty > 0) {
@@ -142,8 +135,7 @@ if ($has_stock_data): ?>
         var chart2 = new Chart(stockChart, {
             type: 'bar',
             data: {
-                // labels: [<?= "'" . implode("','", array_map('addslashes', $stock_labels)) . "'" ?>],
-                labels: <?= json_encode($stock_labels) ?>,
+                labels: [<?= "'" . implode("','", array_map('addslashes', $stock_labels)) . "'" ?>],
                 datasets: [{
                     label: "Keluar",
                     data: [<?= implode(',', $stock_data) ?>],
@@ -187,7 +179,7 @@ if ($has_stock_data): ?>
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Total Stock Keluar'
+                            text: 'Total Stok Keluar'
                         }
                     },
                     x: {
