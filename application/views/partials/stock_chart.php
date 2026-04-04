@@ -38,14 +38,15 @@ foreach ($bahans as $bahan) {
                     "SELECT SUM(jumlah_perubahan * -1) as qty
                      FROM {$table}
                      WHERE tipe_transaksi LIKE 'Penjualan%'
+                     AND cabang_id = ?
                      AND bahan_id = ?
                      AND periode LIKE ?",
-                    [$bahan->id, $period_stock . '%']
+                    [$cbg->id, $bahan->id, $period_stock . '%']
                 )->row();
 
                 $total_qty += (float)($stock_out->qty ?? 0);
 ?>
-                <p> <?= $table ?> <?= $total_qty ?></p>
+                <p> <?= $$cbg->kode_cabang ?> <?= $total_qty ?></p>
     <?php
             }
         }
