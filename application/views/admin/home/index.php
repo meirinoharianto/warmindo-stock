@@ -413,7 +413,7 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
             });
         });
     });
-    // AJAX form submission for stock filter
+    // AJAX form submission for product_sales filter
     $('#product_sales-filter-form').submit(function(e) {
         e.preventDefault();
         $.ajax({
