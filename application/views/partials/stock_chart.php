@@ -2,12 +2,8 @@
 $idbahan_stock = $this->input->post('idbahan_stock');
 $idbahan_stock = is_array($idbahan_stock) ? $idbahan_stock : [];
 
-$stock_data[] = $total_qty;
-
-// label + qty
-$label_with_qty = $bahan->nama_bahan . ' (' . number_format($total_qty, 0, ',', '.') . ')';
-$stock_labels[] = $label_with_qty;
-
+$stock_data = [];
+$stock_labels = [];
 $has_stock_data = false;
 $cabang = (int)$idcabang_stock;
 
@@ -89,8 +85,15 @@ foreach ($bahans as $bahan) {
         $judul_cabang = 'Cabang ' . $kode_cabang;
     }
 
+    // $stock_data[] = $total_qty;
+    // $stock_labels[] = $bahan->nama_bahan;
+
     $stock_data[] = $total_qty;
-    $stock_labels[] = $bahan->nama_bahan;
+
+    // label + qty
+    $label_with_qty = $bahan->nama_bahan . ' (' . number_format($total_qty, 0, ',', '.') . ')';
+    $stock_labels[] = $label_with_qty;
+
 
     if ($total_qty > 0) {
         $has_stock_data = true;
