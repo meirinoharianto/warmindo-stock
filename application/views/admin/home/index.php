@@ -244,17 +244,17 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                         </div>
 
 
-                                        <div id="product_sales-chart-container">
+                                        <!-- <div id="product_sales-chart-container">
                                             <?php
                                             // Load branch chart partial view
-                                            $this->load->view('partials/product_sales_chart', [
-                                                'thn_product_sales' => $thn_product_sales,
-                                                'bln_product_sales' => $bln_product_sales,
-                                                'idcabang_product_sales' => $idcabang_product_sales,
-                                                'filter_product_sales_submitted' => $filter_product_sales_submitted
-                                            ]);
+                                            // $this->load->view('partials/product_sales_chart', [
+                                            //     'thn_product_sales' => $thn_product_sales,
+                                            //     'bln_product_sales' => $bln_product_sales,
+                                            //     'idcabang_product_sales' => $idcabang_product_sales,
+                                            //     'filter_product_sales_submitted' => $filter_product_sales_submitted
+                                            // ]);
                                             ?>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
@@ -411,20 +411,6 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                     $('#stock-chart-container').html(newContent);
                 }
             });
-        });
-    });
-    // AJAX form submission for product_sales filter
-    $('#product_sales-filter-form').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                // Extract just the branch chart container content from the response
-                var newContent = $(response).find('#product_sales-chart-container').html();
-                $('#product_sales-chart-container').html(newContent);
-            }
         });
     });
 </script>
