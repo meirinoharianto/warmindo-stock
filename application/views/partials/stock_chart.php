@@ -11,11 +11,13 @@ $this->db->order_by('nama_bahan', 'asc');
 if (!empty($idbahan_stock) && !in_array('0', $idbahan_stock)) {
     $this->db->where_in('id', $idbahan_stock);
 }
+
 $bahans = $this->db->get('bahan')->result();
 
 $period_stock = $thn_stock . '-' . $bln_stock;
 
 // ambil daftar cabang
+$this->db->where_not_in('kode_cabang', 'PU');
 $all_cabang = $this->db->get('cabang')->result();
 
 foreach ($bahans as $bahan) {
