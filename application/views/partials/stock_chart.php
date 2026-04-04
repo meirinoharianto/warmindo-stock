@@ -42,6 +42,9 @@ foreach ($bahans as $bahan) {
                 )->row();
 
                 $total_qty += (float)($stock_out->qty ?? 0);
+?>
+                <p> <?= $table ?> <?= $total_qty ?></p>
+    <?php
             }
         }
 
@@ -109,7 +112,14 @@ if ($has_stock_data): ?>
             height: 100% !important;
         }
     </style>
-    <p>Keterangan ...</p>
+
+    <?php
+    if ($cabang == 0) {
+    ?>
+        <p> <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?></p>
+    <?php
+    }
+    ?>
     <div class="stock-chart-scroll">
         <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
             <canvas id="stock-chart" height="180" style=" height: 300px;"></canvas>
