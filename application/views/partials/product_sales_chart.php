@@ -74,7 +74,7 @@ foreach ($products as $product) {
                 WHERE cabang_id = ?
                      AND kode_menu = ?
                      AND periode LIKE ?",
-                [$cbg->id, $product->kode_menu, $period_product_sales . '%']
+                [$cabang, $product->kode_menu, $period_product_sales . '%']
             )->row();
 
             $total_qty = (float)($stock_out->qty ?? 0);
