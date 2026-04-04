@@ -8,7 +8,7 @@ $idcabang_monthly = !empty($this->input->post('idcabang_monthly')) ? $this->inpu
 
 $thn_stock = !empty($this->input->post('thn_stock')) ? $this->input->post('thn_stock') : date('Y');
 $bln_stock = !empty($this->input->post('bln_stock')) ? $this->input->post('bln_stock') : date('m');
-$idcabang_stock = !empty($this->input->post('idcabang_stock')) ? $this->input->post('idcabang_stock') : 4;
+$idcabang_stock = !empty($this->input->post('idcabang_stock')) ? $this->input->post('idcabang_stock') : 0;
 $idbahan_stock = !empty($this->input->post('idbahan_stock')) ? $this->input->post('idbahan_stock') : 0;
 
 // Check which form was submitted
