@@ -231,7 +231,7 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                                             ?>
                                                                 <option value="<?= $n->id; ?>"
                                                                     <?= (isset($idproduct_sales) && in_array($n->id, (array)$idproduct_sales)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama_bahan; ?>
+                                                                    <?= $n->nama; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>

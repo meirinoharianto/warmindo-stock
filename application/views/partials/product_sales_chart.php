@@ -5,7 +5,7 @@ $idproduct = is_array($idproduct) ? $idproduct : [];
 $stock_data = [];
 $stock_labels = [];
 $has_stock_data = false;
-$cabang = (int)$idcabang_stock;
+$cabang = (int)$idcabang_product_sales;
 
 $this->db->order_by('nama', 'asc');
 if (!empty($idproduct) && !in_array('0', $idproduct)) {
@@ -14,7 +14,7 @@ if (!empty($idproduct) && !in_array('0', $idproduct)) {
 
 $products = $this->db->get('menu_utama')->result();
 
-$period_stock = $thn_stock . '-' . $bln_stock;
+$period_product_sales = $thn_product_sales . '-' . $bln_product_sales;
 
 // ambil daftar cabang
 $this->db->where_not_in('kode_cabang', 'PU');
@@ -40,7 +40,7 @@ foreach ($products as $product) {
                      WHERE cabang_id = ?
                      AND kode_menu = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $product->kode_menu, $period_stock . '%']
+                    [$cbg->id, $product->kode_menu, $period_product_sales . '%']
                 )->row();
 
                 $total_qty += (float)($stock_out->qty ?? 0);
@@ -74,7 +74,7 @@ foreach ($products as $product) {
                 WHERE cabang_id = ?
                      AND kode_menu = ?
                      AND periode LIKE ?",
-                [$cbg->id, $product->kode_menu, $period_stock . '%']
+                [$cbg->id, $product->kode_menu, $period_product_sales . '%']
             )->row();
 
             $total_qty = (float)($stock_out->qty ?? 0);
@@ -89,7 +89,7 @@ foreach ($products as $product) {
     $stock_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = $product->nama_menu . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
+    $label_with_qty = $product->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     $stock_labels[] = $label_with_qty;
 
 
@@ -168,7 +168,7 @@ if ($has_stock_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Menu Terjual Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - <?= $judul_cabang ?>'
+                        text: 'Menu Terjual Bulan <?= $bulan[$bln_product_sales] ?? '' ?> <?= $thn_product_sales ?> - <?= $judul_cabang ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
@@ -200,6 +200,6 @@ if ($has_stock_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada data penjualan untuk bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?></p>
+        <p>Tidak ada data penjualan untuk bulan <?= $bulan[$bln_product_sales] ?? '' ?> <?= $thn_product_sales ?></p>
     </div>
 <?php endif; ?>
