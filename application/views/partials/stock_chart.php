@@ -91,7 +91,7 @@ foreach ($bahans as $bahan) {
     $stock_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = $bahan->nama_bahan . '</br> (' . number_format($total_qty, 0, ',', '.') . ')';
+    $label_with_qty = $bahan->nama_bahan . ' (' . number_format($total_qty, 0, ',', '.') . ')';
     $stock_labels[] = $label_with_qty;
 
 
