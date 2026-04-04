@@ -1,54 +1,89 @@
 <?php
-// Prepare branch data
 $idbahan_stock = $this->input->post('idbahan_stock');
 $idbahan_stock = is_array($idbahan_stock) ? $idbahan_stock : [];
 
 $stock_data = [];
+$stock_labels = [];
 $has_stock_data = false;
-$cabang = $idcabang_stock;
-$suffix = '';
-// $namacabang = '';
-$caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
-if ($caricabang) {
-    $kode_cabang = $caricabang->kode_cabang;
-    $arr_kode_cabang = array("SN1", "SN2", "SN7");
-    $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
-}
+$cabang = (int)$idcabang_stock;
 
-// $this->db->order_by('nama_bahan', 'asc');
-// $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
 $this->db->order_by('nama_bahan', 'asc');
-
 if (!empty($idbahan_stock) && !in_array('0', $idbahan_stock)) {
     $this->db->where_in('id', $idbahan_stock);
 }
-
 $bahans = $this->db->get('bahan')->result();
-// $bahans = $this->db->where('nama_bahan like "%"')
-//     ->get('bahan')
-//     ->result();
-$bahan_labels = [];
+
 $period_stock = $thn_stock . '-' . $bln_stock;
 
-$scabang = "";
-if ($cabang == 0) {
-    $scabang = '';
-} else {
-    $scabang = ' AND cabang_id=' . $cabang;
-}
+// ambil daftar cabang
+$all_cabang = $this->db->get('cabang')->result();
 
 foreach ($bahans as $bahan) {
-    $sql = 'SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
-        WHERE tipe_transaksi LIKE "Penjualan%" AND cabang_id=' . $cabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?';
+    $total_qty = 0;
 
-    $stock_out = $this->db->query('SELECT SUM(jumlah_perubahan*-1) as qty FROM bahan_kartustok' . $suffix . ' 
-        WHERE tipe_transaksi LIKE "Penjualan%" ' . $scabang . ' AND bahan_id=' . $bahan->id . ' AND periode LIKE ?', [$period_stock . '%'])->row();
+    // Jika pilih semua cabang
+    if ($cabang == 0) {
+        foreach ($all_cabang as $cbg) {
+            $kode_cabang = $cbg->kode_cabang;
+            $arr_kode_cabang = array("SN1", "SN2", "SN7");
+            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
 
+            $table = 'bahan_kartustok' . $suffix;
 
-    $stock_value = $stock_out->qty ?? 0;
-    $stock_data[] = $stock_value;
+            // cek tabel ada
+            if ($this->db->table_exists($table)) {
+                $stock_out = $this->db->query(
+                    "SELECT SUM(jumlah_perubahan * -1) as qty
+                     FROM {$table}
+                     WHERE tipe_transaksi LIKE 'Penjualan%'
+                     AND bahan_id = ?
+                     AND periode LIKE ?",
+                    [$bahan->id, $period_stock . '%']
+                )->row();
+
+                $total_qty += (float)($stock_out->qty ?? 0);
+            }
+        }
+
+        $judul_cabang = 'Semua Cabang';
+    } else {
+        // Jika pilih 1 cabang saja
+        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
+
+        $suffix = '';
+        $kode_cabang = '';
+
+        if ($caricabang) {
+            $kode_cabang = $caricabang->kode_cabang;
+            $arr_kode_cabang = array("SN1", "SN2", "SN7");
+            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        }
+
+        $table = 'bahan_kartustok' . $suffix;
+
+        if ($this->db->table_exists($table)) {
+            $stock_out = $this->db->query(
+                "SELECT SUM(jumlah_perubahan * -1) as qty
+                 FROM {$table}
+                 WHERE tipe_transaksi LIKE 'Penjualan%'
+                 AND cabang_id = ?
+                 AND bahan_id = ?
+                 AND periode LIKE ?",
+                [$cabang, $bahan->id, $period_stock . '%']
+            )->row();
+
+            $total_qty = (float)($stock_out->qty ?? 0);
+        }
+
+        $judul_cabang = 'Cabang ' . $kode_cabang;
+    }
+
+    $stock_data[] = $total_qty;
     $stock_labels[] = $bahan->nama_bahan;
-    if ($stock_value > 0) $has_stock_data = true;
+
+    if ($total_qty > 0) {
+        $has_stock_data = true;
+    }
 }
 
 $jumlahLabel = count($stock_labels); // pastikan $labels tersedia
