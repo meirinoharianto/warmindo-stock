@@ -225,7 +225,7 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                                         <select name="idproduct_sales[]" class="form-control form-control-sm" multiple size="6">
                                                             <option value="0">- Semua Menu -</option>
                                                             <?php
-                                                            $this->db->order_by('nama_menu', 'asc');
+                                                            $this->db->order_by('nama', 'asc');
                                                             $namamenu = $this->db->get('menu_utama')->result();
                                                             foreach ($namamenu as $n) {
                                                             ?>

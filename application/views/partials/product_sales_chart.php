@@ -7,7 +7,7 @@ $stock_labels = [];
 $has_stock_data = false;
 $cabang = (int)$idcabang_stock;
 
-$this->db->order_by('nama_menu', 'asc');
+$this->db->order_by('nama', 'asc');
 if (!empty($idproduct) && !in_array('0', $idproduct)) {
     $this->db->where_in('id', $idproduct);
 }
