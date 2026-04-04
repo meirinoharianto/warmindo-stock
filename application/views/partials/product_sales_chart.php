@@ -103,33 +103,33 @@ $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
 
     <style>
-        .stock-chart-scroll {
+        .product_sales-chart-scroll {
             width: 100%;
             overflow-x: auto;
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
-        .stock-chart-inner {
+        .product_sales-chart-inner {
             min-width: 1200px;
             /* sesuaikan */
             height: 400px;
         }
 
-        .stock-chart-inner canvas {
+        .product_sales-chart-inner canvas {
             width: 100% !important;
             height: 100% !important;
         }
     </style>
 
-    <div class="stock-chart-scroll">
-        <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
-            <canvas id="stock-chart" height="180" style=" height: 300px;"></canvas>
+    <div class="product_sales-chart-scroll">
+        <div class="product_sales-chart-inner" style="min-width: <?= $minWidth ?>px;">
+            <canvas id="product_sales-chart" height="180" style=" height: 300px;"></canvas>
         </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
-        var stockChart = document.getElementById('stock-chart');
+        var stockChart = document.getElementById('product_sales-chart');
         var chart2 = new Chart(stockChart, {
             type: 'bar',
             data: {
