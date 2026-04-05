@@ -45,14 +45,14 @@ foreach ($products as $product) {
 
                 $total_qty += (float)($stock_out->qty ?? 0);
                 // $total_qty = 0;
-?>
-                <!-- trace hasil  -->
 
-                <p> <?= $cbg->id . '-' . $table . '-' . $product->nama . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
-        <?php
             }
         }
+?>
+        <!-- trace hasil  -->
 
+        <p> <?= $product->nama  ?> <?= $total_qty ?></p>
+    <?php
         $judul_cabang = 'Semua Cabang';
     } else {
         // Jika pilih 1 cabang saja
@@ -83,7 +83,7 @@ foreach ($products as $product) {
         }
 
         $judul_cabang = 'Cabang ' . $kode_cabang;
-        ?>
+    ?>
         <p> <?= $cabang . '-' . $product->nama . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
 
     <?php
