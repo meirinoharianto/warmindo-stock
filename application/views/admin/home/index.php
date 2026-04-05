@@ -22,7 +22,70 @@ $filter_branch_submitted = !empty($this->input->post('filter_branch'));
 $filter_stock_submitted = !empty($this->input->post('filter_stock'));
 $filter_product_sales_submitted = !empty($this->input->post('filter_product_sales'));
 ?>
+<style>
+    .chart-loading-box {
+        position: relative;
+        min-height: 320px;
+        border-radius: 8px;
+    }
 
+    .chart-loading-content {
+        transition: filter 0.25s ease, opacity 0.25s ease;
+    }
+
+    .chart-loading-overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        z-index: 10;
+        border-radius: 8px;
+    }
+
+    .chart-loading-box.loading .chart-loading-overlay {
+        display: flex;
+    }
+
+    .chart-loading-box.loading .chart-loading-content {
+        filter: blur(4px);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .chart-loading-spinner {
+        width: 44px;
+        height: 44px;
+        border: 4px solid #dbeafe;
+        border-top: 4px solid #2563eb;
+        border-radius: 50%;
+        animation: chartSpin 0.8s linear infinite;
+        margin-bottom: 10px;
+    }
+
+    .chart-loading-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    @keyframes chartSpin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <div id="home" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
         <div id="content" class="p-0 flex-grow-1">
@@ -244,17 +307,36 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                         </div>
 
 
-                                        <div id="product_sales-chart-container">
+                                        <!-- <div id="product_sales-chart-container">
                                             <?php
                                             // Load branch chart partial view
-                                            $this->load->view('partials/product_sales_chart', [
-                                                'thn_product_sales' => $thn_product_sales,
-                                                'bln_product_sales' => $bln_product_sales,
-                                                'idcabang_product_sales' => $idcabang_product_sales,
-                                                'idproduct_sales' => $idproduct_sales,
-                                                'filter_product_sales_submitted' => $filter_product_sales_submitted
-                                            ]);
+                                            // $this->load->view('partials/product_sales_chart', [
+                                            //     'thn_product_sales' => $thn_product_sales,
+                                            //     'bln_product_sales' => $bln_product_sales,
+                                            //     'idcabang_product_sales' => $idcabang_product_sales,
+                                            //     'idproduct_sales' => $idproduct_sales,
+                                            //     'filter_product_sales_submitted' => $filter_product_sales_submitted
+                                            // ]);
                                             ?>
+                                        </div> -->
+
+                                        <div id="product_sales-chart-container" class="chart-loading-box">
+                                            <div class="chart-loading-overlay">
+                                                <div class="chart-loading-spinner"></div>
+                                                <div class="chart-loading-text">Memuat grafik...</div>
+                                            </div>
+
+                                            <div id="product_sales-chart-content" class="chart-loading-content">
+                                                <?php
+                                                $this->load->view('partials/product_sales_chart', [
+                                                    'thn_product_sales' => $thn_product_sales,
+                                                    'bln_product_sales' => $bln_product_sales,
+                                                    'idcabang_product_sales' => $idcabang_product_sales,
+                                                    'idproduct_sales' => $idproduct_sales,
+                                                    'filter_product_sales_submitted' => $filter_product_sales_submitted
+                                                ]);
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -301,34 +383,66 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                 }
             });
         });
+
         // AJAX form submission for product_sales filter
+
         $('#product_sales-filter-form').submit(function(e) {
             e.preventDefault();
+
+            var $form = $(this);
+            var $container = $('#product_sales-chart-container');
+            var $content = $('#product_sales-chart-content');
+
+            $container.addClass('loading');
+
             $.ajax({
-                url: $(this).attr('action'),
+                url: $form.attr('action'),
                 type: 'POST',
-                data: $(this).serialize(),
+                data: $form.serialize(),
                 success: function(response) {
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#product_sales-chart-container').html();
-                    $('#product_sales-chart-container').html(newContent);
+                    var newContent = $(response).find('#product_sales-chart-content').html();
+                    $content.html(newContent);
+                },
+                error: function() {
+                    $content.html(`
+                <div class="alert alert-danger text-center py-3 mb-0">
+                    Gagal memuat grafik.
+                </div>
+            `);
+                },
+                complete: function() {
+                    $container.removeClass('loading');
                 }
             });
         });
 
+        // $('#product_sales-filter-form').submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         type: 'POST',
+        //         data: $(this).serialize(),
+        //         success: function(response) {
+        //             // Extract just the branch chart container content from the response
+        //             var newContent = $(response).find('#product_sales-chart-container').html();
+        //             $('#product_sales-chart-container').html(newContent);
+        //         }
+        //     });
+        // });
+
         // AJAX form submission for stock filter
-        $('#stock-filter-form').submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock-chart-container').html();
-                    $('#stock-chart-container').html(newContent);
-                }
-            });
-        });
+        // $('#stock-filter-form').submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         type: 'POST',
+        //         data: $(this).serialize(),
+        //         success: function(response) {
+        //             // Extract just the branch chart container content from the response
+        //             var newContent = $(response).find('#stock-chart-container').html();
+        //             $('#stock-chart-container').html(newContent);
+        //         }
+        //     });
+        // });
     });
 </script>
