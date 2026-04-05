@@ -17,7 +17,7 @@ $filter_branch_submitted = !empty($this->input->post('filter_branch'));
 $filter_stock_submitted = !empty($this->input->post('filter_stock'));
 ?>
 
-<div id="adminkasir" class="d-flex flex-column h-100">
+<div id="home" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
         <div id="content" class="p-0 flex-grow-1">
             <div class="container-fluid h-100">
@@ -33,7 +33,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="monthly-filter-form">
+                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="monthly-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
                                                     <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
@@ -91,7 +91,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Cabang</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="branch-filter-form">
+                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="branch-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
                                                     <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
@@ -157,7 +157,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock-filter-form">
+                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="stock-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
@@ -251,11 +251,12 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                     </div>
                                 </div>
 
+                                <!-- Chart 3: Stock Chart by Branch by Month-->
                                 <div class="row">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock-filter-form">
+                                            <h5>Penjualan Menu per Bulan</h5>
+                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="stock2-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
@@ -335,7 +336,7 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                                         </div>
 
 
-                                        <div id="stock-chart-container">
+                                        <div id="stock2-chart-container">
                                             <?php
                                             // Load branch chart partial view
                                             $this->load->view('partials/stock_chart', [
@@ -401,6 +402,21 @@ $filter_stock_submitted = !empty($this->input->post('filter_stock'));
                     // Extract just the branch chart container content from the response
                     var newContent = $(response).find('#stock-chart-container').html();
                     $('#stock-chart-container').html(newContent);
+                }
+            });
+        });
+
+        // AJAX form submission for stock filter
+        $('#stock2-filter-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Extract just the branch chart container content from the response
+                    var newContent = $(response).find('#stock2-chart-container').html();
+                    $('#stock2-chart-container').html(newContent);
                 }
             });
         });
