@@ -99,7 +99,7 @@ foreach ($products as $product) {
     $stock_labels[] = $label_with_qty;
 
 
-    if ($total_qty > 0) {
+    if ($total_qty >= 0) {
         $has_stock_data = true;
     }
 }
