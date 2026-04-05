@@ -104,34 +104,16 @@ $jumlahLabel = count($stock_labels); // pastikan $labels tersedia
 $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
 
-    <style>
-        .stock2-chart-scroll {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
 
-        .stock2-chart-inner {
-            min-width: 1200px;
-            /* sesuaikan */
-            height: 400px;
-        }
 
-        .stock2-chart-inner canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-    </style>
-
-    <div class="stock2-chart-scroll">
-        <div class="stock2-chart-inner" style="min-width: <?= $minWidth ?>px;">
+    <div class="stock-chart-scroll">
+        <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
             <canvas id="stock2-chart" height="180" style=" height: 300px;"></canvas>
         </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
-        var stock2Chart = document.getElementById('stock-chart');
+        var stock2Chart = document.getElementById('stock2-chart');
         var chart3 = new Chart(stock2Chart, {
             type: 'bar',
             data: {
