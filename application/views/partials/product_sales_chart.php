@@ -48,8 +48,8 @@ foreach ($products as $product) {
 ?>
                 <!-- trace hasil  -->
 
-                <!-- <p> <?= $cbg->id . '-' . $table . '-' . $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p> -->
-    <?php
+                <p> <?= $cbg->id . '-' . $table . '-' . $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
+        <?php
             }
         }
 
@@ -83,6 +83,10 @@ foreach ($products as $product) {
         }
 
         $judul_cabang = 'Cabang ' . $kode_cabang;
+        ?>
+        <p> <?= $cabang . '-' . $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
+
+    <?php
     }
 
     // $stock_data[] = $total_qty;
