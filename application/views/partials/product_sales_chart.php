@@ -43,12 +43,12 @@ foreach ($products as $product) {
                     [$cbg->id, $product->kode_menu, $period_product_sales . '%']
                 )->row();
 
-                // $total_qty += (float)($stock_out->qty ?? 0);
-                $total_qty = 0;
+                $total_qty += (float)($stock_out->qty ?? 0);
+                // $total_qty = 0;
 ?>
                 <!-- trace hasil  -->
 
-                <p> <?= $cbg->id . '-' . $table . '-' . $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
+                <!-- <p> <?= $cbg->id . '-' . $table . '-' . $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p> -->
     <?php
             }
         }
