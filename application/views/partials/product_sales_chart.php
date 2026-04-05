@@ -46,7 +46,7 @@ foreach ($products as $product) {
                 $total_qty += (float)($stock_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
-                <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
+                <p> <?= $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
     <?php
             }
         }
