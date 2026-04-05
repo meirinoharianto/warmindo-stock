@@ -131,8 +131,8 @@ if ($has_stock_data): ?>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
-        var stockChart = document.getElementById('stock-chart');
-        var chart2 = new Chart(stockChart, {
+        var stock2Chart = document.getElementById('stock-chart');
+        var chart3 = new Chart(stock2Chart, {
             type: 'bar',
             data: {
                 labels: [<?= "'" . implode("','", array_map('addslashes', $stock_labels)) . "'" ?>],
