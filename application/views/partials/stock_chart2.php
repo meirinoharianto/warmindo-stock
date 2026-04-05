@@ -105,28 +105,28 @@ $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
 
     <style>
-        .stock-chart-scroll {
+        .stock2-chart-scroll {
             width: 100%;
             overflow-x: auto;
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
-        .stock-chart-inner {
+        .stock2-chart-inner {
             min-width: 1200px;
             /* sesuaikan */
             height: 400px;
         }
 
-        .stock-chart-inner canvas {
+        .stock2-chart-inner canvas {
             width: 100% !important;
             height: 100% !important;
         }
     </style>
 
-    <div class="stock-chart-scroll">
-        <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
-            <canvas id="stock-chart" height="180" style=" height: 300px;"></canvas>
+    <div class="stock2-chart-scroll">
+        <div class="stock2-chart-inner" style="min-width: <?= $minWidth ?>px;">
+            <canvas id="stock2-chart" height="180" style=" height: 300px;"></canvas>
         </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
