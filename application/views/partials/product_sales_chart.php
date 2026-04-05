@@ -34,16 +34,17 @@ foreach ($products as $product) {
 
             // cek tabel ada
             if ($this->db->table_exists($table)) {
-                $stock_out = $this->db->query(
-                    "SELECT SUM(qty) as qty
-                     FROM {$table}
-                     WHERE cabang_id = ?
-                     AND kode_menu = ?
-                     AND periode LIKE ?",
-                    [$cbg->id, $product->kode_menu, $period_product_sales . '%']
-                )->row();
+                // $stock_out = $this->db->query(
+                //     "SELECT SUM(qty) as qty
+                //      FROM {$table}
+                //      WHERE cabang_id = ?
+                //      AND kode_menu = ?
+                //      AND periode LIKE ?",
+                //     [$cbg->id, $product->kode_menu, $period_product_sales . '%']
+                // )->row();
 
-                $total_qty += (float)($stock_out->qty ?? 0);
+                // $total_qty += (float)($stock_out->qty ?? 0);
+                $total_qty = 0;
 ?>
                 <!-- trace hasil  -->
                 <p> <?= $product->kode_menu . ' - ' . $kode_cabang ?> <?= $total_qty ?></p>
