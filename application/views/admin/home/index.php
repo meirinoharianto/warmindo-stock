@@ -400,8 +400,11 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                 type: 'POST',
                 data: $form.serialize(),
                 success: function(response) {
+
                     var newContent = $(response).find('#product_sales-chart-content').html();
                     $content.html(newContent);
+                    console.log('sukses');
+
                 },
                 error: function() {
                     $content.html(`
