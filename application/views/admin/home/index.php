@@ -11,82 +11,13 @@ $bln_stock = !empty($this->input->post('bln_stock')) ? $this->input->post('bln_s
 $idcabang_stock = !empty($this->input->post('idcabang_stock')) ? $this->input->post('idcabang_stock') : 0;
 $idbahan_stock = !empty($this->input->post('idbahan_stock')) ? $this->input->post('idbahan_stock') : 0;
 
-$thn_product_sales = !empty($this->input->post('thn_product_sales')) ? $this->input->post('thn_product_sales') : date('Y');
-$bln_product_sales = !empty($this->input->post('bln_product_sales')) ? $this->input->post('bln_product_sales') : date('m');
-$idcabang_product_sales = !empty($this->input->post('idcabang_product_sales')) ? $this->input->post('idcabang_product_sales') : 0;
-$idproduct_sales = !empty($this->input->post('idproduct_sales')) ? $this->input->post('idproduct_sales') : 0;
-
 // Check which form was submitted
 $filter_monthly_submitted = !empty($this->input->post('filter_monthly'));
 $filter_branch_submitted = !empty($this->input->post('filter_branch'));
 $filter_stock_submitted = !empty($this->input->post('filter_stock'));
-$filter_product_sales_submitted = !empty($this->input->post('filter_product_sales'));
 ?>
-<style>
-    .chart-loading-box {
-        position: relative;
-        min-height: 320px;
-        border-radius: 8px;
-    }
 
-    .chart-loading-content {
-        transition: filter 0.25s ease, opacity 0.25s ease;
-    }
-
-    .chart-loading-overlay {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        background: rgba(255, 255, 255, 0.35);
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
-        z-index: 10;
-        border-radius: 8px;
-    }
-
-    .chart-loading-box.loading .chart-loading-overlay {
-        display: flex;
-    }
-
-    .chart-loading-box.loading .chart-loading-content {
-        filter: blur(4px);
-        pointer-events: none;
-        user-select: none;
-    }
-
-    .chart-loading-spinner {
-        width: 44px;
-        height: 44px;
-        border: 4px solid #dbeafe;
-        border-top: 4px solid #2563eb;
-        border-radius: 50%;
-        animation: chartSpin 0.8s linear infinite;
-        margin-bottom: 10px;
-    }
-
-    .chart-loading-text {
-        font-size: 14px;
-        font-weight: 600;
-        color: #1f2937;
-    }
-
-    @keyframes chartSpin {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-</style>
-<div id="home" class="d-flex flex-column h-100">
+<div id="adminkasir" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
         <div id="content" class="p-0 flex-grow-1">
             <div class="container-fluid h-100">
@@ -97,13 +28,12 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                 <i class="fa fa-bar-chart mr-1"></i> Grafik Penjualan
                             </div>
                             <div class="card-body pl-4 pr-4">
-
                                 <!-- Chart 1: Sales by Month -->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="monthly-filter-form">
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="monthly-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
                                                     <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
@@ -161,7 +91,7 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Cabang</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="branch-filter-form">
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="branch-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
                                                     <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
@@ -222,16 +152,16 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                     </div>
                                 </div>
 
-                                <!-- Chart 3: Product Sales Chart by Branch by Month-->
+                                <!-- Chart 3: Stock Chart by Branch by Month-->
                                 <div class="row">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Menu Terjual per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="product_sales-filter-form">
+                                            <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
+                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock-filter-form">
                                                 <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_product_sales" value="<?= $thn_product_sales ?>">
+                                                    <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
-                                                        <select name="idcabang_product_sales" class="form-control form-control-sm">
+                                                        <select name="idcabang_stock" class="form-control form-control-sm">
                                                             <option value="0">- Semua Cabang -</option>
                                                             <?php
                                                             $this->db->order_by('length(nama_toko),nama_toko', 'asc');
@@ -241,14 +171,14 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                                                 ->result();
                                                             foreach ($namacabang as $r) {
                                                             ?>
-                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_product_sales == $r->cabang_id) ? 'selected' : '' ?>>
+                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_stock == $r->cabang_id) ? 'selected' : '' ?>>
                                                                     <?= $r->nama_toko; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="bln_product_sales" class="form-control form-control-sm">
+                                                        <select name="bln_stock" class="form-control form-control-sm">
                                                             <?php
                                                             $bulan = array(
                                                                 '01' => 'Januari',
@@ -266,40 +196,40 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                                             );
                                                             foreach ($bulan as $key => $value) {
                                                             ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_product_sales == $key) ? 'selected' : '' ?>>
+                                                                <option value="<?= $key ?>" <?= ($bln_stock == $key) ? 'selected' : '' ?>>
                                                                     <?= $value ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="thn_product_sales" class="form-control form-control-sm">
+                                                        <select name="thn_stock" class="form-control form-control-sm">
                                                             <?php
                                                             $thn_skr = date('Y');
                                                             for ($x = $thn_skr; $x >= 2021; $x--) {
                                                             ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_product_sales == $x) ? 'selected' : '' ?>>
+                                                                <option value="<?= $x; ?>" <?= ($thn_stock == $x) ? 'selected' : '' ?>>
                                                                     <?= $x; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="idproduct_sales[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Menu -</option>
+                                                        <select name="idbahan_stock[]" class="form-control form-control-sm" multiple size="6">
+                                                            <option value="0">- Semua Bahan -</option>
                                                             <?php
-                                                            $this->db->order_by('nama', 'asc');
-                                                            $namamenu = $this->db->get('menu_utama')->result();
-                                                            foreach ($namamenu as $n) {
+                                                            $this->db->order_by('nama_bahan', 'asc');
+                                                            $namabahan = $this->db->get('bahan')->result();
+                                                            foreach ($namabahan as $n) {
                                                             ?>
                                                                 <option value="<?= $n->id; ?>"
-                                                                    <?= (isset($idproduct_sales) && in_array($n->id, (array)$idproduct_sales)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama; ?>
+                                                                    <?= (isset($idbahan_stock) && in_array($n->id, (array)$idbahan_stock)) ? 'selected' : '' ?>>
+                                                                    <?= $n->nama_bahan; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
-                                                    <button type="submit" name="filter_product_sales" class="btn btn-primary btn-sm">
+                                                    <button type="submit" name="filter_stock" class="btn btn-primary btn-sm">
                                                         <i class="fa fa-filter"></i> Filter
                                                     </button>
                                                 </div>
@@ -307,41 +237,19 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                         </div>
 
 
-                                        <!-- <div id="product_sales-chart-container">
+                                        <div id="stock-chart-container">
                                             <?php
                                             // Load branch chart partial view
-                                            // $this->load->view('partials/product_sales_chart', [
-                                            //     'thn_product_sales' => $thn_product_sales,
-                                            //     'bln_product_sales' => $bln_product_sales,
-                                            //     'idcabang_product_sales' => $idcabang_product_sales,
-                                            //     'idproduct_sales' => $idproduct_sales,
-                                            //     'filter_product_sales_submitted' => $filter_product_sales_submitted
-                                            // ]);
+                                            $this->load->view('partials/stock_chart', [
+                                                'thn_stock' => $thn_stock,
+                                                'bln_stock' => $bln_stock,
+                                                'idcabang_stock' => $idcabang_stock,
+                                                'filter_stock_submitted' => $filter_stock_submitted
+                                            ]);
                                             ?>
-                                        </div> -->
-
-                                        <div id="product_sales-chart-container" class="chart-loading-box">
-                                            <div class="chart-loading-overlay">
-                                                <div class="chart-loading-spinner"></div>
-                                                <div class="chart-loading-text">Memuat grafik...</div>
-                                            </div>
-
-                                            <div id="product_sales-chart-content" class="chart-loading-content">
-                                                <?php
-                                                $this->load->view('partials/product_sales_chart', [
-                                                    'thn_product_sales' => $thn_product_sales,
-                                                    'bln_product_sales' => $bln_product_sales,
-                                                    'idcabang_product_sales' => $idcabang_product_sales,
-                                                    'idproduct_sales' => $idproduct_sales,
-                                                    'filter_product_sales_submitted' => $filter_product_sales_submitted
-                                                ]);
-                                                ?>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-
 
                             </div>
                         </div>
@@ -384,68 +292,19 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
             });
         });
 
-        // AJAX form submission for product_sales filter
-
-        $('#product_sales-filter-form').submit(function(e) {
+        // AJAX form submission for stock filter
+        $('#stock-filter-form').submit(function(e) {
             e.preventDefault();
-
-            var $form = $(this);
-            var $container = $('#product_sales-chart-container');
-            var $content = $('#product_sales-chart-content');
-
-            $container.addClass('loading');
-
             $.ajax({
-                url: $form.attr('action'),
+                url: $(this).attr('action'),
                 type: 'POST',
-                data: $form.serialize(),
+                data: $(this).serialize(),
                 success: function(response) {
-
-                    var newContent = $(response).find('#product_sales-chart-content').html();
-                    $content.html(newContent);
-                    console.log('sukses');
-
-                },
-                error: function() {
-                    $content.html(`
-                <div class="alert alert-danger text-center py-3 mb-0">
-                    Gagal memuat grafik.
-                </div>
-            `);
-                },
-                complete: function() {
-                    $container.removeClass('loading');
+                    // Extract just the branch chart container content from the response
+                    var newContent = $(response).find('#stock-chart-container').html();
+                    $('#stock-chart-container').html(newContent);
                 }
             });
         });
-
-        // $('#product_sales-filter-form').submit(function(e) {
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: $(this).attr('action'),
-        //         type: 'POST',
-        //         data: $(this).serialize(),
-        //         success: function(response) {
-        //             // Extract just the branch chart container content from the response
-        //             var newContent = $(response).find('#product_sales-chart-container').html();
-        //             $('#product_sales-chart-container').html(newContent);
-        //         }
-        //     });
-        // });
-
-        // AJAX form submission for stock filter
-        // $('#stock-filter-form').submit(function(e) {
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: $(this).attr('action'),
-        //         type: 'POST',
-        //         data: $(this).serialize(),
-        //         success: function(response) {
-        //             // Extract just the branch chart container content from the response
-        //             var newContent = $(response).find('#stock-chart-container').html();
-        //             $('#stock-chart-container').html(newContent);
-        //         }
-        //     });
-        // });
     });
 </script>
