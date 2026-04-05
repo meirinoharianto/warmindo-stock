@@ -99,7 +99,7 @@ foreach ($products as $product) {
     $stock_labels[] = $label_with_qty;
 
 
-    if ($total_qty >= 0) {
+    if ($total_qty > 0) {
         $has_stock_data = true;
     }
 }
@@ -107,6 +107,7 @@ foreach ($products as $product) {
 $jumlahLabel = count($stock_labels); // pastikan $labels tersedia
 $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
+    <h1> <?= $stock_data[0] ?> <?= $stock_labels[0] ?></h1>
 
     <style>
         .product_sales-chart-scroll {
