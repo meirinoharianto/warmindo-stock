@@ -244,17 +244,17 @@ $filter_product_sales_submitted = !empty($this->input->post('filter_product_sale
                                         </div>
 
 
-                                        <!-- <div id="product_sales-chart-container">
+                                        <div id="product_sales-chart-container">
                                             <?php
                                             // Load branch chart partial view
-                                            // $this->load->view('partials/product_sales_chart', [
-                                            //     'thn_product_sales' => $thn_product_sales,
-                                            //     'bln_product_sales' => $bln_product_sales,
-                                            //     'idcabang_product_sales' => $idcabang_product_sales,
-                                            //     'filter_product_sales_submitted' => $filter_product_sales_submitted
-                                            // ]);
+                                            $this->load->view('partials/product_sales_chart', [
+                                                'thn_product_sales' => $thn_product_sales,
+                                                'bln_product_sales' => $bln_product_sales,
+                                                'idcabang_product_sales' => $idcabang_product_sales,
+                                                'filter_product_sales_submitted' => $filter_product_sales_submitted
+                                            ]);
                                             ?>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
 
