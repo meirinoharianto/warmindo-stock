@@ -20,7 +20,11 @@ $idbahan_stock = is_array($idbahan_stock) ? $idbahan_stock : [];
 $stock_data = [];
 $stock_labels = [];
 $has_stock_data = false;
-$cabangStock = (int)$idcabang_stock;
+if ($idcabang_stock != "all") {
+    $cabangStock = (int)$idcabang_stock;
+} else {
+    $cabangStock = 0;
+}
 
 $this->db->order_by('nama_bahan', 'asc');
 if (!empty($idbahan_stock) && !in_array('0', $idbahan_stock)) {

@@ -167,7 +167,7 @@ $bulan = array(
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
                                                         <select name="idcabang_stock" class="form-control form-control-sm">
-                                                            <option value="0">- Semua Cabang -</option>
+                                                            <option value="all">- Semua Cabang -</option>
                                                             <?php
                                                             // $this->db->order_by('length(nama_toko),nama_toko', 'asc');
                                                             // // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
