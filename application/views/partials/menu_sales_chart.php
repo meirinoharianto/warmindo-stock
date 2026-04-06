@@ -95,7 +95,7 @@ foreach ($menus as $menu) {
             $total_qty = (float)($menu_sales->qty ?? 0);
         }
 
-        $judul_cabang = 'Cabang ' . $kode_cabang;
+        $judul_cabang = 'Cabang ' . $idcabang_menu_sales . $kode_cabang;
     }
 
     // $stock_data[] = $total_qty;
