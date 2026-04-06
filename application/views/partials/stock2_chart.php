@@ -189,7 +189,7 @@ if ($has_stock2_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Stok Keluar Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang ?>'
+                        text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
@@ -198,13 +198,13 @@ if ($has_stock2_data): ?>
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Total Stok Keluar'
+                            text: 'Total Menu Terjual'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Bahan'
+                            text: 'Menu'
                         },
                         ticks: {
                             autoSkip: false,
