@@ -22,12 +22,12 @@ $menu_labels = [];
 $has_menu_data = false;
 $cabang = (int)$idcabang_menu;
 
-$this->db->order_by('nama_bahan', 'asc');
+$this->db->order_by('nama', 'asc');
 if (!empty($idmenu) && !in_array('0', $idmenu)) {
     $this->db->where_in('id', $idmenu);
 }
 
-$bahans = $this->db->get('bahan')->result();
+$menus0 = $this->db->get('menu_utama')->result();
 
 $period_menu = $thn_menu . '-' . $bln_menu;
 
@@ -35,7 +35,7 @@ $period_menu = $thn_menu . '-' . $bln_menu;
 $this->db->where_not_in('kode_cabang', 'PU');
 $all_cabang = $this->db->get('cabang')->result();
 
-foreach ($bahans as $bahan) {
+foreach ($menus0 as $menu0) {
     $total_qty = 0;
 
     // Jika pilih semua cabang
@@ -45,21 +45,20 @@ foreach ($bahans as $bahan) {
             $arr_kode_cabang = array("SN1", "SN2", "SN7");
             $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
 
-            $table = 'bahan_kartustok' . $suffix;
+            $tableMenu = 'transaksi_produk' . $suffix;
 
             // cek tabel ada
-            if ($this->db->table_exists($table)) {
-                $stock_out = $this->db->query(
-                    "SELECT SUM(jumlah_perubahan * -1) as qty
-                     FROM {$table}
-                     WHERE tipe_transaksi LIKE 'Penjualan%'
-                     AND cabang_id = ?
+            if ($this->db->table_exists($tableMenu)) {
+                $menu_out = $this->db->query(
+                    "SELECT SUM(qty) as qty
+                     FROM {$tableMenu}
+                     WHERE cabang_id = ?
                      AND bahan_id = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $bahan->id, $period_menu . '%']
+                    [$cbg->id, $menu0->id, $period_menu . '%']
                 )->row();
 
-                $total_qty += (float)($stock_out->qty ?? 0);
+                $total_qty += (float)($menu_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
                 <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
