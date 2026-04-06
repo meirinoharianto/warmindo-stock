@@ -233,7 +233,7 @@ $bulan = array(
 
                                         <div id="menu_sales-chart-container">
                                             <div class="menu_sales-chart-scroll">
-                                                <div class="menu_sales-chart-inner" style="min-width: <?= $minWidth ?>px;">
+                                                <div class="menu_sales-chart-inner" style="min-width:1200px;">
                                                     <?php
                                                     // Load branch chart partial view
                                                     $this->load->view('partials/menu_sales_chart', [
