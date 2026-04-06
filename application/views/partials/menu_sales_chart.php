@@ -153,7 +153,7 @@ if ($has_menu_sales_data): ?>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
         var menuSalesChart = document.getElementById('menu_sales-chart');
-        if (!menuSalesChartEl) {
+        if (!menuSalesChart) {
             console.error('Canvas #menu_sales-chart tidak ditemukan');
             return;
         }
