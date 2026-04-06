@@ -56,6 +56,59 @@ $bulan = array(
                                 <i class="fa fa-bar-chart mr-1"></i> Grafik Penjualan
                             </div>
                             <div class="card-body pl-4 pr-4">
+                                <!-- Chart 2: Sales by Branch -->
+                                <div class="row mb-4">
+                                    <div class="col-12 border rounded-lg p-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Penjualan per Cabang</h5>
+                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="branch-filter-form">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
+                                                    <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
+                                                    <div class="mr-2">
+                                                        <select name="bln_branch" class="form-control form-control-sm">
+                                                            <?php
+
+                                                            foreach ($bulan as $key => $value) {
+                                                            ?>
+                                                                <option value="<?= $key ?>" <?= ($bln_branch == $key) ? 'selected' : '' ?>>
+                                                                    <?= $value ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mr-2">
+                                                        <select name="thn_branch" class="form-control form-control-sm">
+                                                            <?php
+                                                            $thn_skr = date('Y');
+                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
+                                                            ?>
+                                                                <option value="<?= $x; ?>" <?= ($thn_branch == $x) ? 'selected' : '' ?>>
+                                                                    <?= $x; ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" name="filter_branch" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-filter"></i> Filter
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div id="branch-chart-container">
+                                            <?php
+                                            // Load branch chart partial view
+                                            $this->load->view('partials/branch_chart', [
+                                                'thn_branch' => $thn_branch,
+                                                'bln_branch' => $bln_branch,
+                                                'filter_branch_submitted' => $filter_branch_submitted
+                                            ]);
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Chart 1: Sales by Month -->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
@@ -110,61 +163,10 @@ $bulan = array(
                                     </div>
                                 </div>
 
-                                <!-- Chart 2: Sales by Branch -->
-                                <div class="row">
-                                    <div class="col-12 border rounded-lg p-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Penjualan per Cabang</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="branch-filter-form">
-                                                <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
-                                                    <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
-                                                    <div class="mr-2">
-                                                        <select name="bln_branch" class="form-control form-control-sm">
-                                                            <?php
 
-                                                            foreach ($bulan as $key => $value) {
-                                                            ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_branch == $key) ? 'selected' : '' ?>>
-                                                                    <?= $value ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="thn_branch" class="form-control form-control-sm">
-                                                            <?php
-                                                            $thn_skr = date('Y');
-                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                            ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_branch == $x) ? 'selected' : '' ?>>
-                                                                    <?= $x; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" name="filter_branch" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-filter"></i> Filter
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div id="branch-chart-container">
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/branch_chart', [
-                                                'thn_branch' => $thn_branch,
-                                                'bln_branch' => $bln_branch,
-                                                'filter_branch_submitted' => $filter_branch_submitted
-                                            ]);
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <!-- Chart 3: Stock Chart by Branch by Month-->
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
@@ -254,7 +256,7 @@ $bulan = array(
                                 </div>
 
                                 <!-- Chart 4: Menu Sales Chart by Branch by Month-->
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan Menu per Bulan</h5>
