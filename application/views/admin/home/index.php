@@ -56,7 +56,8 @@ $bulan = array(
                                 <i class="fa fa-bar-chart mr-1"></i> Dashboard
                             </div>
                             <div class="card-body pl-4 pr-4">
-                                <!-- Chart 2: Sales by Branch -->
+
+                                <!-- Chart 1: Sales by Branch -->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -109,7 +110,7 @@ $bulan = array(
                                     </div>
                                 </div>
 
-                                <!-- Chart 1: Sales by Month -->
+                                <!-- Chart 2: Sales by Month -->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
