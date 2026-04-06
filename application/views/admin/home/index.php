@@ -171,7 +171,7 @@ $bulan = array(
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
-                                                        <select name="idcabang_stock" class="form-control form-control-sm">
+                                                        <select name="idcabang_menu_sales" class="form-control form-control-sm">
                                                             <option value="-1">- Pilih Cabang -</option>
                                                             <option value="0" <?= ($idcabang_menu_sales == 0) ? 'selected' : '' ?>>Semua Cabang</option>
                                                             <?php
