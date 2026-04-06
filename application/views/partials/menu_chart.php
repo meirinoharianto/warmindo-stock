@@ -53,9 +53,9 @@ foreach ($menus0 as $menu0) {
                     "SELECT SUM(qty) as qty
                      FROM {$tableMenu}
                      WHERE cabang_id = ?
-                     AND bahan_id = ?
+                     AND kode_menu = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $menu0->id, $period_menu . '%']
+                    [$cbg->id, $menu0->kode_menu, $period_menu . '%']
                 )->row();
 
                 $total_qty += (float)($menu_out->qty ?? 0);
@@ -69,6 +69,33 @@ foreach ($menus0 as $menu0) {
         $judul_cabang = 'Semua Cabang';
     } else if ($cabang > 0) {
         // Jika pilih 1 cabang saja
+
+        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
+
+        $suffix = '';
+        $kode_cabang = '';
+
+        if ($caricabang) {
+            $kode_cabang = $caricabang->kode_cabang;
+            $arr_kode_cabang = array("SN1", "SN2", "SN7");
+            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        }
+
+        $table = 'transaksi_produk' . $suffix;
+
+        if ($this->db->table_exists($table)) {
+            $menu_out = $this->db->query(
+                "SELECT SUM(qty) as qty
+                 FROM {$table}
+                 WHERE  cabang_id = ?
+                 AND bahan_id = ?
+                 AND periode LIKE ?",
+                [$cabang, $menu0->kode_menu, $period_menu . '%']
+            )->row();
+
+            $total_qty = (float)($menu_out->qty ?? 0);
+        }
+
 
         $judul_cabang = 'Cabang ' . $kode_cabang;
     }
