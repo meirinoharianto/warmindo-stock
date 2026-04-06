@@ -11,22 +11,11 @@ $bln_stock = !empty($this->input->post('bln_stock')) ? $this->input->post('bln_s
 $idcabang_stock = !empty($this->input->post('idcabang_stock')) ? $this->input->post('idcabang_stock') : -1;
 $idbahan_stock = !empty($this->input->post('idbahan_stock')) ? $this->input->post('idbahan_stock') : 0;
 
-$thn_menu_sales = !empty($this->input->post('thn_menu_sales')) ? $this->input->post('thn_menu_sales') : date('Y');
-$bln_menu_sales = !empty($this->input->post('bln_menu_sales')) ? $this->input->post('bln_menu_sales') : date('m');
-$idcabang_menu_sales = !empty($this->input->post('idcabang_menu_sales')) ? $this->input->post('idcabang_menu_sales') : -1;
-$idmenu_sales = !empty($this->input->post('idmenu_sales')) ? $this->input->post('idmenu_sales') : 0;
-
-$thn_menu = !empty($this->input->post('thn_menu')) ? $this->input->post('thn_menu') : date('Y');
-$bln_menu = !empty($this->input->post('bln_menu')) ? $this->input->post('bln_menu') : date('m');
-$idcabang_menu = !empty($this->input->post('idcabang_menu')) ? $this->input->post('idcabang_menu') : -1;
-$idmenu = !empty($this->input->post('idmenu')) ? $this->input->post('idmenu') : 0;
-
 // Check which form was submitted
 $filter_monthly_submitted = !empty($this->input->post('filter_monthly'));
 $filter_branch_submitted = !empty($this->input->post('filter_branch'));
 $filter_stock_submitted = !empty($this->input->post('filter_stock'));
-$filter_menu_submitted = !empty($this->input->post('filter_menu'));
-$filter_menu_sales_submitted = !empty($this->input->post('filter_menu_sales'));
+
 
 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
