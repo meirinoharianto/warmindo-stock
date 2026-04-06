@@ -168,93 +168,7 @@ $bulan = array(
                                     </div>
                                 </div>
 
-                                <!-- Chart 3: Menu Sales Chart by Branch by Month-->
-                                <div class="row">
-                                    <div class="col-12 border rounded-lg p-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Penjualan Menu per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="menu_sales-filter-form">
-                                                <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_menu_sales" value="<?= $thn_menu_sales ?>">
-                                                    <div class="mr-2">
-                                                        <select name="idcabang_menu_sales" class="form-control form-control-sm">
-                                                            <option value="-1">- Pilih Cabang -</option>
-                                                            <option value="0" <?= ($idcabang_menu_sales == 0) ? 'selected' : '' ?>>Semua Cabang</option>
-                                                            <?php
-
-                                                            foreach ($namacabang as $r) {
-                                                            ?>
-                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_menu_sales == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                    <?= $r->nama_toko; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="bln_menu_sales" class="form-control form-control-sm">
-                                                            <?php
-
-                                                            foreach ($bulan as $key => $value) {
-                                                            ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_menu_sales == $key) ? 'selected' : '' ?>>
-                                                                    <?= $value ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="thn_menu_sales" class="form-control form-control-sm">
-                                                            <?php
-                                                            $thn_skr = date('Y');
-                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                            ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_menu_sales == $x) ? 'selected' : '' ?>>
-                                                                    <?= $x; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="idmenu_sales[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Menu -</option>
-                                                            <?php
-                                                            $this->db->order_by('nama', 'asc');
-                                                            $namamenu = $this->db->get('menu_utama')->result();
-                                                            foreach ($namamenu as $n) {
-                                                            ?>
-                                                                <option value="<?= $n->id; ?>"
-                                                                    <?= (isset($idmenu_sales) && in_array($n->id, (array)$idmenu_sales)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" name="filter_menu_sales" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-filter"></i> Filter
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-
-                                        <div id="menu_sales-chart-container">
-
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/menu_sales_chart', [
-                                                'thn_menu_sales' => $thn_menu_sales,
-                                                'bln_menu_sales' => $bln_menu_sales,
-                                                'idcabang_menu_sales' => $idcabang_menu_sales,
-                                                'idmenu_sales' => $idmenu_sales,
-                                                'filter_menu_sales_submitted' => $filter_menu_sales_submitted
-                                            ]);
-                                            ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Chart 4: Stock Chart by Branch by Month-->
+                                <!-- Chart 3: Stock Chart by Branch by Month-->
                                 <div class="row">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -340,92 +254,7 @@ $bulan = array(
                                     </div>
                                 </div>
 
-                                <!-- Chart 5: Menu Chart by Branch by Month-->
-                                <div class="row">
-                                    <div class="col-12 border rounded-lg p-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Penjualan Menu per Cabang per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="menu-filter-form">
-                                                <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_menu" value="<?= $thn_menu ?>">
-                                                    <div class="mr-2">
-                                                        <select name="idcabang_menu" class="form-control form-control-sm">
-                                                            <option value="0">- Semua Cabang -</option>
-                                                            <?php
-                                                            // $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                                                            // // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
-                                                            // $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
-                                                            //     ->get('profil_toko')
-                                                            //     ->result();
-                                                            foreach ($namacabang as $r) {
-                                                            ?>
-                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_menu == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                    <?= $r->nama_toko; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="bln_menu" class="form-control form-control-sm">
-                                                            <?php
 
-                                                            foreach ($bulan as $key => $value) {
-                                                            ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_menu == $key) ? 'selected' : '' ?>>
-                                                                    <?= $value ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="thn_menu" class="form-control form-control-sm">
-                                                            <?php
-                                                            $thn_skr = date('Y');
-                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                            ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_menu == $x) ? 'selected' : '' ?>>
-                                                                    <?= $x; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="idmenu[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Menu -</option>
-                                                            <?php
-                                                            $this->db->order_by('nama', 'asc');
-                                                            $namabahan = $this->db->get('menu_utama')->result();
-                                                            foreach ($namabahan as $n) {
-                                                            ?>
-                                                                <option value="<?= $n->id; ?>"
-                                                                    <?= (isset($idmenu) && in_array($n->id, (array)$idmenu)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" name="filter_menu" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-filter"></i> Filter
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-
-                                        <div id="menu-chart-container">
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/menu_chart', [
-                                                'thn_menu' => $thn_menu,
-                                                'bln_menu' => $bln_menu,
-                                                'idcabang_menu' => $idcabang_menu,
-                                                'idmenu' => $idmenu,
-                                                'filter_menu_submitted' => $filter_menu_submitted
-                                            ]);
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
@@ -469,22 +298,6 @@ $bulan = array(
         });
 
 
-
-        // AJAX form submission for stock filter
-        $('#menu_sales-filter-form').submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#menu_sales-chart-container').html();
-                    $('#menu_sales-chart-container').html(newContent);
-                }
-            });
-        });
-
         // AJAX form submission for stock filter
         $('#stock-filter-form').submit(function(e) {
             e.preventDefault();
@@ -499,19 +312,6 @@ $bulan = array(
                 }
             });
         });
-        // AJAX form submission for stock filter
-        $('#menu-filter-form').submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#menu-chart-container').html();
-                    $('#menu-chart-container').html(newContent);
-                }
-            });
-        });
+
     });
 </script>
