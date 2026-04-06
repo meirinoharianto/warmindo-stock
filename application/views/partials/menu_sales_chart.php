@@ -1,4 +1,19 @@
 <?php
+$bulan = array(
+    '01' => 'Januari',
+    '02' => 'Februari',
+    '03' => 'Maret',
+    '04' => 'April',
+    '05' => 'Mei',
+    '06' => 'Juni',
+    '07' => 'Juli',
+    '08' => 'Agustus',
+    '09' => 'September',
+    '10' => 'Oktober',
+    '11' => 'November',
+    '12' => 'Desember'
+);
+
 $idmenu_sales = $this->input->post('idmenu_sales');
 $idmenu_sales = is_array($idmenu_sales) ? $idmenu_sales : [];
 
@@ -180,6 +195,6 @@ if ($has_menu_sales_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bln_menu_sales . $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
+        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
     </div>
 <?php endif; ?>
