@@ -221,6 +221,6 @@ if ($has_stock_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada data penjualan untuk cabang <?= $cabangStock ?>bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?></p>
+        <p>Tidak ada data penjualan untuk bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?></p>
     </div>
 <?php endif; ?>
