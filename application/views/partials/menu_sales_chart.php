@@ -1,5 +1,5 @@
 <?php
-$bulan = array(
+$bulan_menu_sales = array(
     '01' => 'Januari',
     '02' => 'Februari',
     '03' => 'Maret',
@@ -68,7 +68,7 @@ if ($cabang != -1) {
                 }
             }
 
-            $judul_cabang = 'Semua Cabang';
+            $judul_cabang_menu_sales = 'Semua Cabang';
         } else {
             // Jika pilih 1 cabang saja
             $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
@@ -97,7 +97,7 @@ if ($cabang != -1) {
                 $total_qty = (float)($menu_sales->qty ?? 0);
             }
 
-            $judul_cabang = 'Cabang ' . $kode_cabang;
+            $judul_cabang_menu_sales = 'Cabang ' . $kode_cabang;
         }
 
         // $stock_data[] = $total_qty;
@@ -198,7 +198,7 @@ if ($has_menu_sales_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Menu Terjual Bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?> - <?= $judul_cabang ?>'
+                        text: 'Menu Terjual Bulan <?= $bulan_menu_sales[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?> - <?= $judul_cabang_menu_sales ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
@@ -230,6 +230,6 @@ if ($has_menu_sales_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
+        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang_menu_sales ?? '' ?> bulan <?= $bulan_menu_sales[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
     </div>
 <?php endif; ?>
