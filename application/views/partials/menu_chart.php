@@ -67,7 +67,7 @@ foreach ($menus0 as $menu0) {
         }
 
         $judul_cabang = 'Semua Cabang';
-    } else {
+    } else if ($cabang > 0) {
         // Jika pilih 1 cabang saja
         $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
 
