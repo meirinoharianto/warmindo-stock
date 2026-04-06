@@ -105,7 +105,7 @@ foreach ($menus0 as $menu0) {
     $menu_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = $bahan->nama_bahan . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
+    $label_with_qty = $menu0->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     $menu_labels[] = $label_with_qty;
 
 
