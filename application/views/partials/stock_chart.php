@@ -20,7 +20,7 @@ $idbahan_stock = is_array($idbahan_stock) ? $idbahan_stock : [];
 $stock_data = [];
 $stock_labels = [];
 $has_stock_data = false;
-$cabang = (int)$idcabang_stock;
+$cabangStock = (int)$idcabang_stock;
 
 $this->db->order_by('nama_bahan', 'asc');
 if (!empty($idbahan_stock) && !in_array('0', $idbahan_stock)) {
@@ -39,7 +39,7 @@ foreach ($bahans as $bahan) {
     $total_qty = 0;
 
     // Jika pilih semua cabang
-    if ($cabang == 0) {
+    if ($cabangStock == 0) {
         foreach ($all_cabang as $cbg) {
             $kode_cabang = $cbg->kode_cabang;
             $arr_kode_cabang = array("SN1", "SN2", "SN7");
@@ -70,7 +70,7 @@ foreach ($bahans as $bahan) {
         $judul_cabang = 'Semua Cabang';
     } else {
         // Jika pilih 1 cabang saja
-        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
+        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock])->row();
 
         $suffix = '';
         $kode_cabang = '';
@@ -91,7 +91,7 @@ foreach ($bahans as $bahan) {
                  AND cabang_id = ?
                  AND bahan_id = ?
                  AND periode LIKE ?",
-                [$cabang, $bahan->id, $period_stock . '%']
+                [$cabangStock, $bahan->id, $period_stock . '%']
             )->row();
 
             $total_qty = (float)($stock_out->qty ?? 0);
