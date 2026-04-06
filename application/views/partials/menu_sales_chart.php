@@ -112,7 +112,7 @@ if ($cabang != -1) {
         ?>
         <p><?= $this->db->last_query(); ?> </br> <?= $label_with_qty . ' = ' . $total_qty ?></br> data :<?= count($menu_sales_data) ?></p>
         </br>
-        'Menu Terjual Bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?> - <?= $judul_cabang ?>'
+        'Menu Terjual Bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?> - <?= $judul_cabang_menu_sales ?>'
         <p><?= "'" . implode("','", array_map('addslashes', $menu_sales_labels)) . "'" ?></p>
     <?php
 
