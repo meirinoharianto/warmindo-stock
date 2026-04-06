@@ -27,6 +27,21 @@ $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
     ->get('profil_toko')
     ->result();
+
+$bulan = array(
+    '01' => 'Januari',
+    '02' => 'Februari',
+    '03' => 'Maret',
+    '04' => 'April',
+    '05' => 'Mei',
+    '06' => 'Juni',
+    '07' => 'Juli',
+    '08' => 'Agustus',
+    '09' => 'September',
+    '10' => 'Oktober',
+    '11' => 'November',
+    '12' => 'Desember'
+);
 ?>
 
 <div id="home" class="d-flex flex-column h-100">
@@ -106,20 +121,7 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                                                     <div class="mr-2">
                                                         <select name="bln_branch" class="form-control form-control-sm">
                                                             <?php
-                                                            $bulan = array(
-                                                                '01' => 'Januari',
-                                                                '02' => 'Februari',
-                                                                '03' => 'Maret',
-                                                                '04' => 'April',
-                                                                '05' => 'Mei',
-                                                                '06' => 'Juni',
-                                                                '07' => 'Juli',
-                                                                '08' => 'Agustus',
-                                                                '09' => 'September',
-                                                                '10' => 'Oktober',
-                                                                '11' => 'November',
-                                                                '12' => 'Desember'
-                                                            );
+
                                                             foreach ($bulan as $key => $value) {
                                                             ?>
                                                                 <option value="<?= $key ?>" <?= ($bln_branch == $key) ? 'selected' : '' ?>>
@@ -173,11 +175,7 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                                                             <option value="-1">- Pilih Cabang -</option>
                                                             <option value="0" <?= ($idcabang_menu_sales == 0) ? 'selected' : '' ?>>Semua Cabang</option>
                                                             <?php
-                                                            // $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                                                            // // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
-                                                            // $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
-                                                            //     ->get('profil_toko')
-                                                            //     ->result();
+
                                                             foreach ($namacabang as $r) {
                                                             ?>
                                                                 <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_menu_sales == $r->cabang_id) ? 'selected' : '' ?>>
@@ -187,58 +185,45 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="bln_stock" class="form-control form-control-sm">
+                                                        <select name="bln_menu_sales" class="form-control form-control-sm">
                                                             <?php
-                                                            $bulan = array(
-                                                                '01' => 'Januari',
-                                                                '02' => 'Februari',
-                                                                '03' => 'Maret',
-                                                                '04' => 'April',
-                                                                '05' => 'Mei',
-                                                                '06' => 'Juni',
-                                                                '07' => 'Juli',
-                                                                '08' => 'Agustus',
-                                                                '09' => 'September',
-                                                                '10' => 'Oktober',
-                                                                '11' => 'November',
-                                                                '12' => 'Desember'
-                                                            );
+
                                                             foreach ($bulan as $key => $value) {
                                                             ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_stock == $key) ? 'selected' : '' ?>>
+                                                                <option value="<?= $key ?>" <?= ($bln_menu_sales == $key) ? 'selected' : '' ?>>
                                                                     <?= $value ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="thn_stock" class="form-control form-control-sm">
+                                                        <select name="thn_menu_sales" class="form-control form-control-sm">
                                                             <?php
                                                             $thn_skr = date('Y');
                                                             for ($x = $thn_skr; $x >= 2021; $x--) {
                                                             ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_stock == $x) ? 'selected' : '' ?>>
+                                                                <option value="<?= $x; ?>" <?= ($thn_menu_sales == $x) ? 'selected' : '' ?>>
                                                                     <?= $x; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
                                                     <div class="mr-2">
-                                                        <select name="idbahan_stock[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Bahan -</option>
+                                                        <select name="idmenu_sales[]" class="form-control form-control-sm" multiple size="6">
+                                                            <option value="0">- Semua Menu -</option>
                                                             <?php
-                                                            $this->db->order_by('nama_bahan', 'asc');
-                                                            $namabahan = $this->db->get('bahan')->result();
-                                                            foreach ($namabahan as $n) {
+                                                            $this->db->order_by('nama', 'asc');
+                                                            $namamenu = $this->db->get('menu_utama')->result();
+                                                            foreach ($namamenu as $n) {
                                                             ?>
                                                                 <option value="<?= $n->id; ?>"
-                                                                    <?= (isset($idbahan_stock) && in_array($n->id, (array)$idbahan_stock)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama_bahan; ?>
+                                                                    <?= (isset($idmenu_sales) && in_array($n->id, (array)$idmenu_sales)) ? 'selected' : '' ?>>
+                                                                    <?= $n->nama; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
-                                                    <button type="submit" name="filter_stock" class="btn btn-primary btn-sm">
+                                                    <button type="submit" name="filter_menu_sales" class="btn btn-primary btn-sm">
                                                         <i class="fa fa-filter"></i> Filter
                                                     </button>
                                                 </div>
@@ -246,14 +231,15 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                                         </div>
 
 
-                                        <div id="stock2-chart-container">
+                                        <div id="menu_sales-chart-container">
                                             <?php
                                             // Load branch chart partial view
-                                            $this->load->view('partials/stock_chart2', [
-                                                'thn_stock' => $thn_stock,
-                                                'bln_stock' => $bln_stock,
-                                                'idcabang_stock' => $idcabang_stock,
-                                                'filter_stock_submitted' => $filter_stock_submitted
+                                            $this->load->view('partials/menu_sales_chart', [
+                                                'thn_menu_sales' => $thn_menu_sales,
+                                                'bln_menu_sales' => $bln_menu_sales,
+                                                'idcabang_menu_sales' => $idcabang_menu_sales,
+                                                'idmenu_sales' => $idmenu_sales,
+                                                'filter_menu_sales_submitted' => $filter_menu_sales_submitted
                                             ]);
                                             ?>
                                         </div>
@@ -288,20 +274,7 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                                                     <div class="mr-2">
                                                         <select name="bln_stock" class="form-control form-control-sm">
                                                             <?php
-                                                            $bulan = array(
-                                                                '01' => 'Januari',
-                                                                '02' => 'Februari',
-                                                                '03' => 'Maret',
-                                                                '04' => 'April',
-                                                                '05' => 'Mei',
-                                                                '06' => 'Juni',
-                                                                '07' => 'Juli',
-                                                                '08' => 'Agustus',
-                                                                '09' => 'September',
-                                                                '10' => 'Oktober',
-                                                                '11' => 'November',
-                                                                '12' => 'Desember'
-                                                            );
+
                                                             foreach ($bulan as $key => $value) {
                                                             ?>
                                                                 <option value="<?= $key ?>" <?= ($bln_stock == $key) ? 'selected' : '' ?>>
@@ -418,7 +391,7 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
         });
 
         // AJAX form submission for stock filter
-        $('#stock2-filter-form').submit(function(e) {
+        $('#menu_sales-filter-form').submit(function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -426,8 +399,8 @@ $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
                 data: $(this).serialize(),
                 success: function(response) {
                     // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock2-chart-container').html();
-                    $('#stock2-chart-container').html(newContent);
+                    var newContent = $(response).find('#menu_sales-chart-container').html();
+                    $('#menu_sales-chart-container').html(newContent);
                 }
             });
         });
