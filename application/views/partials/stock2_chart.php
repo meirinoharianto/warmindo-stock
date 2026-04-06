@@ -26,12 +26,12 @@ if ($idcabang_stock2 != "all") {
     $cabangStock2 = 0;
 }
 
-$this->db->order_by('nama_bahan', 'asc');
+$this->db->order_by('nama', 'asc');
 if (!empty($idbahan_stock2) && !in_array('0', $idbahan_stock2)) {
     $this->db->where_in('id', $idbahan_stock2);
 }
 
-$bahans = $this->db->get('bahan')->result();
+$bahans = $this->db->get('menu_utama')->result();
 
 $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 
@@ -85,17 +85,16 @@ foreach ($bahans as $bahan) {
             $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
         }
 
-        $table = 'bahan_kartustok' . $suffix;
+        $table = 'transaksi_produk' . $suffix;
 
         if ($this->db->table_exists($table)) {
             $stock2_out = $this->db->query(
-                "SELECT SUM(jumlah_perubahan * -1) as qty
+                "SELECT SUM(qty) as qty
                  FROM {$table}
-                 WHERE tipe_transaksi LIKE 'Penjualan%'
-                 AND cabang_id = ?
-                 AND bahan_id = ?
+                 WHERE cabang_id = ?
+                 AND kode_menu = ?
                  AND periode LIKE ?",
-                [$cabangStock2, $bahan->id, $period_stock2 . '%']
+                [$cabangStock2, $bahan->kode_menu, $period_stock2 . '%']
             )->row();
 
             $total_qty = (float)($stock2_out->qty ?? 0);
@@ -110,7 +109,7 @@ foreach ($bahans as $bahan) {
     $stock2_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = $bahan->nama_bahan . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
+    $label_with_qty = $bahan->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     $stock2_labels[] = $label_with_qty;
 
 

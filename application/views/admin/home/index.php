@@ -292,15 +292,15 @@ $bulan = array(
                                                     </div>
                                                     <div class="mr-2">
                                                         <select name="idbahan_stock2[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Bahan -</option>
+                                                            <option value="0">- Semua Menu -</option>
                                                             <?php
-                                                            $this->db->order_by('nama_bahan', 'asc');
-                                                            $namabahan = $this->db->get('bahan')->result();
-                                                            foreach ($namabahan as $n) {
+                                                            $this->db->order_by('nama', 'asc');
+                                                            $namabahan = $this->db->get('menu_utama')->result();
+                                                            foreach ($namabahan as $m) {
                                                             ?>
-                                                                <option value="<?= $n->id; ?>"
-                                                                    <?= (isset($idbahan_stock2) && in_array($n->id, (array)$idbahan_stock2)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama_bahan; ?>
+                                                                <option value="<?= $m->id; ?>"
+                                                                    <?= (isset($idbahan_stock2) && in_array($m->id, (array)$idbahan_stock2)) ? 'selected' : '' ?>>
+                                                                    <?= $m->nama; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
