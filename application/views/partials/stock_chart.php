@@ -109,7 +109,10 @@ foreach ($bahans as $bahan) {
     $label_with_qty = $bahan->nama_bahan . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     $stock_labels[] = $label_with_qty;
 
+    ?>
+    <p><?= $this->db->last_query(); ?> </br> <?= $bahan->nama_bahan . ' = ' . $total_qty ?></br> data :<?= count($stock_data) ?></p>
 
+    <?php
     if ($total_qty > 0) {
         $has_stock_data = true;
     }
