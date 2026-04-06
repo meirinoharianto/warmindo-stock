@@ -37,30 +37,29 @@ $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 
 // ambil daftar cabang
 $this->db->where_not_in('kode_cabang', 'PU');
-$all_cabang = $this->db->get('cabang')->result();
+$all_cabang2 = $this->db->get('cabang')->result();
 
 foreach ($bahans as $bahan) {
     $total_qty = 0;
 
     // Jika pilih semua cabang
     if ($cabangStock2 == 0) {
-        foreach ($all_cabang as $cbg) {
+        foreach ($all_cabang2 as $cbg) {
             $kode_cabang = $cbg->kode_cabang;
             $arr_kode_cabang = array("SN1", "SN2", "SN7");
             $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
 
-            $table = 'bahan_kartustok' . $suffix;
+            $table = 'transaksi_produk' . $suffix;
 
             // cek tabel ada
             if ($this->db->table_exists($table)) {
                 $stock2_out = $this->db->query(
-                    "SELECT SUM(jumlah_perubahan * -1) as qty
+                    "SELECT SUM(qty) as qty
                      FROM {$table}
-                     WHERE tipe_transaksi LIKE 'Penjualan%'
-                     AND cabang_id = ?
-                     AND bahan_id = ?
+                     WHERE cabang_id = ?
+                     AND kode_menu = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $bahan->id, $period_stock2 . '%']
+                    [$cbg->id, $bahan->kode_menu, $period_stock2 . '%']
                 )->row();
 
                 $total_qty += (float)($stock2_out->qty ?? 0);
