@@ -180,6 +180,6 @@ if ($has_menu_sales_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada produk idmenu :<?= $idmenu_sales[0] ?? 'kosong' ?> terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bln_menu_sales . $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
+        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bln_menu_sales . $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
     </div>
 <?php endif; ?>
