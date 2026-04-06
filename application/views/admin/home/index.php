@@ -391,15 +391,15 @@ $bulan = array(
                                                     </div>
                                                     <div class="mr-2">
                                                         <select name="idmenu[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Bahan -</option>
+                                                            <option value="0">- Semua Menu -</option>
                                                             <?php
-                                                            $this->db->order_by('nama_bahan', 'asc');
-                                                            $namabahan = $this->db->get('bahan')->result();
+                                                            $this->db->order_by('nama', 'asc');
+                                                            $namabahan = $this->db->get('menu_utama')->result();
                                                             foreach ($namabahan as $n) {
                                                             ?>
                                                                 <option value="<?= $n->id; ?>"
                                                                     <?= (isset($idmenu) && in_array($n->id, (array)$idmenu)) ? 'selected' : '' ?>>
-                                                                    <?= $n->nama_bahan; ?>
+                                                                    <?= $n->nama; ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>
