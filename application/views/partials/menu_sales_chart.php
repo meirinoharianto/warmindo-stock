@@ -62,7 +62,7 @@ if ($cabang != -1) {
                     $total_qty += (float)($menu_sales->qty ?? 0);
 ?>
                     <!-- trace hasil  -->
-                    <p><?= $this->db->last_query(); ?>></p>
+                    <!-- <p><?= $this->db->last_query(); ?>></p> -->
                     <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
         <?php
                 }
@@ -110,7 +110,7 @@ if ($cabang != -1) {
         $menu_sales_labels[] = $label_with_qty;
 
         ?>
-        <p><?= $this->db->last_query(); ?> </br> <?= $menu->nama . ' = ' . $total_qty ?></br> data :<?= count($menu_sales_data) ?></p>
+        <!-- <p><?= $this->db->last_query(); ?> </br> <?= $menu->nama . ' = ' . $total_qty ?></br> data :<?= count($menu_sales_data) ?></p> -->
 
     <?php
 
