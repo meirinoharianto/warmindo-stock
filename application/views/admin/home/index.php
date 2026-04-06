@@ -418,7 +418,7 @@ $bulan = array(
                                             $this->load->view('partials/menu_chart', [
                                                 'thn_menu' => $thn_menu,
                                                 'bln_menu' => $bln_menu,
-                                                'idcabang_menu' => 0,
+                                                'idcabang_menu' => $idcabang_menu,
                                                 'filter_menu_submitted' => $filter_menu_submitted
                                             ]);
                                             ?>

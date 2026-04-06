@@ -219,6 +219,6 @@ if ($has_menu_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada data penjualan untuk cabang <?= $cabangMenu ?> bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?></p>
+        <p>Tidak ada data penjualan untuk <?= $idcabang_menu ?>>cabang <?= $cabangMenu ?> bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?></p>
     </div>
 <?php endif; ?>
