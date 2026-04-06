@@ -419,6 +419,7 @@ $bulan = array(
                                                 'thn_menu' => $thn_menu,
                                                 'bln_menu' => $bln_menu,
                                                 'idcabang_menu' => $idcabang_menu,
+                                                'idmenu' => $idmenu,
                                                 'filter_menu_submitted' => $filter_menu_submitted
                                             ]);
                                             ?>
