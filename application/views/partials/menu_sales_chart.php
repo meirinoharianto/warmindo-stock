@@ -125,17 +125,37 @@ $minWidth = max(1200, 80);
 // $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_menu_sales_data): ?>
 
+    <style>
+        .menu_sales-chart-scroll {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
 
-    <canvas id="menu_sales-chart" height="180" style=" height: 300px;"></canvas>
+        .menu_sales-chart-inner {
+            min-width: 1200px;
+            /* sesuaikan */
+            height: 400px;
+        }
 
+        .menu_sales-chart-inner canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+
+    <div class="menu_sales-chart-scroll">
+        <div class="menu_sales-chart-inner" style="min-width: <?= $minWidth ?>px;">
+            <canvas id="menu_sales-chart" height="180" style=" height: 300px;"></canvas>
+        </div>
+    </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
         var menuSalesChart = document.getElementById('menu_sales-chart');
         if (!menuSalesChartEl) {
             console.error('Canvas #menu_sales-chart tidak ditemukan');
             return;
-        } else {
-            console.log('Canvas #menu_sales-chart ditemukan');
         }
         var chart3 = new Chart(menuSalesChart, {
             type: 'bar',
