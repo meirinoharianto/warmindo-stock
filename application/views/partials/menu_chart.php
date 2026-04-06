@@ -61,7 +61,7 @@ foreach ($menus0 as $menu0) {
                 $total_qty += (float)($menu_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
-                <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
+                <p> <?= $this->db->last_query() ?>> <?= $kode_cabang ?> <?= $total_qty ?></p>
     <?php
             }
         }
