@@ -111,7 +111,8 @@ if ($cabang != -1) {
 
         ?>
         <p><?= $this->db->last_query(); ?> </br> <?= $menu->nama . ' = ' . $total_qty ?></br> data :<?= count($menu_sales_data) ?></p>
-
+        </br>
+        'Menu Terjual Bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?> - <?= $judul_cabang ?>'
     <?php
 
         if ($total_qty > 0) {
@@ -121,8 +122,8 @@ if ($cabang != -1) {
 }
 
 $jumlahLabel = count($menu_sales_labels); // pastikan $labels tersedia
-$minWidth = max(1200, 80);
-// $minWidth = max(1200, $jumlahLabel * 80);
+// $minWidth = max(1200, 80);
+$minWidth = max(1200, $jumlahLabel * 80);
 if ($has_menu_sales_data): ?>
 
     <style>
