@@ -69,32 +69,6 @@ foreach ($menus0 as $menu0) {
         $judul_cabang = 'Semua Cabang';
     } else if ($cabang > 0) {
         // Jika pilih 1 cabang saja
-        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
-
-        $suffix = '';
-        $kode_cabang = '';
-
-        if ($caricabang) {
-            $kode_cabang = $caricabang->kode_cabang;
-            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
-        }
-
-        $table = 'bahan_kartustok' . $suffix;
-
-        if ($this->db->table_exists($table)) {
-            $stock_out = $this->db->query(
-                "SELECT SUM(jumlah_perubahan * -1) as qty
-                 FROM {$table}
-                 WHERE tipe_transaksi LIKE 'Penjualan%'
-                 AND cabang_id = ?
-                 AND bahan_id = ?
-                 AND periode LIKE ?",
-                [$cabang, $bahan->id, $period_menu . '%']
-            )->row();
-
-            $total_qty = (float)($stock_out->qty ?? 0);
-        }
 
         $judul_cabang = 'Cabang ' . $kode_cabang;
     }
