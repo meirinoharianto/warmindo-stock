@@ -20,7 +20,7 @@ $idmenu = is_array($idmenu) ? $idmenu : [];
 $menu_data = [];
 $menu_labels = [];
 $has_menu_data = false;
-$cabang = (int)$idcabang_menu;
+$cabangMenu = (int)$idcabang_menu;
 
 $this->db->order_by('nama', 'asc');
 if (!empty($idmenu) && !in_array('0', $idmenu)) {
@@ -33,14 +33,15 @@ $period_menu = $thn_menu . '-' . $bln_menu;
 
 // ambil daftar cabang
 $this->db->where_not_in('kode_cabang', 'PU');
-$all_cabang = $this->db->get('cabang')->result();
+$all_cabang_menu = $this->db->get('cabang')->result();
 
 foreach ($menus0 as $menu0) {
     $total_qty = 0;
 
     // Jika pilih semua cabang
-    if ($cabang == 0) {
-        foreach ($all_cabang as $cbg) {
+    if ($cabangMenu == 0) {
+
+        foreach ($all_cabang_menu as $cbg) {
             $kode_cabang = $cbg->kode_cabang;
             $arr_kode_cabang = array("SN1", "SN2", "SN7");
             $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
@@ -57,20 +58,20 @@ foreach ($menus0 as $menu0) {
                      AND periode LIKE ?",
                     [$cbg->id, $menu0->kode_menu, $period_menu . '%']
                 )->row();
-
-                $total_qty += (float)($menu_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
                 <p> <?= $this->db->last_query() ?>> <?= $kode_cabang ?> <?= $total_qty ?></p>
     <?php
+
+                $total_qty += (float)($menu_out->qty ?? 0);
             }
         }
 
-        $judul_cabang = 'Semua Cabang';
-    } else if ($cabang > 0) {
+        // $judul_cabang = 'Semua Cabang';
+    } else if ($cabangMenu > 0) {
         // Jika pilih 1 cabang saja
 
-        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
+        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangMenu])->row();
 
         $suffix = '';
         $kode_cabang = '';
@@ -90,14 +91,14 @@ foreach ($menus0 as $menu0) {
                  WHERE  cabang_id = ?
                  AND bahan_id = ?
                  AND periode LIKE ?",
-                [$cabang, $menu0->kode_menu, $period_menu . '%']
+                [$cabangMenu, $menu0->kode_menu, $period_menu . '%']
             )->row();
 
             $total_qty = (float)($menu_out->qty ?? 0);
         }
 
 
-        $judul_cabang = 'Cabang ' . $kode_cabang;
+        // $judul_cabang = 'Cabang ' . $kode_cabang;
     }
 
     // $stock_data[] = $total_qty;
@@ -185,7 +186,8 @@ if ($has_menu_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Stok Keluar Bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?> - <?= $judul_cabang ?>'
+                        text: 'Stok Keluar Bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?>'
+                        // text: 'Stok Keluar Bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?> - <?= $judul_cabang ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
@@ -217,6 +219,6 @@ if ($has_menu_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada data penjualan untuk cabang <?= $cabang ?> bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?></p>
+        <p>Tidak ada data penjualan untuk cabang <?= $cabangMenu ?> bulan <?= $bulan[$bln_menu] ?? '' ?> <?= $thn_menu ?></p>
     </div>
 <?php endif; ?>
