@@ -230,18 +230,26 @@ $bulan = array(
                                             </form>
                                         </div>
 
+                                        <div id="chart-wrapper" class="chart-loading-box">
+                                            <div class="chart-loading-overlay">
+                                                <div class="chart-loading-spinner"></div>
+                                                <div class="chart-loading-text">Memuat grafik...</div>
+                                            </div>
 
-                                        <div id="stock-chart-container">
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/stock_chart', [
-                                                'thn_stock' => $thn_stock,
-                                                'bln_stock' => $bln_stock,
-                                                'idcabang_stock' => $idcabang_stock,
-                                                'filter_stock_submitted' => $filter_stock_submitted
-                                            ]);
-                                            ?>
+                                            <div id="stock-chart-container">
+                                                <?php
+                                                // Load branch chart partial view
+                                                $this->load->view('partials/stock_chart', [
+                                                    'thn_stock' => $thn_stock,
+                                                    'bln_stock' => $bln_stock,
+                                                    'idcabang_stock' => $idcabang_stock,
+                                                    'filter_stock_submitted' => $filter_stock_submitted
+                                                ]);
+                                                ?>
+                                            </div>
                                         </div>
+
+
                                     </div>
                                 </div>
 
@@ -371,19 +379,19 @@ $bulan = array(
 
 
         // AJAX form submission for stock filter
-        $('#stock-filter-form').submit(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock-chart-container').html();
-                    $('#stock-chart-container').html(newContent);
-                }
-            });
-        });
+        // $('#stock-filter-form').submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         type: 'POST',
+        //         data: $(this).serialize(),
+        //         success: function(response) {
+        //             // Extract just the branch chart container content from the response
+        //             var newContent = $(response).find('#stock-chart-container').html();
+        //             $('#stock-chart-container').html(newContent);
+        //         }
+        //     });
+        // });
 
         // AJAX form submission for stock filter
         $('#stock2-filter-form').submit(function(e) {
@@ -399,5 +407,35 @@ $bulan = array(
                 }
             });
         });
+
+        $('#stock-filter-form').submit(function(e) {
+            var wrapper = $('#chart-wrapper');
+            var result = $('#stock-chart-container');
+
+            wrapper.addClass('loading');
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(res) {
+                    // result.html(res);
+                    // Extract just the branch chart container content from the response
+                    var newContent = $(response).find('#stock-chart-container').html();
+                    $('#stock-chart-container').html(newContent);
+                },
+                error: function() {
+                    result.html(`
+                <div class="alert alert-danger text-center py-3">
+                    Gagal memuat grafik.
+                </div>
+            `);
+                },
+                complete: function() {
+                    wrapper.removeClass('loading');
+                }
+            });
+        });
+
     });
 </script>

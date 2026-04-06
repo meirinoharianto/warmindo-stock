@@ -82,6 +82,62 @@
             -moz-border-radius: 6px 0 6px 6px;
             border-radius: 6px 0 6px 6px;
         }
+
+        /* Loading chart */
+        .chart-loading-box {
+            position: relative;
+            min-height: 320px;
+        }
+
+        .chart-loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 20;
+            border-radius: 8px;
+        }
+
+        .chart-loading-box.loading .chart-loading-overlay {
+            display: flex;
+        }
+
+        .chart-loading-box.loading #product-sales-result {
+            filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .chart-loading-spinner {
+            width: 46px;
+            height: 46px;
+            border: 4px solid #dbeafe;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            animation: spinChartLoading 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .chart-loading-text {
+            font-size: 14px;
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        @keyframes spinChartLoading {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
