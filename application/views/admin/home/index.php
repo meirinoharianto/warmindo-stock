@@ -232,16 +232,20 @@ $bulan = array(
 
 
                                         <div id="menu_sales-chart-container">
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/menu_sales_chart', [
-                                                'thn_menu_sales' => $thn_menu_sales,
-                                                'bln_menu_sales' => $bln_menu_sales,
-                                                'idcabang_menu_sales' => $idcabang_menu_sales,
-                                                'idmenu_sales' => $idmenu_sales,
-                                                'filter_menu_sales_submitted' => $filter_menu_sales_submitted
-                                            ]);
-                                            ?>
+                                            <div class="menu_sales-chart-scroll">
+                                                <div class="menu_sales-chart-inner" style="min-width: <?= $minWidth ?>px;">
+                                                    <?php
+                                                    // Load branch chart partial view
+                                                    $this->load->view('partials/menu_sales_chart', [
+                                                        'thn_menu_sales' => $thn_menu_sales,
+                                                        'bln_menu_sales' => $bln_menu_sales,
+                                                        'idcabang_menu_sales' => $idcabang_menu_sales,
+                                                        'idmenu_sales' => $idmenu_sales,
+                                                        'filter_menu_sales_submitted' => $filter_menu_sales_submitted
+                                                    ]);
+                                                    ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

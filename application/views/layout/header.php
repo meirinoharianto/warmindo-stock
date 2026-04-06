@@ -82,6 +82,25 @@
             -moz-border-radius: 6px 0 6px 6px;
             border-radius: 6px 0 6px 6px;
         }
+
+        /* STYLE MENU SALES CHART */
+        .menu_sales-chart-scroll {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu_sales-chart-inner {
+            min-width: 1200px;
+            /* sesuaikan */
+            height: 400px;
+        }
+
+        .menu_sales-chart-inner canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
     </style>
 </head>
 
