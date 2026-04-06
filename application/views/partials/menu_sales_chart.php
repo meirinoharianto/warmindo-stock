@@ -35,87 +35,89 @@ $period_menu_sales = $thn_menu_sales . '-' . $bln_menu_sales;
 $this->db->where_not_in('kode_cabang', 'PU');
 $all_cabang = $this->db->get('cabang')->result();
 
-foreach ($menus as $menu) {
-    $total_qty = 0;
+if ($cabang != -1) {
+    foreach ($menus as $menu) {
+        $total_qty = 0;
 
-    // Jika pilih semua cabang
-    if ($cabang == 0) {
-        foreach ($all_cabang as $cbg) {
-            $kode_cabang = $cbg->kode_cabang;
-            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        // Jika pilih semua cabang
+        if ($cabang == 0) {
+            foreach ($all_cabang as $cbg) {
+                $kode_cabang = $cbg->kode_cabang;
+                $arr_kode_cabang = array("SN1", "SN2", "SN7");
+                $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
 
-            $table = 'transaksi_produk' . $suffix;
+                $table = 'transaksi_produk' . $suffix;
 
-            // cek tabel ada
-            if ($this->db->table_exists($table)) {
-                $menu_sales = $this->db->query(
-                    "SELECT SUM(qty) as qty
+                // cek tabel ada
+                if ($this->db->table_exists($table)) {
+                    $menu_sales = $this->db->query(
+                        "SELECT SUM(qty) as qty
                      FROM {$table}
                      WHERE cabang_id = ?
                      AND kode_menu = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $menu->kode_menu, $period_menu_sales . '%']
-                )->row();
+                        [$cbg->id, $menu->kode_menu, $period_menu_sales . '%']
+                    )->row();
 
-                $total_qty += (float)($menu_sales->qty ?? 0);
+                    $total_qty += (float)($menu_sales->qty ?? 0);
 ?>
-                <!-- trace hasil  -->
-                <p><?= $this->db->last_query(); ?>></p>
-                <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
-            <?php
+                    <!-- trace hasil  -->
+                    <p><?= $this->db->last_query(); ?>></p>
+                    <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
+                <?php
+                }
             }
-        }
 
-        $judul_cabang = 'Semua Cabang';
-    } else {
-        // Jika pilih 1 cabang saja
-        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
+            $judul_cabang = 'Semua Cabang';
+        } else {
+            // Jika pilih 1 cabang saja
+            $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabang])->row();
 
-        $suffix = '';
-        $kode_cabang = '';
+            $suffix = '';
+            $kode_cabang = '';
 
-        if ($caricabang) {
-            $kode_cabang = $caricabang->kode_cabang;
-            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
-        }
+            if ($caricabang) {
+                $kode_cabang = $caricabang->kode_cabang;
+                $arr_kode_cabang = array("SN1", "SN2", "SN7");
+                $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+            }
 
-        $table = 'transaksi_produk' . $suffix;
+            $table = 'transaksi_produk' . $suffix;
 
-        if ($this->db->table_exists($table)) {
-            $menu_sales = $this->db->query(
-                "SELECT SUM(qty) as qty
+            if ($this->db->table_exists($table)) {
+                $menu_sales = $this->db->query(
+                    "SELECT SUM(qty) as qty
                  FROM {$table}
                  WHERE cabang_id = ?
                  AND kode_menu = ?
                  AND periode LIKE ?",
-                [$cabang, $menu->kode_menu, $period_menu_sales . '%']
-            )->row();
+                    [$cabang, $menu->kode_menu, $period_menu_sales . '%']
+                )->row();
 
-            $total_qty = (float)($menu_sales->qty ?? 0);
-            ?>
-            <p><?= $this->db->last_query(); ?>></p>
+                $total_qty = (float)($menu_sales->qty ?? 0);
+                ?>
+                <p><?= $this->db->last_query(); ?> </br> <?= $menu->nama . ' = ' . $total_qty ?>></p>
 
     <?php
 
+            }
+
+            $judul_cabang = 'Cabang ' . $kode_cabang;
         }
 
-        $judul_cabang = 'Cabang ' . $kode_cabang;
-    }
+        // $stock_data[] = $total_qty;
+        // $stock_labels[] = $bahan->nama_bahan;
 
-    // $stock_data[] = $total_qty;
-    // $stock_labels[] = $bahan->nama_bahan;
+        $menu_sales_data[] = $total_qty;
 
-    $menu_sales_data[] = $total_qty;
-
-    // label + qty
-    $label_with_qty = $menu->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
-    $menu_sales_labels[] = $label_with_qty;
+        // label + qty
+        $label_with_qty = $menu->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
+        $menu_sales_labels[] = $label_with_qty;
 
 
-    if ($total_qty > 0) {
-        $has_menu_sales_data = true;
+        if ($total_qty > 0) {
+            $has_menu_sales_data = true;
+        }
     }
 }
 
