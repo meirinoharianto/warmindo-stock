@@ -320,17 +320,22 @@ $bulan = array(
                                             </form>
                                         </div>
 
-
-                                        <div id="stock2-chart-container">
-                                            <?php
-                                            // Load branch chart partial view
-                                            $this->load->view('partials/stock2_chart', [
-                                                'thn_stock2' => $thn_stock2,
-                                                'bln_stock2' => $bln_stock2,
-                                                'idcabang_stock2' => $idcabang_stock2,
-                                                'filter_stock2_submitted' => $filter_stock2_submitted
-                                            ]);
-                                            ?>
+                                        <div id="chart2-wrapper" class="chart-loading-box">
+                                            <div class="chart-loading-overlay">
+                                                <div class="chart-loading-spinner"></div>
+                                                <div class="chart-loading-text">Memuat grafik...</div>
+                                            </div>
+                                            <div id="stock2-chart-container">
+                                                <?php
+                                                // Load branch chart partial view
+                                                $this->load->view('partials/stock2_chart', [
+                                                    'thn_stock2' => $thn_stock2,
+                                                    'bln_stock2' => $bln_stock2,
+                                                    'idcabang_stock2' => $idcabang_stock2,
+                                                    'filter_stock2_submitted' => $filter_stock2_submitted
+                                                ]);
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -395,18 +400,46 @@ $bulan = array(
 
         // AJAX form submission for stock filter
         $('#stock2-filter-form').submit(function(e) {
-            e.preventDefault();
+            var wrapper = $('#chart2-wrapper');
+            var result = $('#stock2-chart-container');
+
+            wrapper.addClass('loading');
+
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
-                success: function(response) {
+                success: function(res) {
+                    // result.html(res);
                     // Extract just the branch chart container content from the response
                     var newContent = $(response).find('#stock2-chart-container').html();
                     $('#stock2-chart-container').html(newContent);
+                },
+                error: function() {
+                    result.html(`
+                <div class="alert alert-danger text-center py-3">
+                    Gagal memuat grafik.
+                </div>
+            `);
+                },
+                complete: function() {
+                    wrapper.removeClass('loading');
                 }
             });
         });
+        // $('#stock2-filter-form').submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         type: 'POST',
+        //         data: $(this).serialize(),
+        //         success: function(response) {
+        //             // Extract just the branch chart container content from the response
+        //             var newContent = $(response).find('#stock2-chart-container').html();
+        //             $('#stock2-chart-container').html(newContent);
+        //         }
+        //     });
+        // });
 
         $('#stock-filter-form').submit(function(e) {
             var wrapper = $('#chart-wrapper');
