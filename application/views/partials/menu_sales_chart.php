@@ -152,8 +152,12 @@ if ($has_menu_sales_data): ?>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <script>
-        var menu_salesChart = document.getElementById('menu_sales-chart');
-        var chart3 = new Chart(menu_salesChart, {
+        var menuSalesChart = document.getElementById('menu_sales-chart');
+        if (!menuSalesChartEl) {
+            console.error('Canvas #menu_sales-chart tidak ditemukan');
+            return;
+        }
+        var chart3 = new Chart(menuSalesChart, {
             type: 'bar',
             data: {
                 labels: [<?= "'" . implode("','", array_map('addslashes', $menu_sales_labels)) . "'" ?>],
