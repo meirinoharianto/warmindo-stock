@@ -46,7 +46,7 @@ foreach ($menus as $menu) {
                 $total_qty += (float)($menu_sales->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
-                <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
+                <p> <?= $kode_cabang ?> <?= $total_qty ?></p>
     <?php
             }
         }
@@ -180,6 +180,6 @@ if ($has_menu_sales_data): ?>
         <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
         <h5>Data tidak ditemukan</h5>
         <!-- <p><?= $sql . $period_stock; ?></p> -->
-        <p>Tidak ada produk terjual untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
+        <p>Tidak ada produk terjual total <?= $total_qty ?? '' ?> untuk cabang <?= $judul_cabang ?? '' ?> bulan <?= $bulan[$bln_menu_sales] ?? '' ?> <?= $thn_menu_sales ?></p>
     </div>
 <?php endif; ?>
