@@ -36,6 +36,7 @@ for ($n = 1; $n <= 12; $n++) {
 }
 
 if ($has_monthly_data): ?>
+    <p>tes</p>
     <canvas id="line-chart" height="180" style="height: 300px;"></canvas>
     <script>
         var linechart = document.getElementById('line-chart');
