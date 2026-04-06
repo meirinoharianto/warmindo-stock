@@ -169,7 +169,7 @@ $bulan = array(
                                             <h5>Penjualan Menu per Bulan</h5>
                                             <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="menu_sales-filter-form">
                                                 <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
+                                                    <input type="hidden" name="thn_menu_sales" value="<?= $thn_menu_sales ?>">
                                                     <div class="mr-2">
                                                         <select name="idcabang_menu_sales" class="form-control form-control-sm">
                                                             <option value="-1">- Pilih Cabang -</option>
@@ -333,8 +333,6 @@ $bulan = array(
                                         </div>
                                     </div>
                                 </div>
-
-
 
                             </div>
                         </div>
