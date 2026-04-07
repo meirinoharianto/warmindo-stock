@@ -39,6 +39,7 @@ $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 $this->db->where_not_in('kode_cabang', 'PU');
 $all_cabang2 = $this->db->get('cabang')->result();
 
+$chart_rows = [];
 foreach ($bahans as $bahan) {
     $total_qty = 0;
 
@@ -105,16 +106,31 @@ foreach ($bahans as $bahan) {
     // $stock_data[] = $total_qty;
     // $stock_labels[] = $bahan->nama_bahan;
 
-    $stock2_data[] = $total_qty;
+    // $stock2_data[] = $total_qty;
 
     // label + qty
-    $label_with_qty = $bahan->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
-    $stock2_labels[] = $label_with_qty;
+    // $label_with_qty = $bahan->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
+    // $stock2_labels[] = $label_with_qty;
 
+    $chart_rows[] = [
+        'nama' => $bahan->nama,
+        'qty'  => (float)$total_qty
+    ];
 
     if ($total_qty > 0) {
         $has_stock2_data = true;
     }
+}
+usort($chart_rows, function ($a, $b) {
+    return $b['qty'] <=> $a['qty'];
+});
+
+$stock2_data = [];
+$stock2_labels = [];
+
+foreach ($chart_rows as $row) {
+    $stock2_data[] = $row['qty'];
+    $stock2_labels[] = $row['nama'] . ' - (' . number_format($row['qty'], 0, ',', '.') . ')';
 }
 
 $jumlahLabel = count($stock2_labels); // pastikan $labels tersedia
