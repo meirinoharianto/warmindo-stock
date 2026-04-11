@@ -144,9 +144,10 @@ class Coordinators extends CI_Controller
         $user =  $this->db->query("SELECT * FROM login WHERE login.deleted_at IS NULL AND 
             login.id = ? ", array($this->uri->segment('3')))->row();
         if (isset($user)) {
-            $login_detail = $this->db->where('login_id == ' . $iduser)
-                ->get('login_detail')
-                ->result();
+
+            // $login_detail = $this->db->where('login_id == ' . $iduser)
+            //     ->get('login_detail')
+            //     ->result();
 
             // $login_detail =  $this->db->query("SELECT * FROM login_detail WHERE $iduser)->row();
         } else {
@@ -159,7 +160,7 @@ class Coordinators extends CI_Controller
             'title_web'  => 'Edit Koordinator',
             'sidebar'      => 'coordinators',
             'user'       => $user,
-            'login_detail'       => $login_detail,
+            // 'login_detail'       => $login_detail,
         ];
 
         $this->data['title_web'] = 'Edit Koordinator ';
