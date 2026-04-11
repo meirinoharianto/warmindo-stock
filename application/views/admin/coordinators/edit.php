@@ -96,6 +96,17 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="form-group">
+                                <!-- <select name="idcabang" class="form-control form-control-sm">
+                                    <option value="all">- Semua Cabang -</option>
+                                    <?php
+
+                                    foreach ($namacabang as $r) {
+                                    ?>
+                                        <option value="<?= $r->cabang_id; ?>" <?= ($login_detail->cabang_id == $r->cabang_id) ? 'selected' : '' ?>>
+                                            <?= $r->nama_toko; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select> -->
                                 <?php
                                 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
                                 // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
