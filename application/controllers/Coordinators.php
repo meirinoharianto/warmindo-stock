@@ -43,7 +43,7 @@ class Coordinators extends CI_Controller
         if ($this->input->method(true) == 'POST'):
             $query = "SELECT * FROM login";
             $search = array('nama_user', 'user', 'telepon', 'level', 'alamat');
-            $where  = 'level = "Koordinator"';
+            $where  = array('level' => 'Koordinator');
             $iswhere = 'login.deleted_at IS NULL';
             header('Content-Type: application/json');
             echo $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
