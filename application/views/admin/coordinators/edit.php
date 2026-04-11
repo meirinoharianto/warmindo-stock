@@ -99,7 +99,9 @@
                                 <select name="idcabang" class="form-control form-control-sm">
                                     <option value="all">- Semua Cabang -</option>
                                     <?php
-
+                                    $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                        ->get('profil_toko')
+                                        ->result();
                                     foreach ($namacabang as $r) {
                                     ?>
                                         <option value="<?= $r->cabang_id; ?>" <?= (1 == $r->cabang_id) ? 'selected' : '' ?>>
