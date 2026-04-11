@@ -145,7 +145,7 @@ class Coordinators extends CI_Controller
             login.id = ? ", array($this->uri->segment('3')))->row();
         if (isset($user)) {
 
-            $login_detail = $this->db->where('login_id == ' . $iduser)
+            $login_detail = $this->db->where('login_id', $iduser)
                 ->get('login_detail')
                 ->result();
 
