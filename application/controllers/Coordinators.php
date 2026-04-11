@@ -138,10 +138,17 @@ class Coordinators extends CI_Controller
     {
         if ($this->uri->segment('3') == '') {
             echo '<script>alert("halaman tidak ditemukan");window.location="' . base_url('users') . '";</script>';
+        } else {
+            $iduser = $this->uri->segment('3');
         }
         $user =  $this->db->query("SELECT * FROM login WHERE login.deleted_at IS NULL AND 
             login.id = ? ", array($this->uri->segment('3')))->row();
         if (isset($user)) {
+            $login_detail = $this->db->where('login_id == ' . $iduser)
+                ->get('login_detail')
+                ->result();
+
+            // $login_detail =  $this->db->query("SELECT * FROM login_detail WHERE $iduser)->row();
         } else {
             $this->session->set_flashdata("failed", " Tidak ditemukan data ID dari Users ! ");
             redirect(base_url('coordinators'));
@@ -152,6 +159,7 @@ class Coordinators extends CI_Controller
             'title_web'  => 'Edit Koordinator',
             'sidebar'      => 'coordinators',
             'user'       => $user,
+            'login_detail'       => $login_detail,
         ];
 
         $this->data['title_web'] = 'Edit Koordinator ';

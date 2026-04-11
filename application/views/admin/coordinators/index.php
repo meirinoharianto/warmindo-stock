@@ -117,7 +117,7 @@
                     "data": "id",
                     "render": function(data, type, row, meta) {
                         return `<a href="${base_url}coordinators/edit/${row.id}" 
-                                    class="btn btn-primary btn-sm" title="Edit Users" role="button">
+                                    class="btn btn-primary btn-sm" title="Edit Data Koordinator" role="button">
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <a href="${base_url}coordinators/delete?id=${row.id}" 

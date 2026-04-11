@@ -109,7 +109,7 @@
 
                                     foreach ($namacabang as $r) {
                                     ?>
-                                        <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_stock2 == $r->cabang_id) ? 'selected' : '' ?>>
+                                        <option value="<?= $r->cabang_id; ?>" <?= ($login_detail->cabang_id == $r->cabang_id) ? 'selected' : '' ?>>
                                             <?= $r->nama_toko; ?>
                                         </option>
                                     <?php } ?>
