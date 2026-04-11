@@ -1,5 +1,11 @@
 <?php if (! defined('BASEPATH')) exit('No direct script acess allowed'); ?>
+
 <div class="clearfix"></div>
+<?php
+// Default values
+$login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post('login_cabang') : '';
+?>
+
 <div id="home">
     <div class="container mt-5">
         <?php if (!empty($this->session->flashdata('failed'))) { ?>
@@ -96,7 +102,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="form-group">
-                                <select name="idcabang" class="form-control form-control-sm">
+                                <select name="login_cabang" class="form-control form-control-sm">
                                     <option value="all">- Semua Cabang -</option>
                                     <?php
                                     $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
@@ -105,7 +111,8 @@
                                         ->result();
                                     foreach ($namacabang as $r) {
                                     ?>
-                                        <option value="<?= $r->cabang_id; ?>" <?= (1 == $r->cabang_id) ? 'selected' : '' ?>>
+                                        <option value="<?= $r->cabang_id; ?>"
+                                            <?= (isset($login_cabang) && in_array($r->id, (array)$login_cabang)) ? 'selected' : '' ?>>
                                             <?= $r->nama_toko; ?>
                                         </option>
                                     <?php } ?>
