@@ -100,6 +100,7 @@
                                     <option value="all">- Semua Cabang -</option>
                                     <?php
                                     $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                        ->order_by('length(nama_toko),nama_toko', 'asc')
                                         ->get('profil_toko')
                                         ->result();
                                     foreach ($namacabang as $r) {
