@@ -1,24 +1,24 @@
-<?php if(! defined('BASEPATH')) exit('No direct script acess allowed');?>
+<?php if (! defined('BASEPATH')) exit('No direct script acess allowed'); ?>
 <div class="clearfix"></div>
 <div id="home">
     <div class="container mt-5">
-        <?php if(!empty($this->session->flashdata('failed'))){ ?>
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <?= $this->session->flashdata('failed');?>
-        </div>
-        <?php }?>
-        <?php if(!empty($this->session->flashdata('success'))){ ?>
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <strong><?= $this->session->flashdata('success');?></strong>
-        </div>
-        <?php }?>
-        <form action="<?php echo base_url('users/upd');?>" method="POST" enctype="multipart/form-data">
+        <?php if (!empty($this->session->flashdata('failed'))) { ?>
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <?= $this->session->flashdata('failed'); ?>
+            </div>
+        <?php } ?>
+        <?php if (!empty($this->session->flashdata('success'))) { ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong><?= $this->session->flashdata('success'); ?></strong>
+            </div>
+        <?php } ?>
+        <form action="<?php echo base_url('users/upd'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-7">
                     <div class="card card-rounded">
@@ -29,32 +29,36 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nama Pengguna</label>
-                                <input type="text" class="form-control" value="<?= $user->nama_user;?>" name="nama"
+                                <input type="text" class="form-control" value="<?= $user->nama_user; ?>" name="nama"
                                     required="required" placeholder="Nama Pengguna">
                             </div>
                             <div class="form-group">
                                 <label>E-mail</label>
-                                <input type="email" class="form-control" value="<?= $user->email;?>" name="email"
+                                <input type="email" class="form-control" value="<?= $user->email; ?>" name="email"
                                     required="required" placeholder="Contoh : admin@gmail.com">
                             </div>
                             <div class="form-group">
                                 <label>Level</label>
                                 <select name="level" class="form-control" required="required">
-                                    <option <?php if($user->level == 'Admin'){echo 'selected';}?>>Admin</option>
-                                    <option <?php if($user->level == 'Kasir'){echo 'selected';}?>>Kasir</option>
+                                    <option <?php if ($user->level == 'Admin') {
+                                                echo 'selected';
+                                            } ?>>Admin</option>
+                                    <option <?php if ($user->level == 'Kasir') {
+                                                echo 'selected';
+                                            } ?>>Kasir</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Telepon</label>
-                                <input type="number" class="form-control" value="<?= $user->telepon;?>" name="telepon"
+                                <input type="number" class="form-control" value="<?= $user->telepon; ?>" name="telepon"
                                     required="required" placeholder="Contoh : 089618173609">
                             </div>
                             <div class="form-group">
                                 <label>Alamat</label>
                                 <textarea class="form-control" name="alamat"
-                                    required="required"><?= $user->alamat;?></textarea>
-                                <input type="hidden" class="form-control" value="<?= $user->id;?>" name="id">
-                                <input type="hidden" class="form-control" value="<?= $user->foto;?>" name="foto">
+                                    required="required"><?= $user->alamat; ?></textarea>
+                                <input type="hidden" class="form-control" value="<?= $user->id; ?>" name="id">
+                                <input type="hidden" class="form-control" value="<?= $user->foto; ?>" name="foto">
                             </div>
                             <div class="form-group">
                                 <label>Upload Foto <span style="color:red;padding-left:4px;">* opsional</span></label>
@@ -63,7 +67,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Username</label>
-                                <input type="text" class="form-control" value="<?= $user->user;?>" name="user"
+                                <input type="text" class="form-control" value="<?= $user->user; ?>" name="user"
                                     required="required" placeholder="Username">
                             </div>
                             <div class="form-group">
@@ -74,11 +78,11 @@
                         </div>
                         <div class="card-footer">
                             <div class="pull-right">
-                                <input type="hidden" class="form-control" value="<?= $user->id;?>" name="id">
-                                <input type="hidden" class="form-control" value="<?= $user->foto;?>" name="foto">
+                                <input type="hidden" class="form-control" value="<?= $user->id; ?>" name="id">
+                                <input type="hidden" class="form-control" value="<?= $user->foto; ?>" name="foto">
                                 <button type="submit" class="btn btn-primary btn-md">
                                     <b><i class="fa fa-edit"></i> Edit Profil</b></button>
-                                <a href="<?= base_url('users');?>" class="btn btn-danger btn-md">
+                                <a href="<?= base_url('users'); ?>" class="btn btn-danger btn-md">
                                     <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
                             </div>
                         </div>
@@ -92,10 +96,28 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="form-group">
-                                <?php if($user->foto !== '-'){?>
-                                <img src="<?= base_url('assets/image/'.$user->foto);?>" class="img-responsive"
-                                    style="width:100%;" alt="#">
-                                <?php }?>
+                                <?php
+                                $this->db->order_by('length(nama_toko),nama_toko', 'asc');
+                                // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
+                                $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                    ->get('profil_toko')
+                                    ->result();
+                                ?>
+                                <select name="idcabang" class="form-control form-control-sm">
+                                    <option value="all">- Semua Cabang -</option>
+                                    <?php
+
+                                    foreach ($namacabang as $r) {
+                                    ?>
+                                        <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_stock2 == $r->cabang_id) ? 'selected' : '' ?>>
+                                            <?= $r->nama_toko; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <?php if ($user->foto !== '-') { ?>
+                                    <img src="<?= base_url('assets/image/' . $user->foto); ?>" class="img-responsive"
+                                        style="width:100%;" alt="#">
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
