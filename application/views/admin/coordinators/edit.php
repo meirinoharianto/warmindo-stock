@@ -3,7 +3,9 @@
 <div class="clearfix"></div>
 <?php
 // Default values
-$login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post('login_cabang') : '';
+// $login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post('login_cabang') : '';
+
+
 ?>
 
 <div id="home">

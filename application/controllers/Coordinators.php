@@ -160,7 +160,7 @@ class Coordinators extends CI_Controller
             'title_web'  => 'Edit Koordinator',
             'sidebar'      => 'coordinators',
             'user'       => $user,
-            'login_detail'       => $login_detail,
+            'login_cabang[]'       => $login_detail,
         ];
 
         $this->data['title_web'] = 'Edit Koordinator ';
