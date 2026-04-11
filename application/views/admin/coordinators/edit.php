@@ -46,7 +46,7 @@
                             <div class="pull-right">
                                 <input type="hidden" class="form-control" value="<?= $user->id; ?>" name="id">
                                 <button type="submit" class="btn btn-primary btn-md">
-                                    <b><i class="fa fa-edit"></i> Simpan</b></button>
+                                    <b><i class="fa fa-edit"></i> Simpan </b></button>
                                 <a href="<?= base_url('coordinators'); ?>" class="btn btn-danger btn-md">
                                     <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
                             </div>
