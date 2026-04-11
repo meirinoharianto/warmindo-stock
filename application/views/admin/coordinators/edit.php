@@ -103,17 +103,7 @@
                                     ->get('profil_toko')
                                     ->result();
                                 ?>
-                                <select name="idcabang" class="form-control form-control-sm">
-                                    <option value="all">- Semua Cabang -</option>
-                                    <?php
 
-                                    foreach ($namacabang as $r) {
-                                    ?>
-                                        <option value="<?= $r->cabang_id; ?>" <?= ($login_detail->cabang_id == $r->cabang_id) ? 'selected' : '' ?>>
-                                            <?= $r->nama_toko; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
                                 <?php if ($user->foto !== '-') { ?>
                                     <img src="<?= base_url('assets/image/' . $user->foto); ?>" class="img-responsive"
                                         style="width:100%;" alt="#">
