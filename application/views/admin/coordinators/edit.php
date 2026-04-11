@@ -117,6 +117,31 @@ $login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post(
                                         </option>
                                     <?php } ?>
                                 </select>
+
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="login_cabang[]" value="all"
+                                            <?= (isset($login_cabang) && in_array('all', (array)$login_cabang)) ? 'checked' : '' ?>>
+                                        - Semua Cabang -
+                                    </label>
+                                </div>
+
+                                <?php
+                                $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
+                                    ->order_by('length(nama_toko),nama_toko', 'asc')
+                                    ->get('profil_toko')
+                                    ->result();
+
+                                foreach ($namacabang as $r) {
+                                ?>
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" name="login_cabang[]" value="<?= $r->cabang_id; ?>"
+                                                <?= (isset($login_cabang) && in_array($r->cabang_id, (array)$login_cabang)) ? 'checked' : '' ?>>
+                                            <?= $r->nama_toko; ?>
+                                        </label>
+                                    </div>
+                                <?php } ?>
                                 <?php
                                 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
                                 // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
