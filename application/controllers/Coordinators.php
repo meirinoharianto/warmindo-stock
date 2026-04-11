@@ -30,7 +30,7 @@ class Coordinators extends CI_Controller
             'id_user'     => $this->session->userdata('ses_id'),
             'title_web'  => 'Daftar Koordinator',
             'sidebar'      => 'coordinators',
-            'user'       => $this->db->query("SELECT * FROM login WHERE level = 'Coordinator' AND login.deleted_at IS NULL")->result_array()
+            'user'       => $this->db->query("SELECT * FROM login WHERE level = 'Koordinator' AND login.deleted_at IS NULL")->result_array()
         ];
 
         $this->load->view('layout/header', $this->data);
