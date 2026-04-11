@@ -72,6 +72,7 @@
                                 ?>
                                     <div>
                                         <label>
+
                                             <input type="checkbox" name="login_cabang[]" value="<?= $r->cabang_id; ?>"
                                                 <?= (isset($login_cabang) && in_array($r->cabang_id, (array)$login_cabang)) ? 'checked' : '' ?>>
                                             <?= $r->nama_toko; ?>

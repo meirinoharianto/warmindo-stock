@@ -145,10 +145,16 @@ class Coordinators extends CI_Controller
             login.id = ? ", array($this->uri->segment('3')))->row();
         if (isset($user)) {
 
-            $login_detail = $this->db->where('login_id', $iduser)
-                ->get('login_detail')
-                ->result();
+            // $login_detail = $this->db->where('login_id', $iduser)
+            //     ->get('login_detail')
+            //     ->result();
 
+            $login_detail = $this->db->select('cabang_id')
+                ->where('login_id', $iduser)
+                ->get('login_detail')
+                ->result_array();
+
+            $login_cabang = array_column($login_detail, 'cabang_id');
             // $login_detail =  $this->db->query("SELECT * FROM login_detail WHERE $iduser)->row();
         } else {
             $this->session->set_flashdata("failed", " Tidak ditemukan data ID dari Users ! ");
@@ -160,7 +166,7 @@ class Coordinators extends CI_Controller
             'title_web'  => 'Edit Koordinator',
             'sidebar'      => 'coordinators',
             'user'       => $user,
-            'login_cabang[]'       => $login_detail,
+            'login_cabang'       => $login_cabang,
         ];
 
         $this->data['title_web'] = 'Edit Koordinator ';
