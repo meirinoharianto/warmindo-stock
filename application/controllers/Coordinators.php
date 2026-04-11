@@ -174,28 +174,34 @@ class Coordinators extends CI_Controller
         $id = htmlentities($this->input->post('id', true));
         $user =  $this->db->get_where("login", array('id' => $id))->row();
         $userdetail =  $this->db->get_where("login_detail", array('id' => $id))->row();
+        $login_cabang = $this->input->post('login_cabang');
 
-        $this->form_validation->set_rules("login_cabang", "Cabang", "required");
-        if ($this->form_validation->run() != false) {
-            $nama = htmlentities($this->input->post('nama', true));
-            $id = htmlentities($this->input->post('id', true));
-            $this->db->where("login_id", $id); // ubah id dan postnya
-            $this->db->delete("login_detail");
-
-            $login_cabang = $this->input->post('login_cabang') ?? [];
-
-            foreach ($login_cabang as $cabang_id) {
-                $this->db->insert('login_detail', [
-                    'login_id' => $id,
-                    'cabang_id' => $cabang_id
-                ]);
-            }
-            $this->session->set_flashdata('success', 'Berhasil Update Koordinator : ' . $nama . ' !');
-            redirect(base_url('coordinators/edit/' . $id));
-        } else {
-            $this->session->set_flashdata("failed", " Gagal Update Koordinator ! " . validation_errors());
+        if (empty($login_cabang)) {
+            $this->session->set_flashdata("failed", "Gagal Update Koordinator! Cabang wajib dipilih.");
             redirect(base_url('coordinators/edit/' . $id));
         }
+
+        // $this->form_validation->set_rules("login_cabang", "Cabang", "required");
+        // if ($this->form_validation->run() != false) {
+        $nama = htmlentities($this->input->post('nama', true));
+        $id = htmlentities($this->input->post('id', true));
+        $this->db->where("login_id", $id); // ubah id dan postnya
+        $this->db->delete("login_detail");
+
+        // $login_cabang = $this->input->post('login_cabang') ?? [];
+
+        foreach ($login_cabang as $cabang_id) {
+            $this->db->insert('login_detail', [
+                'login_id' => $id,
+                'cabang_id' => $cabang_id
+            ]);
+        }
+        $this->session->set_flashdata('success', 'Berhasil Update Koordinator : ' . $nama . ' !');
+        redirect(base_url('coordinators/edit/' . $id));
+        // } else {
+        //     $this->session->set_flashdata("failed", " Gagal Update Koordinator ! " . validation_errors());
+        //     redirect(base_url('coordinators/edit/' . $id));
+        // }
     }
 
     public function delete()
