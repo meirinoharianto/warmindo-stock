@@ -29,12 +29,12 @@ $login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post(
                 <div class="col-sm-7">
                     <div class="card card-rounded">
                         <div class="card-header bg-primary text-white">
-                            <i class="fa fa-edit"> </i> Edit Akun
+                            <i class="fa fa-edit"> </i> Edit Koordinator
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Nama Pengguna</label>
+                                <label>Nama Koordinator</label>
                                 <input type="text" class="form-control" value="<?= $user->nama_user; ?>" name="nama"
                                     required="required" placeholder="Nama Pengguna" readonly>
                             </div>
@@ -84,10 +84,7 @@ $login_cabang = !empty($this->input->post('login_cabang')) ? $this->input->post(
                                     ->result();
                                 ?>
 
-                                <?php if ($user->foto !== '-') { ?>
-                                    <img src="<?= base_url('assets/image/' . $user->foto); ?>" class="img-responsive"
-                                        style="width:100%;" alt="#">
-                                <?php } ?>
+
                             </div>
                         </div>
                     </div>

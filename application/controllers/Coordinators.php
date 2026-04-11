@@ -145,9 +145,9 @@ class Coordinators extends CI_Controller
             login.id = ? ", array($this->uri->segment('3')))->row();
         if (isset($user)) {
 
-            // $login_detail = $this->db->where('login_id == ' . $iduser)
-            //     ->get('login_detail')
-            //     ->result();
+            $login_detail = $this->db->where('login_id == ' . $iduser)
+                ->get('login_detail')
+                ->result();
 
             // $login_detail =  $this->db->query("SELECT * FROM login_detail WHERE $iduser)->row();
         } else {
@@ -160,7 +160,7 @@ class Coordinators extends CI_Controller
             'title_web'  => 'Edit Koordinator',
             'sidebar'      => 'coordinators',
             'user'       => $user,
-            // 'login_detail'       => $login_detail,
+            'login_detail'       => $login_detail,
         ];
 
         $this->data['title_web'] = 'Edit Koordinator ';
@@ -173,53 +173,23 @@ class Coordinators extends CI_Controller
     {
         $id = htmlentities($this->input->post('id', true));
         $user =  $this->db->get_where("login", array('id' => $id))->row();
-        if ($this->input->post('user') == $user->user) {
-            $is_unique =  '';
-        } else {
-            $is_unique =  '|is_unique[login.user]';
-        }
+        $userdetail =  $this->db->get_where("login_detail", array('id' => $id))->row();
 
-        $this->form_validation->set_rules("user", "User", "required|trim" . $is_unique);
+        $this->form_validation->set_rules("login_cabang", "Cabang", "required");
         if ($this->form_validation->run() != false) {
             $nama = htmlentities($this->input->post('nama', true));
-            $user = htmlentities($this->input->post('user', true));
-            $email = htmlentities($this->input->post('email', true));
-
-            $level = htmlentities($this->input->post('level', true));
-            $telepon = htmlentities($this->input->post('telepon', true));
-            $alamat = htmlentities($this->input->post('alamat', true));
             $id = htmlentities($this->input->post('id', true));
-            // setting konfigurasi upload
-            $nmfile = "user_" . time();
-            $config['upload_path'] = './assets/image/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png';
-            $config['file_name'] = $nmfile;
-            // load library upload
-            $this->load->library('upload', $config);
-            // upload gambar 1
-            if ($this->upload->do_upload('gambar')) {
-                $result1 = $this->upload->data();
-                $result = array('gambar' => $result1);
-                $data1 = array('upload_data' => $this->upload->data());
-                unlink('./assets/image/' . $this->input->post('foto'));
-                $this->db->set('foto', $data1['upload_data']['file_name']);
-            }
+            $this->db->where("login_id", $id); // ubah id dan postnya
+            $this->db->delete("login_detail");
 
-            if (!empty($this->input->post('pass'))) {
-                $pass = htmlentities($this->input->post('pass'));
-                $passhash = password_hash($pass, PASSWORD_DEFAULT);
-                $this->db->set('pass', $passhash);
-            }
+            $login_cabang = $this->input->post('login_cabang') ?? [];
 
-            $data = array(
-                'nama_user' => $nama,
-                'user' => $user,
-                'email' => $email,
-                'level' => $level,
-                'telepon' => $telepon,
-                'alamat' => $alamat,
-            );
-            $this->M_Admin->update_table('login', 'id', $id, $data);
+            foreach ($login_cabang as $cabang_id) {
+                $this->db->insert('login_detail', [
+                    'login_id' => $id,
+                    'cabang_id' => $cabang_id
+                ]);
+            }
             $this->session->set_flashdata('success', 'Berhasil Update Koordinator : ' . $nama . ' !');
             redirect(base_url('coordinators/edit/' . $id));
         } else {
