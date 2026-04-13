@@ -25,6 +25,8 @@ class Home extends CI_Controller
             // }
         } else if ($this->session->userdata('ses_level') == 'AdminKasir') {
             redirect('adminkasir');
+        } else if ($this->session->userdata('ses_level') == 'Koordinator') {
+            redirect('koordinator');
         }
     }
 
