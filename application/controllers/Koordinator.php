@@ -32,7 +32,7 @@ class Koordinator extends CI_Controller
 
         $list_cabang = array_column($login_detail, 'cabang_id');
         $this->data = [
-            'title_web' => 'Dashboard Koordinator' . $this->db->last_query(),
+            'title_web' => 'Dashboard Koordinator',
             'list_cabang'       => $list_cabang,
 
         ];

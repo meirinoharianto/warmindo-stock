@@ -62,7 +62,7 @@ $bulan = array(
                     <div class="col-12 mt-3 h-100">
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-dashboard mr-1"></i> Dashboard
+                                <i class="fa fa-dashboard mr-1"></i> Dashboard Koordinator
                             </div>
                             <div class="card-body pl-4 pr-4">
 
@@ -71,7 +71,7 @@ $bulan = array(
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Cabang</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="branch-filter-form">
+                                            <form method="post" action="<?= base_url('koordinator') ?>" class="form-inline" id="branch-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_monthly" value="<?= $thn_monthly ?>">
                                                     <input type="hidden" name="idcabang_monthly" value="<?= $idcabang_monthly ?>">
@@ -125,7 +125,7 @@ $bulan = array(
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="monthly-filter-form">
+                                            <form method="post" action="<?= base_url('koordinator') ?>" class="form-inline" id="monthly-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
                                                     <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
@@ -181,7 +181,7 @@ $bulan = array(
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Stok Keluar Bahan per Cabang per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock-filter-form">
+                                            <form method="post" action="<?= base_url('koordinator') ?>" class="form-inline" id="stock-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock" value="<?= $thn_stock ?>">
                                                     <div class="mr-2">
@@ -271,7 +271,7 @@ $bulan = array(
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan Menu per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock2-filter-form">
+                                            <form method="post" action="<?= base_url('koordinator') ?>" class="form-inline" id="stock2-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
                                                     <div class="mr-2">
