@@ -33,7 +33,7 @@ $this->db->where_not_in('cabang_id', [1, 99]);
 if (!empty($login_cabang)) {
     $this->db->where_in('cabang_id', $login_cabang);
 } else {
-    $this->db->where('1=0');
+    $this->db->where('1=1');
 }
 
 $namacabang = $this->db->get('profil_toko')->result();
