@@ -5,6 +5,8 @@ $branch_data = [];
 $has_branch_data = false;
 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 // $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
+$this->db->where_not_in('cabang_id', [1, 99]);
+
 if (!empty($list_branch)) {
     $this->db->where_in('cabang_id', $list_branch);
 } else {
