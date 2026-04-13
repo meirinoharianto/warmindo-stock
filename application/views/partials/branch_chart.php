@@ -1,17 +1,18 @@
 <?php
 // Prepare branch data
-if (!empty($list_branch)) {
-    $branches = $list_branch;
-} else {
-    $this->db->where('1=0');
-}
+
 $branch_data = [];
 $has_branch_data = false;
 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 // $branches = $this->db->get_where('profil_toko', 'id<>1')->result();
-// $branches = $this->db->where('id <> 1 AND cabang_id <> 99')
-//     ->get('profil_toko')
-//     ->result();
+if (!empty($list_branch)) {
+    $this->db->where_in('cabang_id', $list_branch);
+} else {
+    $this->db->where('1=0');
+}
+$branches = $this->db->get('profil_toko')
+    ->result();
+
 $branch_labels = [];
 $period_branch = $thn_branch . '-' . $bln_branch;
 
