@@ -14,7 +14,7 @@ if (!empty($list_branch)) {
 }
 $branches = $this->db->get('profil_toko')
     ->result();
-print($this->db->last_query());
+// print($this->db->last_query());
 $branch_labels = [];
 $period_branch = $thn_branch . '-' . $bln_branch;
 
