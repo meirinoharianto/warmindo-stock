@@ -8,7 +8,7 @@ $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 if (!empty($list_branch)) {
     $this->db->where_in('cabang_id', $list_branch);
 } else {
-    $this->db->where('1=0');
+    $this->db->where('1=1');
 }
 $branches = $this->db->get('profil_toko')
     ->result();
