@@ -112,7 +112,7 @@ $bulan = array(
                                             $this->load->view('partials/branch_chart', [
                                                 'thn_branch' => $thn_branch,
                                                 'bln_branch' => $bln_branch,
-                                                'list_branch' => $login_cabang,
+                                                'list_branch' => $list_cabang,
                                                 'filter_branch_submitted' => $filter_branch_submitted
                                             ]);
                                             ?>
