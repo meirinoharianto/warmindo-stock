@@ -54,7 +54,7 @@ $bulan = array(
 );
 ?>
 
-<div id="adminkasir" class="d-flex flex-column h-100">
+<div id="koordinator" class="d-flex flex-column h-100">
     <div class="wrapper d-flex flex-grow-1">
         <div id="content" class="p-0 flex-grow-1">
             <div class="container-fluid h-100">
