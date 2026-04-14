@@ -168,6 +168,15 @@
                                     <a class="dropdown-item" href="<?= base_url('stok/stokadjustment'); ?>"><i class="fa fa-edit pr-1"></i> Adjustment Stok</a>
                                 </div>
                             </li>
+
+                            <!-- MENU DATA -->
+                            <li class="nav-item dropdown active">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DATA</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                    <a class="dropdown-item" href="<?= base_url('coordinators'); ?>">
+                                        <i class="fa fa-cubes pr-1"></i> Koordinator</a>
+                                </div>
+                            </li>
                         <?php } ?>
 
                         <!-- KASIR -->

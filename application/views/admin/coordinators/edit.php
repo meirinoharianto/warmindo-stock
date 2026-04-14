@@ -79,15 +79,6 @@
                                         </label>
                                     </div>
                                 <?php } ?>
-                                <?php
-                                $this->db->order_by('length(nama_toko),nama_toko', 'asc');
-                                // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
-                                $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
-                                    ->get('profil_toko')
-                                    ->result();
-                                ?>
-
-
                             </div>
                         </div>
                     </div>
