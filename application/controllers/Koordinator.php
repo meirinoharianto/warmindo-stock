@@ -15,6 +15,7 @@ class Koordinator extends CI_Controller
             $url = base_url('login');
             redirect($url);
         }
+
         if ($this->session->userdata('ses_level') != 'Koordinator') {
             $url = base_url('login');
             redirect($url);

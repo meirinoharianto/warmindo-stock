@@ -20,8 +20,10 @@
                         <?= $this->session->flashdata('failed'); ?>
                     </div>
                 <?php } ?>
-                <a href="coordinators/tambah"><button class="btn btn-success float-right"><i class="fa fa-plus"> </i> Tambah
-                        Koordinator</button></a>
+                <?php if (!in_array($this->session->userdata('ses_level'), array('SuperAdmin', 'Admin'))) { ?>
+                    <a href="coordinators/tambah"><button class="btn btn-success float-right"><i class="fa fa-plus"> </i> Tambah
+                            Koordinator</button></a>
+                <?php } ?>
                 <div class="clearfix"></div>
                 <br>
                 <div class="card card-rounded">

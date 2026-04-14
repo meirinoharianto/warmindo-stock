@@ -18,8 +18,8 @@ class Coordinators extends CI_Controller
             $url = base_url('login');
             redirect($url);
         } else {
-            if ($this->session->userdata('ses_level') == 'Coordinators') {
-                redirect(base_url('dashboard'));
+            if (!in_array($this->session->userdata('ses_level'), array('SuperAdmin', 'Admin', 'AdminKasir'))) {
+                redirect(base_url('login'));
             }
         }
     }
