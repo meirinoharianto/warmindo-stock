@@ -221,7 +221,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Letak Card Footer -->
+
+
                 </div>
             </div>
             <?php if ($t->status == 'Bayar Nanti') { ?>
