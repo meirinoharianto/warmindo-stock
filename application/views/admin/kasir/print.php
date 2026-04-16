@@ -6,149 +6,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Print Struk</title>
 
-    <!-- General CSS Files -->
-    <!-- <?php if ($os == '1') { ?>
-        <?php if ($cetak == '1') { ?>
-            <style>
-                @page {
-                    size: 210mm 297mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 58mm;
-                    height: 100mm;
-                    font-size: 12pt;
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 58mm;
-                        font-size: 12pt;
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-        <?php if ($cetak == '2') { ?>
-            <style>
-                @page {
-                    size: 210mm 297mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 80mm;
-                    height: 100mm;
-                    font-size: 12pt;
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 80mm;
-                        font-size: 12pt;
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-        <?php if ($cetak == '3') { ?>
-            <style>
-                @page {
-                    size: 210mm 297mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 210mm 297mm
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 210mm
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-    <?php } else { ?>
-        <?php if ($cetak == '1') { ?>
-            <style>
-                @page {
-                    size: 58mm 100mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 58mm;
-                    height: 100mm;
-                    font-size: 12pt;
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 58mm;
-                        font-size: 12pt;
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-        <?php if ($cetak == '2') { ?>
-            <style>
-                @page {
-                    size: 80mm 100mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 80mm;
-                    height: 100mm;
-                    font-size: 12pt;
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 80mm;
-                        font-size: 12pt;
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-        <?php if ($cetak == '3') { ?>
-            <style>
-                @page {
-                    size: 210mm 297mm
-                }
-
-                /* output size */
-                body.receipt .sheet {
-                    width: 210mm 297mm
-                }
-
-                /* sheet size */
-                @media print {
-                    body.receipt {
-                        width: 210mm
-                    }
-                }
-
-                /* fix for Chrome */
-            </style>
-        <?php } ?>
-    <?php } ?> -->
-
     <style>
         @media print {
             @page {
@@ -158,37 +15,59 @@
 
             body {
                 width: 58mm;
+                margin: 0;
                 padding: 3mm;
                 font-size: 10px;
+                font-family: monospace;
             }
         }
 
-        html {
-            font-family: sans-serif;
-            font-size: 8pt !important;
+        body {
+            font-family: monospace;
+            font-size: 10px;
+            margin: 0;
         }
 
+        /* TABLE */
         table {
             width: 100%;
-            margin: 0;
-            font-size: 8pt !important;
+            border-collapse: collapse;
         }
 
-        tr td {
-            padding-top: 5px;
-            font-size: 8pt !important;
+        /* JARAK BARIS DIPERKECIL */
+        td {
+            padding: 2px 0;
+            vertical-align: top;
         }
 
+        /* ALIGNMENT */
         .right {
             text-align: right;
         }
 
-        center {
-            margin: 0;
+        .center {
+            text-align: center;
         }
 
-        .doted {
-            border-bottom: 1px solid #333;
+        /* GARIS PEMBATAS */
+        .line {
+            border-top: 1px dashed #000;
+            margin: 4px 0;
+        }
+
+        /* JUDUL TOKO */
+        .title {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* SPASI */
+        .mt-1 {
+            margin-top: 3px;
+        }
+
+        .mt-2 {
+            margin-top: 6px;
         }
     </style>
 
@@ -198,148 +77,106 @@
 <body class="receipt">
     <section>
         <br />
+
         <center>
             <img src="<?= base_url('assets/image/' . $pp->driver); ?>" alt="Logo" style="width:100px;">
             <!-- <h3><b> <?= base_url('assets/image/' . $pp->driver); ?> </b></h3> -->
-            <h3><b> <?= $pp->nama_toko; ?> </b></h3>
-            <p><?= $pp->alamat_toko; ?></p>
+            <div class="title"><?= $pp->nama_toko; ?></div>
+            <div><?= $pp->alamat_toko; ?></div>
         </center>
+        <div class="line"></div>
+
         <table>
             <tr>
-                <td>
-                    No Bon
-                </td>
-                <td>
-                    :
-                </td>
-                <td>
-                    <?= $t->no_bon; ?>
-                </td>
+                <td>No</td>
+                <td>: <?= $t->no_bon; ?></td>
             </tr>
             <tr>
-                <td>
-                    A/N
-                </td>
-                <td>
-                    :
-                </td>
-                <td>
-                    <?= $t->atas_nama; ?>
-                </td>
+                <td>Nama</td>
+                <td>: <?= $t->atas_nama; ?></td>
             </tr>
             <tr>
-                <td>
-                    Status / Kasir
-                </td>
-                <td>
-                    :
-                </td>
-                <?php $user = $this->db->get_where('login', ['id' => $t->kasir_id])->row(); ?>
-                <td>
-                    <?= $t->status; ?> / <?= $user->nama_user; ?>
-                </td>
+                <td>Status</td>
+                <td>: <?= $t->status; ?></td>
             </tr>
             <tr>
-                <td>
-                    Shift
-                </td>
-                <td>
-                    :
-                </td>
-                <td>
-                    <?= $t->shift_id; ?>
-                </td>
+                <td>Shift</td>
+                <td>: <?= $t->shift_id; ?></td>
+            </tr>
+            <tr>
+                <td>Tanggal</td>
+                <td>: <?= $t->created_at; ?></td>
             </tr>
         </table>
-        <p class="doted"></p>
+
+        <div class="line"></div>
+
         <table>
             <?php $hr = 0;
             foreach ($tp as $r) { ?>
                 <tr>
-                    <td colspan="2">
-                        <?= $r->nama_menu; ?>
-                    </td>
+                    <td colspan="2"><b><?= $r->nama_menu; ?></b></td>
                 </tr>
                 <tr>
-                    <td><?= $r->qty; ?> x <?= $r->harga_jual; ?> </td>
-                    <!-- <td> Rp<?= number_format($r->qty * $r->harga_jual); ?></td> -->
-                    <td style="text-align: right;">
-                        Rp<?= number_format($r->qty * $r->harga_jual); ?>
-                    </td>
+                    <td><?= $r->qty; ?> x <?= number_format($r->harga_jual); ?></td>
+                    <td class="right">Rp<?= number_format($r->qty * $r->harga_jual); ?></td>
                 </tr>
             <?php $hr += $r->harga_jual * $r->qty;
             } ?>
         </table>
-        <p class="doted"></p>
+
+        <div class="line"></div>
+
         <table>
             <tr>
-                <td><b>Total Bayar</b></td>
-                <td>:</td>
-                <td>
-                    Rp<?= number_format($hr); ?>
-                </td>
+                <td>Total</td>
+                <td class="right">Rp<?= number_format($hr); ?></td>
             </tr>
+
             <?php if ($pp->diskon > 0) {
-                $RPdiskon = $hr * $t->diskon / 100;
+                $diskon = $hr * $t->diskon / 100; ?>
+                <tr>
+                    <td>Diskon</td>
+                    <td class="right">- Rp<?= number_format($diskon); ?></td>
+                </tr>
+            <?php } ?>
+
+            <?php if ($pp->pajak > 0) {
+                $pajak = $hr * $t->pajak / 100; ?>
+                <tr>
+                    <td>Pajak</td>
+                    <td class="right">+ Rp<?= number_format($pajak); ?></td>
+                </tr>
+            <?php } ?>
+            <?php
+
+            $grd = ($hr - $t->voucher - $diskon) + $pajak;
             ?>
-                <tr class="diskon">
-                    <td><b>Diskon</b></td>
-                    <td>:</td>
-                    <td>
-                        <?= $t->diskon; ?> % / Rp<?= $RPdiskon; ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php if ($pp->pajak > 0) { ?>
-                <tr class="pajak">
-                    <td><b>Pajak </b></td>
-                    <td>:</td>
-                    <td>
-                        <?= $t->pajak; ?> %
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php if ($pp->voucher > 0) { ?>
-                <tr class="voucher">
-                    <td><b>Diskon</b></td>
-                    <td>:</td>
-                    <td>
-                        Rp<?= number_format($t->voucher); ?>
-                    </td>
-                </tr>
-            <?php } ?>
             <tr>
                 <td><b>Grand Total</b></td>
-                <td>:</td>
-                <td>
-                    <?php
-                    $diskon =  $hr * $t->diskon / 100;
-                    $pajak =  $hr * $t->pajak / 100;
-                    $grd = ($hr - $t->voucher - $diskon) + $pajak;
-                    ?>
-                    Rp<?= number_format($grd); ?>
-                </td>
+                <td class="right"><b>Rp<?= number_format($grd); ?></b></td>
             </tr>
+
             <tr>
-                <td><b>Dibayar</b></td>
-                <td>:</td>
-                <td>
-                    Rp<?= number_format($t->dibayar); ?>
-                </td>
+                <td>Dibayar</td>
+                <td class="right">Rp<?= number_format($t->dibayar); ?></td>
             </tr>
+
             <tr>
-                <td><b>Kembali</b></td>
-                <td>:</td>
-                <td>
-                    Rp<?= number_format($t->dibayar - $grd); ?>
-                </td>
+                <td>Kembali</td>
+                <td class="right">Rp<?= number_format($t->dibayar - $grd); ?></td>
             </tr>
         </table>
-        <p class="doted"></p>
+
+
+        <div class="line"></div>
+
         <center>
-            <?= $t->created_at ?> <br> <?= $pp->footer_struk ?> <br>
-            <!-- <?= $pp->footer_struk ?> <br> <?= date('d-m-Y H:i:s'); ?> -->
+            <?= $pp->footer_struk; ?><br>
+            <?= $t->created_at; ?>
         </center>
+
+        <br><br>
         <br>
         <br>
         <br>
