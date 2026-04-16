@@ -279,7 +279,7 @@ Dibayar : Rp<?= number_format($t->dibayar); ?>
 Kembali : Rp<?= number_format($t->dibayar - $grd); ?>" data-toggle="modal" data-target="#modelIdWA">
                                             <i class="fa fa-whatsapp mr-1"></i> Kirim WA
                                         </button> -->
-                                        <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
+                                        <!-- <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
 
 Hi kak *<?= $t->atas_nama; ?>*, 
 terimakasih telah melakukan transaksi di WARMINDO MALANG, berikut nota transaksi Kakak 🙏 :
@@ -340,7 +340,7 @@ Powered by : www.salasatekno.com
                                             class="btn btn-success btn-block mb-2"
                                             role="button">
                                             <i class="fa fa-whatsapp mr-1"></i> Kirim WA 2 (Gambar)
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                             </div>
