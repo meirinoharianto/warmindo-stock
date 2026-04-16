@@ -129,14 +129,14 @@
 
         <table>
             <tr>
-                <td>Total</td>
+                <td class="right">Total</td>
                 <td class="right">Rp<?= number_format($hr); ?></td>
             </tr>
 
             <?php if ($pp->diskon > 0) {
                 $RPdiskon = $hr * $t->diskon / 100; ?>
                 <tr>
-                    <td>Diskon</td>
+                    <td class="right">Diskon</td>
                     <!-- <td class="right">- Rp<?= number_format($diskon); ?></td> -->
                     <td class="right"><?= $t->diskon; ?> % / Rp<?= $RPdiskon; ?></td>
                 </tr>
@@ -145,7 +145,7 @@
             <?php if ($pp->pajak > 0) {
                 $pajak = $hr * $t->pajak / 100; ?>
                 <tr>
-                    <td>Pajak</td>
+                    <td class="right">Pajak</td>
                     <td class="right">+ Rp<?= number_format($pajak); ?></td>
                 </tr>
             <?php } ?>
@@ -156,17 +156,17 @@
             $grd = ($hr - $t->voucher - $diskon) + $pajak;
             ?>
             <tr>
-                <td><b>Grand Total</b></td>
+                <td class="right"><b>Grand Total</b></td>
                 <td class="right"><b>Rp<?= number_format($grd); ?></b></td>
             </tr>
 
             <tr>
-                <td>Dibayar</td>
+                <td class="right">Dibayar</td>
                 <td class="right">Rp<?= number_format($t->dibayar); ?></td>
             </tr>
 
             <tr>
-                <td>Kembali</td>
+                <td class="right">Kembali</td>
                 <td class="right">Rp<?= number_format($t->dibayar - $grd); ?></td>
             </tr>
         </table>
