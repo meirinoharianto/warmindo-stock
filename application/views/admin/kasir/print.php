@@ -134,10 +134,11 @@
             </tr>
 
             <?php if ($pp->diskon > 0) {
-                $diskon = $hr * $t->diskon / 100; ?>
+                $RPdiskon = $hr * $t->diskon / 100; ?>
                 <tr>
                     <td>Diskon</td>
-                    <td class="right">- Rp<?= number_format($diskon); ?></td>
+                    <!-- <td class="right">- Rp<?= number_format($diskon); ?></td> -->
+                    <td class="right"><?= $t->diskon; ?> % / Rp<?= $RPdiskon; ?></td>
                 </tr>
             <?php } ?>
 
