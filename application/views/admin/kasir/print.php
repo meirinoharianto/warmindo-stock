@@ -158,8 +158,7 @@
 
             body {
                 width: 58mm;
-                margin: 0;
-                padding: 5px;
+                padding: 3mm;
                 font-size: 10px;
             }
         }

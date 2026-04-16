@@ -753,11 +753,18 @@ window.location.href="intent://"+textEncoded+"#Intent;scheme=quickprinter;packag
                             // sendToQuickPrinterChrome(html);
                             // printAndroid("<?= base_url('kasir/print?id=' . $t->no_bon); ?>");
 
-                            w = window.open(window.location.href, "_blank");
+                            // w = window.open(window.location.href, "_blank");
+                            // w.document.open();
+                            // w.document.write(html);
+                            // w.document.close();
+                            // w.window.print();
+
+                            var w = window.open('', '_blank');
                             w.document.open();
                             w.document.write(html);
                             w.document.close();
-                            w.window.print();
+                            w.focus();
+                            w.print();
 
                         } else {
                             // alert("2");
@@ -766,11 +773,18 @@ window.location.href="intent://"+textEncoded+"#Intent;scheme=quickprinter;packag
                             // w.window.close();
 
 
-                            w = window.open(window.location.href, "_blank");
+                            // w = window.open(window.location.href, "_blank");
+                            // w.document.open();
+                            // w.document.write(html);
+                            // w.document.close();
+                            // w.window.print();
+
+                            var w = window.open('', '_blank');
                             w.document.open();
                             w.document.write(html);
                             w.document.close();
-                            w.window.print();
+                            w.focus();
+                            w.print();
                         }
                     <?php } ?>
                 },
