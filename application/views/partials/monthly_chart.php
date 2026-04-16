@@ -19,7 +19,7 @@ if ($cabang != 0) {
 for ($n = 1; $n <= 12; $n++) {
     $period = $thn_monthly . '-' . str_pad($n, 2, '0', STR_PAD_LEFT);
     // if ($this->session->userdata('ses_level') == 'AdminKasir') {
-    if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
+    if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin', 'Koordinator'))) {
 
         $penjualan = $this->db->query(
             'SELECT SUM(grandtotal) as qty FROM transaksi' . $suffix . ' WHERE cabang_id = ? AND periode LIKE ?',
