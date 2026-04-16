@@ -150,6 +150,20 @@
     <?php } ?> -->
 
     <style>
+        @media print {
+            @page {
+                size: 58mm auto;
+                margin: 0;
+            }
+
+            body {
+                width: 58mm;
+                margin: 0;
+                padding: 5px;
+                font-size: 10px;
+            }
+        }
+
         html {
             font-family: sans-serif;
             font-size: 8pt !important;
