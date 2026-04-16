@@ -262,7 +262,10 @@
                 </tr>
                 <tr>
                     <td><?= $r->qty; ?> x <?= $r->harga_jual; ?> </td>
-                    <td> Rp<?= number_format($r->qty * $r->harga_jual); ?></td>
+                    <!-- <td> Rp<?= number_format($r->qty * $r->harga_jual); ?></td> -->
+                    <td style="text-align: right;">
+                        Rp<?= number_format($r->qty * $r->harga_jual); ?>
+                    </td>
                 </tr>
             <?php $hr += $r->harga_jual * $r->qty;
             } ?>
