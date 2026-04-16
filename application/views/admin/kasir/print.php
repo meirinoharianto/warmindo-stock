@@ -151,7 +151,7 @@
             <?php } ?>
             <?php
 
-            $grd = ($hr - $t->voucher - $diskon) + $pajak;
+            $grd = ($hr - $t->voucher - $RPdiskon) + $pajak;
             ?>
             <tr>
                 <td><b>Grand Total</b></td>
