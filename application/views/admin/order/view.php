@@ -222,6 +222,132 @@
                         </div>
                     </div>
 
+                    <!-- Letak Card Footer -->
+                    <div class="card-footer">
+                        <form method="post" id="cetak_struk">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <?php if ($pp->print == '1') { ?>
+                                            <select name="cetak" class="form-control mb-2">
+                                                <option value="1" <?php if ($pp->print_default == '1') {
+                                                                        echo 'selected';
+                                                                    } ?>>
+                                                    58mm</option>
+                                                <option value="2" <?php if ($pp->print_default == '2') {
+                                                                        echo 'selected';
+                                                                    } ?>>
+                                                    80mm</option>
+                                                <option value="3" <?php if ($pp->print_default == '3') {
+                                                                        echo 'selected';
+                                                                    } ?>>
+                                                    A4</option>
+                                            </select>
+                                        <?php } ?>
+                                        <input type="hidden" value="<?php echo $pp->os; ?>" name="os">
+                                        <input type="hidden" value="<?php echo $pp->print; ?>" name="print">
+                                        <input type="hidden" value="<?php echo $pp->driver; ?>" name="driver">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i> Cetak Bon </button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- Button trigger modal -->
+                                        <!-- <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
+Pesanan : 
+<?php $hr = 0;
+foreach ($tp1 as $r) { ?>
+<?= $r->nama_menu; ?> x <?= $r->qty; ?> = Rp<?= number_format($r->qty * $r->harga_jual); ?> 
+<?php $hr  += $r->harga_jual * $r->qty;
+} ?>
+
+Total Bayar Rp<?= number_format($hr); ?>
+<?php if ($pp->diskon > 0) {
+    $RPdiskon = $hr * $t->diskon / 100; ?>
+Diskon : <?= $t->diskon; ?>%  / Rp<?= $RPdiskon; ?> 
+<?php } ?>
+<?php if ($pp->pajak > 0) { ?>
+Pajak : <?= $t->pajak; ?> %
+<?php } ?>
+<?php if ($pp->voucher > 0) { ?>
+Diskon : Rp<?= number_format($t->voucher); ?> 
+<?php } ?>
+Grand Total : Rp<?= number_format($grd); ?>
+
+Dibayar : Rp<?= number_format($t->dibayar); ?>
+
+Kembali : Rp<?= number_format($t->dibayar - $grd); ?>" data-toggle="modal" data-target="#modelIdWA">
+                                            <i class="fa fa-whatsapp mr-1"></i> Kirim WA
+                                        </button> -->
+                                        <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
+
+Hi kak *<?= $t->atas_nama; ?>*, 
+terimakasih telah melakukan transaksi di WARMINDO MALANG, berikut nota transaksi Kakak 🙏 :
+
+-------------------------------------------------
+*<?= $pp->nama_toko; ?>*
+<?= $pp->alamat_toko; ?>
+
+-------------------------------------------------
+*Pelanggan : <?= $t->atas_nama; ?>*
+*No. Telp : <?= $t->hp; ?>*
+-------------------------------------------------
+Status : LUNAS
+
+*No. Nota : <?= $t->no_bon; ?>*
+*Tgl. Transaksi : <?= $t->created_at; ?>*
+-------------------------------------------------
+*Pesanan :* 
+<?php $hr = 0;
+foreach ($tp1 as $r) { ?>
+<?= $r->qty; ?> x <?= $r->nama_menu; ?> = Rp<?= number_format($r->harga_jual); ?> 
+<?php $hr  += $r->harga_jual * $r->qty;
+} ?> 
+-------------------------------------------------
+*Grand Total : Rp<?= number_format($t->grandtotal); ?>*
+*Dibayar : Rp<?= number_format($t->dibayar); ?>*
+*Kembali : Rp<?= number_format($t->dibayar - $t->grandtotal); ?>*
+-------------------------------------------------
+Powered by : www.salasatekno.com 
+-------------------------------------------------
+
+" data-toggle="modal" data-target="#modelIdWA">
+                                            <i class="fa fa-whatsapp mr-1"></i> Kirim WA
+                                        </button>
+                                        <a href="<?= base_url(''); ?>order/cetakstruk/?id=<?= $t->id ?>&cabang=<?= $t->cabang_id ?>" target="_blank" class="btn btn-success"><i class="fa fa-file-pdf-o"></i> &nbsp CETAK</a>
+                                        <button
+                                            type="button"
+                                            class="btn btn-success"
+                                            onclick="window.location.href='<?= base_url(''); ?>order/cetakstruk/?id=<?= $t->id ?>&cabang=<?= $t->cabang_id ?>';">
+
+                                            <i class="fa fa-file-pdf-o"></i> &nbsp CETAK 2
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-success"
+                                            onclick="window.location.href='<?= base_url(''); ?>order/generatestruk/?id=<?= $t->id ?>&cabang=<?= $t->cabang_id ?>';">
+
+                                            <i class="fa fa-file-pdf-o"></i> &nbsp IMAGE 2
+                                        </button>
+                                        <?php
+                                        // Pastikan tombol menunjuk ke controller/method yang memproses dan redirect ke WA
+                                        $wa_image_url = base_url('') . "order/kirim_struk_image/?id=" . $t->id . "&cabang=" . $t->cabang_id;
+                                        ?>
+
+                                        <a
+                                            href="<?= $wa_image_url ?>"
+                                            target="_blank"
+                                            class="btn btn-success btn-block mb-2"
+                                            role="button">
+                                            <i class="fa fa-whatsapp mr-1"></i> Kirim WA 2 (Gambar)
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- End Letak Card Footer -->
 
                 </div>
             </div>
