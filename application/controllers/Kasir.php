@@ -425,15 +425,27 @@ class Kasir extends CI_Controller
 
     private function center_text($text, $width = 32)
     {
-        $text = trim((string)$text);
-        $len  = strlen($text);
+        $text = strip_tags(trim((string)$text));
 
-        if ($len >= $width) {
-            return $text;
+        // Pecah jadi beberapa baris sesuai lebar
+        $lines = wordwrap($text, $width, "\n", true);
+        $lines = explode("\n", $lines);
+
+        $result = '';
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            $len  = strlen($line);
+
+            if ($len >= $width) {
+                $result .= $line . "\n";
+            } else {
+                $leftPad = floor(($width - $len) / 2);
+                $result .= str_repeat(' ', $leftPad) . $line . "\n";
+            }
         }
 
-        $leftPad = floor(($width - $len) / 2);
-        return str_repeat(' ', $leftPad) . $text;
+        return rtrim($result);
     }
 
     public function add_cart()
