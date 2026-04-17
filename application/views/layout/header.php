@@ -394,7 +394,7 @@
                                 <a class="dropdown-item" href="<?= base_url('closing'); ?>">
                                     <i class="fa fa-handshake-o"></i> Closing</a>
 
-                                <a class="dropdown-item" href="http://salasatekno.com/demo-saresto/RawBT_v5.0.2.apk"><i class="fa fa-download"></i> Download Driver</a>
+                                <a class="dropdown-item" href="http://samndut.salasatekno.com/driver/RawBT_v5.0.2.apk"><i class="fa fa-download"></i> Download Driver</a>
 
                                 <!-- <?php if ($closing != "CLOSE") { ?>
                                     <a class="dropdown-item" href="<?= base_url('closing'); ?>">
