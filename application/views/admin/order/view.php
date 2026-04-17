@@ -1084,6 +1084,7 @@ if ($pp->pajak == 0) { ?>
         var driver = $('input[name="driver"]').val() || '';
 
         var url = "<?= base_url('kasir/print_android?id=' . $t->no_bon); ?>" +
+            "&idcabang=" + <?= $t->cabang_id ?> +
             "&cetak=" + encodeURIComponent(cetak) +
             "&os=" + encodeURIComponent(os) +
             "&print=" + encodeURIComponent(printv) +

@@ -270,6 +270,7 @@ class Kasir extends CI_Controller
         ];
         $this->load->view('admin/kasir/print2', $this->data);
     }
+
     public function print()
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
@@ -303,19 +304,38 @@ class Kasir extends CI_Controller
     {
         $no_bon = $this->input->get('id');
         $cetak  = $this->input->get('cetak');
+        $idcabang  = $this->input->get('idcabang');
 
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
+            if (!empty(htmlentities($this->input->get('idcabang', true)))) {
+                $cabang_id = htmlentities($this->input->get('idcabang', true));
+
+                if (!empty($cabang_id)) {
+                    $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ? ', [$cabang_id])->row();
+                    if ($caricabang) {
+                        $kode_cabang = $caricabang->kode_cabang;
+                        $arr_kode_cabang = array("SN1", "SN2", "SN7", "PU");
+                        $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+                    }
+                }
+            }
+        } else {
+            $suffix = $this->session->userdata('ses_suffix');
+        }
         // Ambil data transaksi
-        $t = $this->db->get_where('transaksi', ['no_bon' => $no_bon])->row();
+        $t = $this->db->get_where('transaksi' . $suffix, ['no_bon' => $no_bon])->row();
         if (!$t) {
             show_error('Data transaksi tidak ditemukan');
             return;
         }
 
         // Ambil data toko / pengaturan printer
-        $pp = $this->db->get('pengaturan')->row();
+        // $pp = $this->db->get('pengaturan')->row();
+        $pp = $this->db->get_where('profil_toko', ['cabang_id' => $idcabang])->row();
+
 
         // Ambil detail item
-        $tp = $this->db->get_where('transaksi_produk', ['transaksi_id' => $t->id])->result();
+        $tp = $this->db->get_where('transaksi_produk' . $suffix, ['no_bon' => $no_bon])->result();
 
         // Lebar karakter kira-kira untuk 58mm
         $lineWidth = 32;
