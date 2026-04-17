@@ -409,37 +409,47 @@ class Kasir extends CI_Controller
         $text .= "\n\n\n\n";
 
         /*
-    |--------------------------------------------------------------------------
-    | STRUK KITCHEN
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| STRUK KITCHEN
+|--------------------------------------------------------------------------
+*/
         $text .= "\n";
-        $text .= $this->center_text('KITCHEN', $lineWidth) . "\n";
-        $text .= $this->center_text('NO BON : ' . $t->no_bon, $lineWidth) . "\n";
-        $text .= $this->center_text('ATAS NAMA : ' . $t->atas_nama, $lineWidth) . "\n";
-        $text .= $this->center_text($t->created_at, $lineWidth) . "\n";
+
+        $text .= $this->escpos_align('center');
+        $text .= $this->escpos_bold(true);
+        $text .= $this->escpos_text_size(2, 2);
+        $text .= "KITCHEN\n";
+
+        $text .= $this->escpos_text_size(1, 1);
+        $text .= "NO BON : " . $t->no_bon . "\n";
+        $text .= "ATAS NAMA : " . $t->atas_nama . "\n";
+        $text .= $t->created_at . "\n";
+
+        $text .= $this->escpos_reset();
         $text .= $separator . "\n";
+
+        $text .= $this->escpos_bold(true);
+        $text .= $this->escpos_text_size(1, 2);
 
         foreach ($tp as $r) {
-            $namaMenu = trim($r->nama_menu);
-            $qty      = (int)$r->qty;
-
-            // $text .= $this->format_left_right($namaMenu, 'x' . $qty, $lineWidth) . "\n";
-            $text .= $this->format_kitchen_item($namaMenu, 'x' . $qty, $lineWidth) . "\n";
+            $text .= $this->format_kitchen_item($r->nama_menu, $r->qty, $lineWidth) . "\n";
         }
 
+        $text .= $this->escpos_reset();
+
         $text .= $separator . "\n";
-        $text .= $this->center_text('SELESAI', $lineWidth) . "\n";
+
+        $text .= $this->escpos_align('center');
+        $text .= $this->escpos_bold(true);
+        $text .= $this->escpos_text_size(2, 1);
+        $text .= "SELESAI\n";
+
+        $text .= $this->escpos_reset();
         $text .= "\n\n\n";
-        $text .= "\x1D\x56\x00";
-
-        $this->output
-            ->set_content_type('text/plain', 'utf-8')
-            ->set_output($text);
 
 
-        // header('Content-Type: text/plain; charset=utf-8');
-        // echo $text;
+        header('Content-Type: text/plain; charset=utf-8');
+        echo $text;
     }
 
     private function format_left_right($left, $right, $width = 32)
@@ -509,6 +519,39 @@ class Kasir extends CI_Controller
         }
 
         return rtrim($result);
+    }
+
+    private function escpos_text_size($width = 1, $height = 1)
+    {
+        $width  = max(1, min(8, (int)$width));
+        $height = max(1, min(8, (int)$height));
+
+        $n = (($width - 1) << 4) | ($height - 1);
+        return chr(29) . chr(33) . chr($n);
+    }
+
+    private function escpos_align($align = 'left')
+    {
+        $map = [
+            'left'   => 0,
+            'center' => 1,
+            'right'  => 2,
+        ];
+
+        $n = isset($map[$align]) ? $map[$align] : 0;
+        return chr(27) . chr(97) . chr($n);
+    }
+
+    private function escpos_bold($on = true)
+    {
+        return chr(27) . chr(69) . chr($on ? 1 : 0);
+    }
+
+    private function escpos_reset()
+    {
+        return $this->escpos_align('left')
+            . $this->escpos_bold(false)
+            . $this->escpos_text_size(1, 1);
     }
 
     public function add_cart()
