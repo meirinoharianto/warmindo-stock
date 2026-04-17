@@ -349,6 +349,12 @@ class Kasir extends CI_Controller
 
         // Beberapa app printer mendukung tag seperti ini
 
+        /*
+    |--------------------------------------------------------------------------
+    | STRUK CUSTOMER
+    |--------------------------------------------------------------------------
+    */
+
         $text .= $this->center_text(strtoupper($pp->nama_toko), $lineWidth) . "\n";
         $text .= $this->center_text($pp->alamat_toko, $lineWidth) . "\n";
         $text .= $separator . "\n";
@@ -402,8 +408,38 @@ class Kasir extends CI_Controller
         $text .= $this->center_text($t->created_at, $lineWidth) . "\n";
         $text .= "\n\n\n\n";
 
-        header('Content-Type: text/plain; charset=utf-8');
-        echo $text;
+        /*
+    |--------------------------------------------------------------------------
+    | STRUK KITCHEN
+    |--------------------------------------------------------------------------
+    */
+        $text .= "\n";
+        $text .= $this->center_text('KITCHEN', $lineWidth) . "\n";
+        $text .= $this->center_text('NO BON : ' . $t->no_bon, $lineWidth) . "\n";
+        $text .= $this->center_text('ATAS NAMA : ' . $t->atas_nama, $lineWidth) . "\n";
+        $text .= $this->center_text($t->created_at, $lineWidth) . "\n";
+        $text .= $separator . "\n";
+
+        foreach ($tp as $r) {
+            $namaMenu = trim($r->nama_menu);
+            $qty      = (int)$r->qty;
+
+            // $text .= $this->format_left_right($namaMenu, 'x' . $qty, $lineWidth) . "\n";
+            $text .= $this->format_kitchen_item($namaMenu, 'x' . $qty, $lineWidth) . "\n";
+        }
+
+        $text .= $separator . "\n";
+        $text .= $this->center_text('SELESAI', $lineWidth) . "\n";
+        $text .= "\n\n\n";
+        $text .= "\x1D\x56\x00";
+
+        $this->output
+            ->set_content_type('text/plain', 'utf-8')
+            ->set_output($text);
+
+
+        // header('Content-Type: text/plain; charset=utf-8');
+        // echo $text;
     }
 
     private function format_left_right($left, $right, $width = 32)
@@ -442,6 +478,33 @@ class Kasir extends CI_Controller
             } else {
                 $leftPad = floor(($width - $len) / 2);
                 $result .= str_repeat(' ', $leftPad) . $line . "\n";
+            }
+        }
+
+        return rtrim($result);
+    }
+
+    private function format_kitchen_item($name, $qty, $width = 32)
+    {
+        $qtyText = 'x' . (int)$qty;
+        $maxNameWidth = $width - strlen($qtyText) - 1;
+
+        if ($maxNameWidth < 5) {
+            $maxNameWidth = $width;
+        }
+
+        $lines = explode("\n", wordwrap(trim($name), $maxNameWidth, "\n", true));
+        $result = '';
+
+        foreach ($lines as $i => $line) {
+            if ($i === 0) {
+                $space = $width - strlen($line) - strlen($qtyText);
+                if ($space < 1) {
+                    $space = 1;
+                }
+                $result .= $line . str_repeat(' ', $space) . $qtyText . "\n";
+            } else {
+                $result .= $line . "\n";
             }
         }
 
