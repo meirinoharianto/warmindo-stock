@@ -428,10 +428,12 @@ class Kasir extends CI_Controller
         $text .= $this->escpos_reset();
         $text .= $separator . "\n";
 
-        $text .= $this->escpos_bold(true);
-        $text .= $this->escpos_text_size(1, 2);
+        // $text .= $this->escpos_bold(true);
+        // $text .= $this->escpos_text_size(1, 2);
 
         foreach ($tp as $r) {
+            $text .= $this->escpos_bold(true);
+            $text .= $this->escpos_text_size(1, 2);
             $text .= $this->format_kitchen_item($r->nama_menu, $r->qty, $lineWidth) . "\n";
         }
 
