@@ -346,9 +346,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Penjualan Cabang</a>
                                     <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Stok Keluar Bahan</a>
-                                    <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Menu Terjual</a>
-
-
+                                    <a class="dropdown-item" href="<?= base_url(''); ?>">Daftar Menu Terjual</a>
                                 <?php } else { ?>
                                     <a class="dropdown-item" href="<?= base_url('laporan?kasir=' . $this->session->userdata('ses_id')); ?>">Transaksi per Kasir Penjualan</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/closing?kasir=' . $this->session->userdata('ses_id')); ?>">Closing per Kasir</a>

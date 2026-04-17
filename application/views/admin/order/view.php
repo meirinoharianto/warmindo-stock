@@ -252,8 +252,12 @@
                                         <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i> Cetak Bon </button>
                                     </div> -->
                                     <div class="col-sm-4">
-                                        <button type="submit" class="btn btn-primary btn-block mb-2">
+                                        <!-- <button type="submit" class="btn btn-primary btn-block mb-2">
                                             <i class="fa fa-print"></i> Cetak Bon
+                                        </button> -->
+
+                                        <button type="button" id="cetak_android" class="btn btn-success btn-block mb-2">
+                                            <i class="fa fa-mobile"></i> Cetak Bon
                                         </button>
                                     </div>
                                     <?php if ($this->session->userdata('ses_level') == 'SuperAdmin') { ?>
