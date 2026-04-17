@@ -348,8 +348,9 @@ class Kasir extends CI_Controller
         $text = '';
 
         // Beberapa app printer mendukung tag seperti ini
-        $text .= "<center><b>{$pp->nama_toko}</b></center>\n";
-        $text .= "<center>{$pp->alamat_toko}</center>\n";
+
+        $text .= $this->center_text(strtoupper($pp->nama_toko), $lineWidth) . "\n";
+        $text .= $this->center_text($pp->alamat_toko, $lineWidth) . "\n";
         $text .= $separator . "\n";
 
         $text .= "No     : {$t->no_bon}\n";
@@ -397,10 +398,9 @@ class Kasir extends CI_Controller
         $text .= $this->format_left_right('Kembali', 'Rp' . number_format($t->dibayar - $grd), $lineWidth) . "\n";
 
         $text .= $separator . "\n";
-        $text .= "<center>{$pp->footer_struk}</center>\n";
-        $text .= "<center>{$t->created_at}</center>\n";
-        $text .= "\n\n\n";
-        $text .= "<cut>";
+        $text .= $this->center_text($pp->footer_struk, $lineWidth) . "\n";
+        $text .= $this->center_text($t->created_at, $lineWidth) . "\n";
+        $text .= "\n\n\n\n";
 
         header('Content-Type: text/plain; charset=utf-8');
         echo $text;
@@ -408,8 +408,8 @@ class Kasir extends CI_Controller
 
     private function format_left_right($left, $right, $width = 32)
     {
-        $left  = trim(strip_tags($left));
-        $right = trim(strip_tags($right));
+        $left  = trim((string)$left);
+        $right = trim((string)$right);
 
         $leftLen  = strlen($left);
         $rightLen = strlen($right);
@@ -421,6 +421,19 @@ class Kasir extends CI_Controller
         }
 
         return $left . str_repeat(' ', $space) . $right;
+    }
+
+    private function center_text($text, $width = 32)
+    {
+        $text = trim((string)$text);
+        $len  = strlen($text);
+
+        if ($len >= $width) {
+            return $text;
+        }
+
+        $leftPad = floor(($width - $len) / 2);
+        return str_repeat(' ', $leftPad) . $text;
     }
 
     public function add_cart()
