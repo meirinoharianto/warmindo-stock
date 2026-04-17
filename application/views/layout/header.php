@@ -337,7 +337,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="dropdownId">
 
-                                <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
+                                <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) { ?>
                                     <a class="dropdown-item" href="<?= base_url('laporan'); ?>">Transaksi Penjualan</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/closing'); ?>">Closing</a>
                                     <a class="dropdown-item" href="<?= base_url('laporan/pengeluaran'); ?>">Pengeluaran</a>
