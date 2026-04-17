@@ -27,7 +27,7 @@ class Laporan extends CI_Controller
         $suffix = $this->session->userdata('ses_suffix');
         $nama_cabang = '';
 
-        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
 
             if (!empty(htmlentities($this->input->get('idcabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('idcabang', true));
@@ -44,7 +44,7 @@ class Laporan extends CI_Controller
             }
         }
 
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
 
             if (!empty(htmlentities($this->input->get('a', true)))) {
                 $a = htmlentities($this->input->get('a', true));
@@ -127,7 +127,7 @@ class Laporan extends CI_Controller
 
     public function data_order()
     {
-        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('idcabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('idcabang', true));
 
@@ -159,7 +159,7 @@ class Laporan extends CI_Controller
                 'status',
                 'pesanan'
             ];
-            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
                 // if ($this->session->userdata('ses_level') == 'Admin') {
                 $where = null;
 
@@ -478,7 +478,7 @@ class Laporan extends CI_Controller
         $namacabang = '';
 
         // if ($level == 'Admin') {
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
                 $iscabang = ' AND cabang_id = ' . $cabang_id;
@@ -587,7 +587,7 @@ class Laporan extends CI_Controller
             ];
 
             // if ($this->session->userdata('ses_level') == 'Admin') {
-            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
                 if (!empty(htmlentities($this->input->get('cabang', true)))) {
                     $cabang_id = htmlentities($this->input->get('cabang', true));
                     $where = array('closing.cabang_id' => $cabang_id);
@@ -652,7 +652,7 @@ class Laporan extends CI_Controller
 
 
         // if ($level == 'Admin') {
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
 
             if (!empty(htmlentities($this->input->get('a', true)))) {
                 $a = htmlentities($this->input->get('a', true));
@@ -744,7 +744,7 @@ class Laporan extends CI_Controller
             ];
 
             // if ($this->session->userdata('ses_level') == 'Admin') {
-            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
 
                 $where = null;
             } else {
@@ -803,7 +803,7 @@ class Laporan extends CI_Controller
         $namacabang = '';
 
         // if ($level == 'Admin') {
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
                 $iscabang = ' AND cabang_id = ' . $cabang_id;
@@ -913,7 +913,7 @@ class Laporan extends CI_Controller
             ];
 
             // if ($this->session->userdata('ses_level') == 'Admin') {
-            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
                 if (!empty(htmlentities($this->input->get('cabang', true)))) {
                     $cabang_id = htmlentities($this->input->get('cabang', true));
                     if (!empty(htmlentities($this->input->get('shift', true)))) {
@@ -964,7 +964,7 @@ class Laporan extends CI_Controller
     {
         $level = $this->session->userdata('ses_level');
 
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             $cabang_id = htmlentities($this->input->get('cabang', true));
         } else {
             $cabang_id = $this->session->userdata('ses_cabang_id');
@@ -976,7 +976,7 @@ class Laporan extends CI_Controller
         $namacabang = '';
 
         // if ($level == 'Admin') {
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
                 $iscabang = ' AND cabang_id = ' . $cabang_id;
@@ -1092,7 +1092,7 @@ class Laporan extends CI_Controller
             ];
 
             // if ($this->session->userdata('ses_level') == 'Admin') {
-            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+            if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
                 if (!empty(htmlentities($this->input->get('cabang', true)))) {
                     $cabang_id = htmlentities($this->input->get('cabang', true));
                     if (!empty(htmlentities($this->input->get('shift', true)))) {
@@ -1133,20 +1133,52 @@ class Laporan extends CI_Controller
         $awalwhere = "";
         $tglwhere = "";
         $shift_id = "";
+        $periodestokawal = date('Y-m');
+        $awalwhere = ' bk.tanggal < "' . $periodestokawal . '-01"';
+        $tglwhere = ' bk.periode = "' . $periodestokawal . '"';
+
         if (!empty(htmlentities($this->input->get('a', true)))) {
             $a = htmlentities($this->input->get('a', true));
             $b = htmlentities($this->input->get('b', true));
             // $iswhere = 'tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
-            $awalwhere = ' bk.tanggal < "' . $a . '"';
+            // $awalwhere = ' bk.tanggal < "' . $a . '"';
+            // $awalwhere = ' bk.tanggal BETWEEN "' .  $periodestokawal . '-01" AND "' . $a . '"';
             $tglwhere = ' bk.tanggal BETWEEN "' . $a . '" AND "' . $b . '"';
+            $tgl = date_create($a);
+            if (!$tgl) {
+                throw new Exception("Invalid date format");
+            }
+            $tglawal = date_format($tgl, 'Y-m-d');
+            //     $stok_akhir_subquery = "(
+            // SELECT 
+            //     bk.total_stok
+            // FROM bahan_kartustok" . $suffix . " AS bk 
+            // WHERE 
+            //     bk.bahan_id = b.id AND 
+            //     bk.tanggal <= '" . $tanggal . "'" .
+            //     " AND bk.cabang_id = " . $idcabang .
+            //     " ORDER BY bk.id DESC 
+            // LIMIT 1)";
+
+            $periodestokawal = date_format($tgl, 'Y-m');
+            $awalperiodewhere = ' bk.tanggal > "' . $periodestokawal . '-01"';
+
+            $tgl_sebelumnya = clone $tgl;
+            $tgl_sebelumnya->modify('last day of previous month');
+
+            // 2. Format untuk mendapatkan nilai bulan (numerik) dan tahun
+            $periode_sebelumnya = date_format($tgl_sebelumnya, 'Y-m'); // Format Tahun-Bulan (e.g., 2025-10)
+
+            $awalwhere = ' bk.tanggal BETWEEN "' .  $periode_sebelumnya . '-01" AND "' . $a . '"';
         } else {
             // $iswhere = ' periode = "' . date('Y-m') . '"';
-            $awalwhere = ' bk.tanggal < "' . date('Y-m') . '-01"';
-            $tglwhere = ' bk.periode = "' . date('Y-m') . '"';
+
+            // $awalwhere = ' bk.tanggal < "' . date('Y-m') . '-01"';
+            // $tglwhere = ' bk.periode = "' . date('Y-m') . '"';
         }
 
         $andwhere = "";
-        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+        if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
                 $cabang = $this->db->query("select * from cabang where id = " . $cabang_id)->row();
@@ -1183,13 +1215,18 @@ class Laporan extends CI_Controller
  		id, 
  		kode_bahan,
  		nama_bahan,
- 		SUM(awal) AS awal,
- 		SUM(masuk) AS masuk,
- 		SUM(keluar) AS keluar,
- 		(SUM(awal)+SUM(masuk)-SUM(keluar)) AS akhir
+        IFNULL(SUM(awal), 0) AS awal,  
+        IFNULL(SUM(masuk), 0) AS masuk,
+        IFNULL(SUM(keluar), 0) AS keluar,
+        (IFNULL(SUM(awal), 0) + IFNULL(SUM(masuk), 0) - IFNULL(SUM(keluar), 0)) AS akhir
+ 		-- SUM(awal) AS awal,
+ 		-- SUM(masuk) AS masuk,
+ 		-- SUM(keluar) AS keluar,
+ 		-- (SUM(awal)+SUM(masuk)-SUM(keluar)) AS akhir
  FROM (
     SELECT 
-     		bk.cabang_id,
+     		-- bk.cabang_id,
+            $cabang_id AS cabang_id,
      		b.id, 
      		b.kode_bahan, 
      		b.nama_bahan, 
@@ -1198,12 +1235,12 @@ class Laporan extends CI_Controller
      		0 AS keluar
     		FROM bahan b 
     		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
- 			WHERE $awalwhere 
+ 			AND $awalwhere 
  			$andwhere
      GROUP BY cabang_id,id,kode_bahan,nama_bahan
      UNION ALL
      SELECT 
-     		bk.cabang_id,
+     		$cabang_id AS cabang_id,
      		b.id, 
      		b.kode_bahan, 
      		b.nama_bahan, 
@@ -1212,11 +1249,13 @@ class Laporan extends CI_Controller
      		IFNULL(IF(bk.jumlah_perubahan<0,ABS(bk.jumlah_perubahan),0),0) AS keluar
     		FROM bahan b 
     		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
- 			WHERE $tglwhere
+ 			AND $tglwhere
  			$andwhere
  ) stok_perubahan
  
     		GROUP BY cabang_id,id,kode_bahan,nama_bahan) kartustok ";
+
+            log_message('debug', $query);
             //         $query = "SELECT *, (SELECT kode_cabang from cabang where id = cabang_id) AS cabang FROM (SELECT periode,login_id,shift_id, cabang_id , id,kode_bahan,nama_bahan,SUM(awal) AS awal,SUM(masuk) AS masuk,SUM(keluar) AS keluar,(SUM(awal+masuk-keluar)) AS akhir, tanggal FROM (
             //  SELECT bk.periode,bk.login_id,bk.shift_id,bk.cabang_id,b.id, b.kode_bahan, b.nama_bahan, 
             //      0 AS awal,
@@ -1237,6 +1276,7 @@ class Laporan extends CI_Controller
             echo $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
         // $result = $this->M_Datatables->get_tables_query($query, $search, $where, $iswhere);
         // echo "<pre>Last Query:\n" . $query . "</pre>";
+
         endif;
     }
 
@@ -1244,7 +1284,7 @@ class Laporan extends CI_Controller
     {
         $level = $this->session->userdata('ses_level');
 
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             $cabang_id = htmlentities($this->input->get('cabang', true));
         } else {
             $cabang_id = $this->session->userdata('ses_cabang_id');
@@ -1254,7 +1294,7 @@ class Laporan extends CI_Controller
         $namacabang = '';
 
         // if ($level == 'Admin') {
-        if (in_array($level, array('Admin', 'AdminKasir'))) {
+        if (in_array($level, array('Admin', 'AdminKasir', 'SuperAdmin'))) {
             if (!empty(htmlentities($this->input->get('cabang', true)))) {
                 $cabang_id = htmlentities($this->input->get('cabang', true));
                 $iscabang = ' AND cabang_id = ' . $cabang_id;
