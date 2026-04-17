@@ -706,6 +706,7 @@ window.location.href="intent://"+textEncoded+"#Intent;scheme=quickprinter;packag
     // }
 
     function sendToQuickPrinterChrome(string) {
+        alert('Mengirim ke aplikasi printer Android...');
         var commandsToPrint = string;
         var textEncoded = encodeURIComponent(commandsToPrint);
         var intentUrl = "intent://" + textEncoded + "#Intent;scheme=quickprinter;package=pe.diegoveloper.printerserverapp;end;";
