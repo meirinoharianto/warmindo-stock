@@ -248,9 +248,21 @@
                                         <input type="hidden" value="<?php echo $pp->print; ?>" name="print">
                                         <input type="hidden" value="<?php echo $pp->driver; ?>" name="driver">
                                     </div>
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i> Cetak Bon </button>
+                                    </div> -->
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-primary btn-block mb-2">
+                                            <i class="fa fa-print"></i> Cetak Bon
+                                        </button>
                                     </div>
+                                    <?php if ($this->session->userdata('ses_level') == 'SuperAdmin') { ?>
+                                        <div class="col-sm-4">
+                                            <button type="button" id="cetak_android" class="btn btn-success btn-block mb-2">
+                                                <i class="fa fa-mobile"></i> Cetak Bon Android
+                                            </button>
+                                        </div>
+                                    <?php } ?>
                                     <div class="col-sm-4">
                                         <!-- Button trigger modal -->
                                         <!-- <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
@@ -1064,4 +1076,28 @@ if ($pp->pajak == 0) { ?>
             }
         });
     });
+
+    $('#cetak_android').click(function() {
+        var cetak = $('select[name="cetak"]').val() || '1';
+        var os = $('input[name="os"]').val() || '';
+        var printv = $('input[name="print"]').val() || '';
+        var driver = $('input[name="driver"]').val() || '';
+
+        var url = "<?= base_url('kasir/print_android?id=' . $t->no_bon); ?>" +
+            "&cetak=" + encodeURIComponent(cetak) +
+            "&os=" + encodeURIComponent(os) +
+            "&print=" + encodeURIComponent(printv) +
+            "&driver=" + encodeURIComponent(driver);
+
+        printAndroid(url);
+    });
+
+    // $('#cetak_android').click(function() {
+    //     var cetak = $('select[name="cetak"]').val() || '1';
+
+    //     var url = "<?= base_url('kasir/print_android?id=' . $t->no_bon); ?>" +
+    //         "&cetak=" + encodeURIComponent(cetak);
+
+    //     printAndroid(url);
+    // });
 </script>

@@ -298,6 +298,111 @@ class Kasir extends CI_Controller
         $this->load->view('admin/kasir/print', $this->data);
     }
 
+
+    public function print_android()
+    {
+        $no_bon = $this->input->get('id');
+        $cetak  = $this->input->get('cetak');
+
+        // Ambil data transaksi
+        $t = $this->db->get_where('transaksi', ['no_bon' => $no_bon])->row();
+        if (!$t) {
+            show_error('Data transaksi tidak ditemukan');
+            return;
+        }
+
+        // Ambil data toko / pengaturan printer
+        $pp = $this->db->get('pengaturan')->row();
+
+        // Ambil detail item
+        $tp = $this->db->get_where('transaksi_produk', ['transaksi_id' => $t->id])->result();
+
+        // Lebar karakter kira-kira untuk 58mm
+        $lineWidth = 32;
+        if ($cetak == '2') {
+            $lineWidth = 42; // 80mm
+        }
+
+        $separator = str_repeat('-', $lineWidth);
+
+        $text = '';
+
+        // Beberapa app printer mendukung tag seperti ini
+        $text .= "<center><b>{$pp->nama_toko}</b></center>\n";
+        $text .= "<center>{$pp->alamat_toko}</center>\n";
+        $text .= $separator . "\n";
+
+        $text .= "No     : {$t->no_bon}\n";
+        $text .= "Nama   : {$t->atas_nama}\n";
+        $text .= "Status : {$t->status}\n";
+        $text .= "Shift  : {$t->shift_id}\n";
+        $text .= "Tanggal: {$t->created_at}\n";
+        $text .= $separator . "\n";
+
+        $hr = 0;
+
+        foreach ($tp as $r) {
+            $namaMenu = trim($r->nama_menu);
+            $qtyHarga = $r->qty . ' x ' . number_format($r->harga_jual);
+            $subtotal = 'Rp' . number_format($r->qty * $r->harga_jual);
+
+            $text .= $namaMenu . "\n";
+            $text .= $this->format_left_right($qtyHarga, $subtotal, $lineWidth) . "\n";
+
+            $hr += $r->harga_jual * $r->qty;
+        }
+
+        $text .= $separator . "\n";
+
+        $diskon = $hr * $t->diskon / 100;
+        $pajak  = $hr * $t->pajak / 100;
+        $grd    = ($hr - $t->voucher - $diskon) + $pajak;
+
+        $text .= $this->format_left_right('Total', 'Rp' . number_format($hr), $lineWidth) . "\n";
+
+        if ($pp->diskon > 0 && $t->diskon > 0) {
+            $text .= $this->format_left_right('Diskon', $t->diskon . '% / Rp' . number_format($diskon), $lineWidth) . "\n";
+        }
+
+        if ($pp->pajak > 0 && $t->pajak > 0) {
+            $text .= $this->format_left_right('Pajak', 'Rp' . number_format($pajak), $lineWidth) . "\n";
+        }
+
+        if ($pp->voucher > 0 && $t->voucher > 0) {
+            $text .= $this->format_left_right('Voucher', 'Rp' . number_format($t->voucher), $lineWidth) . "\n";
+        }
+
+        $text .= $this->format_left_right('Grand Total', 'Rp' . number_format($grd), $lineWidth) . "\n";
+        $text .= $this->format_left_right('Dibayar', 'Rp' . number_format($t->dibayar), $lineWidth) . "\n";
+        $text .= $this->format_left_right('Kembali', 'Rp' . number_format($t->dibayar - $grd), $lineWidth) . "\n";
+
+        $text .= $separator . "\n";
+        $text .= "<center>{$pp->footer_struk}</center>\n";
+        $text .= "<center>{$t->created_at}</center>\n";
+        $text .= "\n\n\n";
+        $text .= "<cut>";
+
+        header('Content-Type: text/plain; charset=utf-8');
+        echo $text;
+    }
+
+    private function format_left_right($left, $right, $width = 32)
+    {
+        $left  = trim(strip_tags($left));
+        $right = trim(strip_tags($right));
+
+        $leftLen  = strlen($left);
+        $rightLen = strlen($right);
+
+        $space = $width - ($leftLen + $rightLen);
+
+        if ($space < 1) {
+            return $left . "\n" . str_repeat(' ', max(0, $width - $rightLen)) . $right;
+        }
+
+        return $left . str_repeat(' ', $space) . $right;
+    }
+
     public function add_cart()
     {
         $cabang_id = $this->session->userdata('ses_cabang_id');
