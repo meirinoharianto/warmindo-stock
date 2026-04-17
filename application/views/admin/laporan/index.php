@@ -103,7 +103,7 @@ $idcabang = !empty($this->input->get('idcabang')) ? $this->input->get('idcabang'
             </div>
             <form method="GET" action="<?= base_url('laporan'); ?>">
                 <div class="modal-body">
-                    <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) { ?>
+                    <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) { ?>
 
                         <div class="form-group">
                             <label for="">Cabang</label>
