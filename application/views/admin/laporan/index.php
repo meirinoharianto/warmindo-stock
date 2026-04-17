@@ -180,7 +180,7 @@ $idcabang = !empty($this->input->get('idcabang')) ? $this->input->get('idcabang'
 // }
 
 
-if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir'))) {
+if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) {
     if ($this->input->get('shift')) {
         $shift_id = $this->input->get('shift');
 
@@ -402,7 +402,7 @@ if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir')
                             //             <i class="fa fa-trash"></i>
                             //         </a>
                             //     </center>`;
-                        <?php } else if ($this->session->userdata('ses_level') == 'AdminKasir') { ?>
+                        <?php } else if (in_array($this->session->userdata('ses_level'), array('Admin', 'AdminKasir', 'SuperAdmin'))) { ?>
                             return `<center>
                                     <a href="${base_url}order/view/${row.cabang_id}/${row.id}" 
                                         class="btn btn-info btn-sm" title="Lihat Detail" role="button">
