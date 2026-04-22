@@ -210,9 +210,9 @@ class Coordinators extends CI_Controller
 
         $data = array(
             'nama_user' => $nama,
-            'user' => $user,
-            'email' => 'admin@samndut.com',
-            'level' => 'Koordinator',
+            'user' => $user->user,
+            // 'email' => 'admin@samndut.com',
+            // 'level' => 'Koordinator',
             'telepon' => $telepon,
             'alamat' => $alamat,
         );
