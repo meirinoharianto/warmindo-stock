@@ -190,6 +190,7 @@ class Coordinators extends CI_Controller
         // $this->form_validation->set_rules("login_cabang", "Cabang", "required");
         // if ($this->form_validation->run() != false) {
         $nama = htmlentities($this->input->post('nama', true));
+        $telepon = htmlentities($this->input->post('telepon', true));
         $id = htmlentities($this->input->post('id', true));
         $this->db->where("login_id", $id); // ubah id dan postnya
         $this->db->delete("login_detail");
@@ -199,6 +200,8 @@ class Coordinators extends CI_Controller
         foreach ($login_cabang as $cabang_id) {
             $this->db->insert('login_detail', [
                 'login_id' => $id,
+                'nama_user' => $nama,
+                'telepon' => $telepon,
                 'cabang_id' => $cabang_id
             ]);
         }

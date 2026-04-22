@@ -38,9 +38,13 @@
                             <div class="form-group">
                                 <label>Nama Koordinator</label>
                                 <input type="text" class="form-control" value="<?= $user->nama_user; ?>" name="nama"
-                                    required="required" placeholder="Nama Pengguna" readonly>
+                                    required="required" placeholder="Nama Koordinator">
                             </div>
-
+                            <div class="form-group">
+                                <label>Telepon</label>
+                                <input type="number" class="form-control" value="<?= $user->telepon; ?>" name="telepon"
+                                    required="required" placeholder="Contoh : 089618173609">
+                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="pull-right">
