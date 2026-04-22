@@ -211,8 +211,10 @@ class Coordinators extends CI_Controller
         $data = array(
             'nama_user' => $nama,
             'user' => $user,
+            'email' => 'admin@samndut.com',
+            'level' => 'Koordinator',
             'telepon' => $telepon,
-            'alamat' => $alamat
+            'alamat' => $alamat,
         );
         $this->M_Admin->update_table('login', 'id', $id, $data);
         $this->session->set_flashdata('success', 'Berhasil Update Koordinator : ' . $nama . ' !');
