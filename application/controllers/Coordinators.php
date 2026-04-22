@@ -210,8 +210,6 @@ class Coordinators extends CI_Controller
         foreach ($login_cabang as $cabang_id) {
             $this->db->insert('login_detail', [
                 'login_id' => $id,
-                'nama_user' => $nama,
-                'telepon' => $telepon,
                 'cabang_id' => $cabang_id
             ]);
         }
