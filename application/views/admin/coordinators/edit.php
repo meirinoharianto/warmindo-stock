@@ -45,6 +45,11 @@
                                 <input type="number" class="form-control" value="<?= $user->telepon; ?>" name="telepon"
                                     required="required" placeholder="Contoh : 089618173609">
                             </div>
+                            <div class="form-group">
+                                <label>Alamat</label>
+                                <textarea class="form-control" name="alamat"
+                                    required="required"><?= $user->alamat; ?></textarea>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="pull-right">

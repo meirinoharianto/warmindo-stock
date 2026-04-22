@@ -191,7 +191,17 @@ class Coordinators extends CI_Controller
         // if ($this->form_validation->run() != false) {
         $nama = htmlentities($this->input->post('nama', true));
         $telepon = htmlentities($this->input->post('telepon', true));
+        $alamat = htmlentities($this->input->post('alamat', true));
         $id = htmlentities($this->input->post('id', true));
+
+        $data = array(
+            'nama_user' => $nama,
+            'user' => $user,
+            'telepon' => $telepon,
+            'alamat' => $alamat
+        );
+        $this->M_Admin->update_table('login', 'id', $id, $data);
+
         $this->db->where("login_id", $id); // ubah id dan postnya
         $this->db->delete("login_detail");
 
