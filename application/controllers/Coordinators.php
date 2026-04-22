@@ -214,7 +214,7 @@ class Coordinators extends CI_Controller
             'telepon' => $telepon,
             'alamat' => $alamat
         );
-        $this->db->update_table('login', 'id', $id, $data);
+        $this->M_Admin->update_table('login', 'id', $id, $data);
         $this->session->set_flashdata('success', 'Berhasil Update Koordinator : ' . $nama . ' !');
         redirect(base_url('coordinators/edit/' . $id));
         // } else {
