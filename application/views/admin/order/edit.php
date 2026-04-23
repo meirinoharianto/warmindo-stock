@@ -624,9 +624,17 @@ window.location.href="intent://"+textEncoded+"#Intent;scheme=quickprinter;packag
 
 
     function sendToQuickPrinterChrome(string) {
+        alert('Mencetak ke printer ...');
         var commandsToPrint = string;
-        var textEncoded = encodeURI(commandsToPrint);
-        window.location.href = "intent://" + textEncoded + "#Intent;scheme=quickprinter;package=pe.diegoveloper.printerserverapp;end;";
+        var textEncoded = encodeURIComponent(commandsToPrint);
+        var intentUrl = "intent://" + textEncoded + "#Intent;scheme=quickprinter;package=pe.diegoveloper.printerserverapp;end;";
+
+        try {
+            window.location.href = intentUrl;
+        } catch (e) {
+            alert('Aplikasi printer Android tidak ditemukan. Pastikan Quick Printer sudah terpasang.');
+            console.log(e);
+        }
     }
 
     function printAndroid(url) {
