@@ -30,11 +30,11 @@
                                 <input type="hidden" value="<?php echo $pp->driver; ?>" name="driver">
                         </div>
                         <div class="col-sm-3">
-                            <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i>
+                            <!-- <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i>
                                 Cetak
-                                Struk</button>
-                            <button type="button" id="cetak_android" class="btn btn-success btn-block mb-2">
-                                <i class="fa fa-mobile"></i> Cetak Struk Android</button>
+                                Struk</button> -->
+                            <button type="button" id="cetak_android" class="btn btn-primary btn-block mb-2">
+                                <i class="fa fa-print"></i> Cetak Bon</button>
                         </div>
                         <div class="col-sm-3">
                             <!-- Button trigger modal -->
