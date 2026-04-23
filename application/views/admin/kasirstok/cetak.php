@@ -16,66 +16,59 @@
                                                             echo 'selected';
                                                         } ?>> 58mm
                                     </option>
-                                    <option value="2" <?php if ($pp->print_default == '2') {
-                                                            echo 'selected';
-                                                        } ?>> 80mm
+                                    <!-- <option value="2" <?php if ($pp->print_default == '2') {
+                                                                echo 'selected';
+                                                            } ?>> 80mm
                                     </option>
                                     <option value="3" <?php if ($pp->print_default == '3') {
                                                             echo 'selected';
                                                         } ?>> A4</option>
-                                </select>
-                            <?php } ?>
-                            <input type="hidden" value="<?php echo $pp->os; ?>" name="os">
-                            <input type="hidden" value="<?php echo $pp->print; ?>" name="print">
-                            <input type="hidden" value="<?php echo $pp->driver; ?>" name="driver">
+                                </select> -->
+                                <?php } ?>
+                                <input type="hidden" value="<?php echo $pp->os; ?>" name="os">
+                                <input type="hidden" value="<?php echo $pp->print; ?>" name="print">
+                                <input type="hidden" value="<?php echo $pp->driver; ?>" name="driver">
                         </div>
                         <div class="col-sm-3">
                             <button type="submit" class="btn btn-primary btn-block mb-2"><i class="fa fa-print"></i>
                                 Cetak
                                 Struk</button>
+                            <button type="button" id="cetak_android" class="btn btn-success btn-block mb-2">
+                                <i class="fa fa-mobile"></i> Cetak Struk Android</button>
                         </div>
                         <div class="col-sm-3">
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-success btn-block mb-2" id="wabutton" data-phone="<?= $t->hp; ?>" data-text="
 
-Hi kak <?= $t->atas_nama; ?>, 
+
+Hi kak *<?= $t->atas_nama; ?>*, 
 terimakasih telah melakukan transaksi di WARMINDO MALANG, berikut nota transaksi Kakak 🙏 :
 
 -------------------------------------------------
 *<?= $pp->nama_toko; ?>*
-
 <?= $pp->alamat_toko; ?>
 
 -------------------------------------------------
-Pelanggan : <?= $t->atas_nama; ?>
-
-No. Telp : <?= $t->hp; ?>
-
+*Pelanggan : <?= $t->atas_nama; ?>*
+*No. Telp : <?= $t->hp; ?>*
 -------------------------------------------------
 Status : LUNAS
 
-No. Nota : <?= $t->no_bon; ?>
-
-Tgl. Transaksi : <?= $t->created_at; ?>
-
+*No. Nota : <?= $t->no_bon; ?>*
+*Tgl. Transaksi : <?= $t->created_at; ?>*
 -------------------------------------------------
-Pesanan : 
+*Pesanan :* 
 <?php $hr = 0;
 foreach ($tp as $r) { ?>
-<?= $r->nama_menu; ?> x <?= $r->qty; ?> = Rp<?= number_format($r->harga_jual); ?> 
+<?= $r->qty; ?> x <?= $r->nama_menu; ?> = Rp<?= number_format($r->harga_jual); ?> 
 <?php $hr  += $r->harga_jual * $r->qty;
-} ?>
-
+} ?> 
 -------------------------------------------------
-Grand Total : Rp<?= number_format($t->grandtotal); ?>
-
-Dibayar : Rp<?= number_format($t->dibayar); ?>
-
-Kembali : Rp<?= number_format($t->dibayar - $t->grandtotal); ?>
-
+*Grand Total : Rp<?= number_format($t->grandtotal); ?>*
+*Dibayar : Rp<?= number_format($t->dibayar); ?>*
+*Kembali : Rp<?= number_format($t->dibayar - $t->grandtotal); ?>*
 -------------------------------------------------
-Powered by : www.salasatekno.com
-
+Powered by : www.salasatekno.com 
 -------------------------------------------------
 
 " data-toggle="modal" data-target="#modelIdWA">
@@ -292,5 +285,46 @@ Diskon : Rp<?= number_format($t->voucher); ?>
                     }
                 });
             });
+        });
+
+        function sendToQuickPrinterChrome(string) {
+            alert('Mencetak ke printer ...');
+            var commandsToPrint = string;
+            var textEncoded = encodeURIComponent(commandsToPrint);
+            var intentUrl = "intent://" + textEncoded + "#Intent;scheme=quickprinter;package=pe.diegoveloper.printerserverapp;end;";
+
+            try {
+                window.location.href = intentUrl;
+            } catch (e) {
+                alert('Aplikasi printer Android tidak ditemukan. Pastikan Quick Printer sudah terpasang.');
+                console.log(e);
+            }
+        }
+
+        function printAndroid(url) {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    sendToQuickPrinterChrome(xmlhttp.responseText);
+                }
+            }
+            xmlhttp.open("GET", url, false);
+            xmlhttp.send();
+        }
+
+        $('#cetak_android').click(function() {
+            var cetak = $('select[name="cetak"]').val() || '1';
+            var os = $('input[name="os"]').val() || '';
+            var printv = $('input[name="print"]').val() || '';
+            var driver = $('input[name="driver"]').val() || '';
+
+            var url = "<?= base_url('kasir/print_android?id=' . $t->no_bon); ?>" +
+                "&idcabang=" + <?= $t->cabang_id ?> +
+                "&cetak=" + encodeURIComponent(cetak) +
+                "&os=" + encodeURIComponent(os) +
+                "&print=" + encodeURIComponent(printv) +
+                "&driver=" + encodeURIComponent(driver);
+
+            printAndroid(url);
         });
     </script>
