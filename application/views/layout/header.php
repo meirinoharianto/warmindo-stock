@@ -346,10 +346,11 @@
                                     <div class="dropdown-divider"></div>
                                     <?php if (in_array($this->session->userdata('ses_level'), array('AdminKasir'))) { ?>
                                         <a class="dropdown-item" href="<?= base_url('adminkasir/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
+                                        <a class="dropdown-item" href="<?= base_url('adminkasir/grafik_stok_keluar_bahan'); ?>">Grafik Stok Keluar Bahan</a>
                                     <?php } else { ?>
                                         <a class="dropdown-item" href="<?= base_url('home/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
                                     <?php } ?>
-                                    <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Stok Keluar Bahan</a>
+                                    <!-- <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Stok Keluar Bahan</a> -->
                                     <a class="dropdown-item" href="<?= base_url(''); ?>">Daftar Menu Terjual</a>
                                 <?php } else { ?>
                                     <a class="dropdown-item" href="<?= base_url('laporan?kasir=' . $this->session->userdata('ses_id')); ?>">Transaksi per Kasir Penjualan</a>
