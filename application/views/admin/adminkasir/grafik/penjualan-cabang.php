@@ -40,17 +40,16 @@ $bulan = array(
                     <div class="col-12 mt-3 h-100">
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-dashboard mr-1"></i> Dashboard <?= $this->session->userdata('ses_level'); ?>
+                                <i class="fa fa-dashboard mr-1"></i> Grafik Penjualan Cabang
                             </div>
                             <div class="card-body pl-4 pr-4">
-
 
                                 <!-- Chart 2: Sales by Month -->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('home') ?>" class="form-inline" id="monthly-filter-form">
+                                            <form method="post" action="<?= base_url('adminkasir/grafik_penjualan_cabang') ?>" class="form-inline" id="monthly-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
                                                     <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
@@ -98,7 +97,6 @@ $bulan = array(
                                         </div>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>

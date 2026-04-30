@@ -67,7 +67,7 @@ class Home extends CI_Controller
         // }
 
         $this->data = [
-            'title_web' => 'Dashboard',
+            'title_web' => 'Grafik Penjualan Cabang',
             // 'userx'     => $this->db->get_where('login', ['id' => $this->session->userdata('ses_id')])->row(),
             // 'ck'        => $this->db->get('kategori')->num_rows(),
             // 'cm'        => $this->db->get_where('menu', ['cabang_id' => $this->session->userdata('ses_cabang_id')])->num_rows(),
@@ -76,7 +76,7 @@ class Home extends CI_Controller
         ];
 
         $this->load->view('layout/header', $this->data);
-        $this->load->view('admin/grafik/penjualan-cabang', $this->data);
+        $this->load->view('admin/home/grafik/penjualan-cabang', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
 }
