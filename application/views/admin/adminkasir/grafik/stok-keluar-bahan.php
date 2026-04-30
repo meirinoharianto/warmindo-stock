@@ -39,7 +39,7 @@ $bulan = array(
                     <div class="col-12 mt-3 h-100">
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-dashboard mr-1"></i> Dashboard
+                                <i class="fa fa-dashboard mr-1"></i> Grafik Stok Keluar Bahan
                             </div>
                             <div class="card-body pl-4 pr-4">
 
