@@ -59,4 +59,16 @@ class Adminkasir extends CI_Controller
         $this->load->view('admin/adminkasir/grafik/penjualan-cabang', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
+
+    public function grafik_stok_keluar_bahan()
+    {
+
+        $this->data = [
+            'title_web' => 'Grafik Stok Keluar Bahan',
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/adminkasir/grafik/stok-keluar-bahan', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
 }
