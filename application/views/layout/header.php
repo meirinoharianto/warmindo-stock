@@ -344,7 +344,7 @@
                                     <!-- <a class="dropdown-item" href="<?= base_url('laporan/penjualan'); ?>">Penjualan</a> -->
                                     <!-- <a class="dropdown-item" href="<?= base_url('laporan/penjualan'); ?>">Penjualan</a> -->
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Penjualan Cabang</a>
+                                    <a class="dropdown-item" href="<?= base_url('home/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
                                     <a class="dropdown-item" href="<?= base_url(''); ?>">Grafik Stok Keluar Bahan</a>
                                     <a class="dropdown-item" href="<?= base_url(''); ?>">Daftar Menu Terjual</a>
                                 <?php } else { ?>
