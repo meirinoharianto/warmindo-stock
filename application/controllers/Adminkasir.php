@@ -56,7 +56,7 @@ class Adminkasir extends CI_Controller
         ];
 
         $this->load->view('layout/header', $this->data);
-        $this->load->view('admin/grafik/penjualan-cabang', $this->data);
+        $this->load->view('admin/adminkasir/grafik/penjualan-cabang', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
 }
