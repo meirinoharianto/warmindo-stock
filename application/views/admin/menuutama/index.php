@@ -142,7 +142,7 @@
                     "data": "id",
                     "render": function(data, type, row, meta) {
 
-                        <?php if ($this->session->userdata('ses_level') == 'Admin') { ?>
+                        <?php if (in_array($this->session->userdata('ses_level'), array('Admin', 'SuperAdmin'))) { ?>
                             return `<div class="dropdown open">
                                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
