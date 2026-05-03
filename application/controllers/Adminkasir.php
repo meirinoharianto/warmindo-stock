@@ -74,30 +74,13 @@ class Adminkasir extends CI_Controller
 
     public function grafik_menu_terjual()
     {
-        $data = [
+
+        $this->data = [
             'title_web' => 'Grafik Menu Terjual',
-            'thn_stock2' => $this->input->post('thn_stock2') ?? date('Y'),
-            'bln_stock2' => $this->input->post('bln_stock2') ?? date('m'),
-            'idcabang_stock2' => $this->input->post('idcabang_stock2') ?? -1,
-            'idbahan_stock2' => $this->input->post('idbahan_stock2') ?? []
         ];
 
-        // ✅ Jika request AJAX → hanya load partial
-        if ($this->input->is_ajax_request()) {
-            $this->load->view('partials/stock2_chart', $data);
-            return;
-        }
-
-        // ✅ Jika normal request → load full page
-        $this->load->view('layout/header', $data);
-        $this->load->view('admin/adminkasir/grafik/menu-terjual', $data);
-        $this->load->view('layout/footer', $data);
-        // $this->data = [
-        //     'title_web' => 'Grafik Menu Terjual',
-        // ];
-
-        // $this->load->view('layout/header', $this->data);
-        // $this->load->view('admin/adminkasir/grafik/menu-terjual', $this->data);
-        // $this->load->view('layout/footer', $this->data);
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/adminkasir/grafik/menu-terjual', $this->data);
+        $this->load->view('layout/footer', $this->data);
     }
 }

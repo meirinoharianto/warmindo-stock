@@ -39,7 +39,7 @@ $bulan = array(
                     <div class="col-12 mt-3 h-100">
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-dashboard mr-1"></i> Grafik Stok Keluar Bahan
+                                <i class="fa fa-dashboard mr-1"></i> Grafik Menu Terjual
                             </div>
                             <div class="card-body pl-4 pr-4">
 
@@ -115,12 +115,12 @@ $bulan = array(
                                                 <div class="chart-loading-spinner"></div>
                                                 <div class="chart-loading-text">Memuat grafik...</div>
                                             </div>
-                                            <div id="stock2-chart-container">
+                                            <!-- <div id="stock2-chart-container">
                                                 <div class="text-center text-muted py-4">
                                                     Silakan pilih filter lalu klik "Filter" untuk menampilkan grafik.
                                                 </div>
-                                            </div>
-                                            <!-- <div id="stock2-chart-container">
+                                            </div> -->
+                                            <div id="stock2-chart-container">
                                                 <?php
                                                 // Load branch chart partial view
                                                 $this->load->view('partials/stock2_chart', [
@@ -130,7 +130,7 @@ $bulan = array(
                                                     'filter_stock2_submitted' => $filter_stock2_submitted
                                                 ]);
                                                 ?>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
