@@ -166,10 +166,6 @@ $bulan = array(
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
-                // success: function(res) {
-                //     var newContent = $(res).find('#stock2-chart-container').html();
-                //     $('#stock2-chart-container').html(newContent);
-                // },
                 success: function(res) {
                     // result.html(res);
                     // Extract just the branch chart container content from the response
