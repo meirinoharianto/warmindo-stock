@@ -80,7 +80,7 @@ foreach ($bahans2 as $bahan2) {
         $kode_cabang2 = '';
 
         if ($caricabang2) {
-            $kode_cabang2 = $caricabang->kode_cabang;
+            $kode_cabang2 = $caricabang2->kode_cabang;
             $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
             $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
         }
