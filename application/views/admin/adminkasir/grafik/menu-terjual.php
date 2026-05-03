@@ -130,17 +130,7 @@ $bulan = array(
                                                 <div class="chart-loading-text">Memuat grafik...</div>
                                             </div>
 
-                                            <div id="stock-chart-container">
-                                                <?php
-                                                // Load branch chart partial view
-                                                $this->load->view('partials/stock_chart', [
-                                                    'thn_stock' => $thn_stock,
-                                                    'bln_stock' => $bln_stock,
-                                                    'idcabang_stock' => $idcabang_stock,
-                                                    'filter_stock_submitted' => $filter_stock_submitted
-                                                ]);
-                                                ?>
-                                            </div>
+
                                         </div>
 
 
