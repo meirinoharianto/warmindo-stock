@@ -48,7 +48,7 @@ $bulan = array(
                                     <div class="col-12 border rounded-lg p-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5>Penjualan Menu per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir') ?>" class="form-inline" id="stock2-filter-form">
+                                            <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" class="form-inline" id="stock2-filter-form">
                                                 <div class="d-flex align-items-center">
                                                     <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
                                                     <div class="mr-2">
@@ -116,6 +116,11 @@ $bulan = array(
                                                 <div class="chart-loading-text">Memuat grafik...</div>
                                             </div>
                                             <div id="stock2-chart-container">
+                                                <div class="text-center text-muted py-4">
+                                                    Silakan pilih filter lalu klik "Filter" untuk menampilkan grafik.
+                                                </div>
+                                            </div>
+                                            <!-- <div id="stock2-chart-container">
                                                 <?php
                                                 // Load branch chart partial view
                                                 $this->load->view('partials/stock2_chart', [
@@ -125,7 +130,7 @@ $bulan = array(
                                                     'filter_stock2_submitted' => $filter_stock2_submitted
                                                 ]);
                                                 ?>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -154,11 +159,15 @@ $bulan = array(
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function(res) {
-                    // result.html(res);
-                    // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock2-chart-container').html();
+                    var newContent = $(res).find('#stock2-chart-container').html();
                     $('#stock2-chart-container').html(newContent);
                 },
+                // success: function(res) {
+                // result.html(res);
+                // Extract just the branch chart container content from the response
+                // var newContent = $(response).find('#stock2-chart-container').html();
+                // $('#stock2-chart-container').html(newContent);
+                // },
                 error: function() {
                     result.html(`
                 <div class="alert alert-danger text-center py-3">
