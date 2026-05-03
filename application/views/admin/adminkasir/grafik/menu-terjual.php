@@ -115,11 +115,6 @@ $bulan = array(
                                                 <div class="chart-loading-spinner"></div>
                                                 <div class="chart-loading-text">Memuat grafik...</div>
                                             </div>
-                                            <!-- <div id="stock2-chart-container">
-                                                <div class="text-center text-muted py-4">
-                                                    Silakan pilih filter lalu klik "Filter" untuk menampilkan grafik.
-                                                </div>
-                                            </div> -->
                                             <div id="stock2-chart-container">
                                                 <?php
                                                 // if ($idcabang_stock2 >= 0) {
