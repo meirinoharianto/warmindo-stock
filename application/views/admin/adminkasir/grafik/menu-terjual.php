@@ -122,20 +122,22 @@ $bulan = array(
                                             </div> -->
                                             <div id="stock2-chart-container">
                                                 <?php
-                                                if ($idcabang_stock2 >= 0) {
-                                                    // Load branch chart partial view
-                                                    $this->load->view('partials/stock2_chart', [
-                                                        'thn_stock2' => $thn_stock2,
-                                                        'bln_stock2' => $bln_stock2,
-                                                        'idcabang_stock2' => $idcabang_stock2,
-                                                        'filter_stock2_submitted' => $filter_stock2_submitted
-                                                    ]);
-                                                } else {
+                                                // if ($idcabang_stock2 >= 0) {
+                                                // Load branch chart partial view
+                                                $this->load->view('partials/stock2_chart', [
+                                                    'thn_stock2' => $thn_stock2,
+                                                    'bln_stock2' => $bln_stock2,
+                                                    'idcabang_stock2' => $idcabang_stock2,
+                                                    'filter_stock2_submitted' => $filter_stock2_submitted
+                                                ]);
+                                                // } else {
                                                 ?>
-                                                    <div class="text-center text-muted py-4">
+                                                <!-- <div class="text-center text-muted py-4">
                                                         Silakan pilih filter lalu klik "Filter" untuk menampilkan grafik.
-                                                    </div>
-                                                <?php } ?>
+                                                    </div> -->
+                                                <?php
+                                                //  } 
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
