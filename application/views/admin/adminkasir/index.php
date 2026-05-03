@@ -180,7 +180,9 @@ $bulan = array(
                                                 <div class="chart-loading-text">Memuat grafik...</div>
                                             </div>
                                             <div id="stock2-chart-container">
+                                                <?= $thn_stock2 . $bln_stock2 . $idcabang_stock2 ?>>
                                                 <?php
+
                                                 // Load branch chart partial view
                                                 $this->load->view('partials/stock2_chart', [
                                                     'thn_stock2' => $thn_stock2,
