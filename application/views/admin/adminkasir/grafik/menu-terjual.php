@@ -57,64 +57,6 @@ $bulan = array(
                             </div>
                             <div class="card-body pl-4 pr-4">
 
-
-
-                                <!-- Chart 2: Sales by Month -->
-                                <div class="row mb-4">
-                                    <div class="col-12 border rounded-lg p-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Penjualan per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" class="form-inline" id="monthly-filter-form">
-                                                <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_branch" value="<?= $thn_branch ?>">
-                                                    <input type="hidden" name="bln_branch" value="<?= $bln_branch ?>">
-                                                    <div class="mr-2">
-                                                        <select name="idcabang_monthly" class="form-control form-control-sm">
-                                                            <!-- <option value="0">- Semua Cabang -</option> -->
-                                                            <?php
-
-                                                            foreach ($namacabang as $r) {
-                                                            ?>
-                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_monthly == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                    <?= $r->nama_toko; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="thn_monthly" class="form-control form-control-sm">
-                                                            <?php
-                                                            $thn_skr = date('Y');
-                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                            ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_monthly == $x) ? 'selected' : '' ?>>
-                                                                    <?= $x; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" name="filter_monthly" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-filter"></i> Filter
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div id="monthly-chart-container">
-                                            <?php
-                                            // Load monthly chart partial view
-                                            $this->load->view('partials/monthly_chart', [
-                                                'thn_monthly' => $thn_monthly,
-                                                'idcabang_monthly' => $idcabang_monthly,
-                                                'filter_monthly_submitted' => $filter_monthly_submitted
-                                            ]);
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
                                 <!-- Chart 3: Stock Chart by Branch by Month-->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">
