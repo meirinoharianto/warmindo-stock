@@ -121,8 +121,8 @@ foreach ($bahans2 as $bahan2) {
         $has_stock2_data = true;
     }
 }
-usort($chart_rows2, function ($a, $b) {
-    return $b['qty'] <=> $a['qty'];
+usort($chart_rows2, function ($a2, $b2) {
+    return $b2['qty'] <=> $a2['qty'];
 });
 
 $stock2_data = [];
