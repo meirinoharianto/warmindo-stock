@@ -31,7 +31,7 @@ if (!empty($idbahan_stock2) && !in_array('0', $idbahan_stock2)) {
     $this->db->where_in('id', $idbahan_stock2);
 }
 
-$bahans = $this->db->get('menu_utama')->result();
+$bahans2 = $this->db->get('menu_utama')->result();
 
 $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 
@@ -39,34 +39,34 @@ $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 $this->db->where_not_in('kode_cabang', 'PU');
 $all_cabang2 = $this->db->get('cabang')->result();
 
-$chart_rows = [];
-foreach ($bahans as $bahan) {
-    $total_qty = 0;
+$chart_rows2 = [];
+foreach ($bahans2 as $bahan2) {
+    $total_qty2 = 0;
 
     // Jika pilih semua cabang
     if ($cabangStock2 == 0) {
-        foreach ($all_cabang2 as $cbg) {
-            $kode_cabang = $cbg->kode_cabang;
-            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        foreach ($all_cabang2 as $cbg2) {
+            $kode_cabang2 = $cbg->kode_cabang;
+            $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
+            $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
 
-            $table = 'transaksi_produk' . $suffix;
+            $table2 = 'transaksi_produk' . $suffix2;
 
             // cek tabel ada
-            if ($this->db->table_exists($table)) {
+            if ($this->db->table_exists($table2)) {
                 $stock2_out = $this->db->query(
                     "SELECT SUM(qty) as qty
-                     FROM {$table}
+                     FROM {$table2}
                      WHERE cabang_id = ?
                      AND kode_menu = ?
                      AND periode LIKE ?",
-                    [$cbg->id, $bahan->kode_menu, $period_stock2 . '%']
+                    [$cbg2->id, $bahan2->kode_menu, $period_stock2 . '%']
                 )->row();
 
-                $total_qty += (float)($stock2_out->qty ?? 0);
+                $total_qty2 += (float)($stock2_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
-                <!-- <p> <?= $kode_cabang ?> <?= $total_qty ?></p> -->
+                <!-- <p> <?= $kode_cabang ?> <?= $total_qty2 ?></p> -->
     <?php
             }
         }
@@ -74,33 +74,33 @@ foreach ($bahans as $bahan) {
         $judul_cabang = 'Semua Cabang';
     } else {
         // Jika pilih 1 cabang saja
-        $caricabang = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
+        $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
 
-        $suffix = '';
-        $kode_cabang = '';
+        $suffix2 = '';
+        $kode_cabang2 = '';
 
-        if ($caricabang) {
-            $kode_cabang = $caricabang->kode_cabang;
-            $arr_kode_cabang = array("SN1", "SN2", "SN7");
-            $suffix = in_array($kode_cabang, $arr_kode_cabang) ? '' : '_' . $kode_cabang;
+        if ($caricabang2) {
+            $kode_cabang2 = $caricabang->kode_cabang;
+            $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
+            $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
         }
 
-        $table = 'transaksi_produk' . $suffix;
+        $table2 = 'transaksi_produk' . $suffix2;
 
-        if ($this->db->table_exists($table)) {
+        if ($this->db->table_exists($table2)) {
             $stock2_out = $this->db->query(
                 "SELECT SUM(qty) as qty
-                 FROM {$table}
+                 FROM {$table2}
                  WHERE cabang_id = ?
                  AND kode_menu = ?
                  AND periode LIKE ?",
-                [$cabangStock2, $bahan->kode_menu, $period_stock2 . '%']
+                [$cabangStock2, $bahan2->kode_menu, $period_stock2 . '%']
             )->row();
 
-            $total_qty = (float)($stock2_out->qty ?? 0);
+            $total_qty2 = (float)($stock2_out->qty ?? 0);
         }
 
-        $judul_cabang = 'Cabang ' . $kode_cabang;
+        $judul_cabang2 = 'Cabang ' . $kode_cabang2;
     }
 
     // $stock_data[] = $total_qty;
@@ -112,29 +112,29 @@ foreach ($bahans as $bahan) {
     // $label_with_qty = $bahan->nama . ' - (' . number_format($total_qty, 0, ',', '.') . ')';
     // $stock2_labels[] = $label_with_qty;
 
-    $chart_rows[] = [
-        'nama' => $bahan->nama,
-        'qty'  => (float)$total_qty
+    $chart_rows2[] = [
+        'nama' => $bahan2->nama,
+        'qty'  => (float)$total_qty2
     ];
 
-    if ($total_qty > 0) {
+    if ($total_qty2 > 0) {
         $has_stock2_data = true;
     }
 }
-usort($chart_rows, function ($a, $b) {
+usort($chart_rows2, function ($a, $b) {
     return $b['qty'] <=> $a['qty'];
 });
 
 $stock2_data = [];
 $stock2_labels = [];
 
-foreach ($chart_rows as $row) {
-    $stock2_data[] = $row['qty'];
-    $stock2_labels[] = $row['nama'] . ' - (' . number_format($row['qty'], 0, ',', '.') . ')';
+foreach ($chart_rows2 as $row2) {
+    $stock2_data[] = $row2['qty'];
+    $stock2_labels[] = $row2['nama'] . ' - (' . number_format($row2['qty'], 0, ',', '.') . ')';
 }
 
-$jumlahLabel = count($stock2_labels); // pastikan $labels tersedia
-$minWidth = max(1200, $jumlahLabel * 80);
+$jumlahLabel2 = count($stock2_labels); // pastikan $labels tersedia
+$minWidth2 = max(1200, $jumlahLabel2 * 80);
 if ($has_stock2_data): ?>
 
     <style>
@@ -158,7 +158,7 @@ if ($has_stock2_data): ?>
     </style>
 
     <div class="stock2-chart-scroll">
-        <div class="stock2-chart-inner" style="min-width: <?= $minWidth ?>px;">
+        <div class="stock2-chart-inner" style="min-width: <?= $minWidth2 ?>px;">
             <canvas id="stock2-chart" height="180" style=" height: 300px;"></canvas>
         </div>
     </div>
