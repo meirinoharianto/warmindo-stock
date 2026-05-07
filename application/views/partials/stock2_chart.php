@@ -49,7 +49,7 @@ foreach ($bahans2 as $bahan2) {
     // Jika pilih semua cabang
     if ($cabangStock2 == 0) {
         foreach ($all_cabang2 as $cbg2) {
-            $kode_cabang2 = $cbg->kode_cabang;
+            $kode_cabang2 = $cbg2->kode_cabang;
             $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
             $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
 
@@ -66,6 +66,18 @@ foreach ($bahans2 as $bahan2) {
                     [$cbg2->id, $bahan2->kode_menu, $period_stock2 . '%']
                 )->row();
 
+                // START TRACING SQL 
+                $sql_debug = "
+SELECT SUM(qty) as qty
+FROM {$table2}
+WHERE cabang_id = '{$cbg2->id}'
+AND kode_menu = '{$bahan2->kode_menu}'
+AND periode LIKE '{$period_stock2}%'
+";
+
+                echo "<pre>$sql_debug</pre>";
+                // END TRACING SQL 
+
                 $total_qty2 += (float)($stock2_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
@@ -74,7 +86,7 @@ foreach ($bahans2 as $bahan2) {
             }
         }
 
-        $judul_cabang = 'Semua Cabang';
+        $judul_cabang2 = 'Semua Cabang';
     } else {
         // Jika pilih 1 cabang saja
         $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
@@ -91,6 +103,18 @@ foreach ($bahans2 as $bahan2) {
         $table2 = 'transaksi_produk' . $suffix2;
 
         if ($this->db->table_exists($table2)) {
+            // START TRACING SQL 
+            $sql_debug = "
+SELECT SUM(qty) as qty
+FROM {$table2}
+WHERE cabang_id = '{$cabangStock2}'
+AND kode_menu = '{$bahan2->kode_menu}'
+AND periode LIKE '{$period_stock2}%'
+";
+
+            echo "<pre>$sql_debug</pre>";
+            // END TRACING SQL 
+
             $stock2_out = $this->db->query(
                 "SELECT SUM(qty) as qty
                  FROM {$table2}
@@ -166,7 +190,16 @@ if ($has_stock2_data): ?>
         </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
+    <pre>
+<?php
+    print_r($stock2_labels);
+    print_r($stock2_data);
+?>
+</pre>
     <script>
+        console.log("LABEL", <?= json_encode($stock2_labels) ?>);
+        console.log("DATA", <?= json_encode($stock2_data) ?>);
+
         var stock2Chart = document.getElementById('stock2-chart');
         var chart3 = new Chart(stock2Chart, {
             type: 'bar',
@@ -206,7 +239,7 @@ if ($has_stock2_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang ?>'
+                        text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang2 ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
