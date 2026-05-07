@@ -204,78 +204,14 @@ if ($has_stock2_data): ?>
     // print_r($stock2_data);
     ?>
     <!-- </pre> -->
+    <div class="alert alert-success text-center py-4">
+        <i class="fa fa-exclamation-triangle fa-2x mb-2"></i>
+        <h5>Data Ditemukan</h5>
+        <!-- <p><?= $sql . $period_stock; ?></p> -->
+        <p>Ada data penjualan untuk bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?></p>
+    </div>
     <script>
-        var stock2Chart = document.getElementById('stock2-chart');
-        var chart3 = new Chart(stock2Chart, {
-            type: 'bar',
-            data: {
-                labels: [<?= "'" . implode("','", array_map('addslashes', $stock2_labels)) . "'" ?>],
-                datasets: [{
-                    label: "Terjual",
-                    data: [<?= implode(',', $stock2_data) ?>],
-                    backgroundColor: [
-                        '#2563eb',
-                        '#16a34a',
-                        '#0891b2',
-                        '#ea580c',
-                        '#dc2626',
-                        '#4b5563',
-                        '#6b7280',
-                        '#1f2937',
-                        '#52525b',
-                        '#334155',
-                        '#1d4ed8',
-                        '#15803d',
-                        '#0e7490',
-                        '#b45309',
-                        '#7f1d1d'
-                    ],
-                    // backgroundColor: [
-                    //     '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
-                    //     '#5a5c69', '#858796', '#3a3b45', '#f8f9fc', '#5a5c69',
-                    //     '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'
-                    // ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: <?= json_encode(
-                                    'Menu Terjual Bulan ' .
-                                        ($bulan[$bln_stock2] ?? '') . ' ' .
-                                        $thn_stock2 . ' - ' .
-                                        $judul_cabang2
-                                ) ?>
-                        // text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang2 ?>'
-                        // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Total Menu Terjual'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Menu'
-                        },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    }
-                }
-            }
-        });
+
     </script>
 <?php else: ?>
     <div class="alert alert-warning text-center py-4">
