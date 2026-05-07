@@ -182,12 +182,12 @@ if ($has_stock2_data): ?>
         </div>
     </div>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
-    <pre>
-<?php
+    <!-- <pre> -->
+    <?php
     // print_r($stock2_labels);
     // print_r($stock2_data);
-?>
-</pre>
+    ?>
+    <!-- </pre> -->
     <script>
         console.log("LABEL", <?= json_encode($stock2_labels) ?>);
         console.log("DATA", <?= json_encode($stock2_data) ?>);
