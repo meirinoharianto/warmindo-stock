@@ -124,9 +124,25 @@ $jumlahLabel = count($stock_labels); // pastikan $labels tersedia
 $minWidth = max(1200, $jumlahLabel * 80);
 if ($has_stock_data): ?>
 
-    <!-- <style>
+    <style>
+        .stock-chart-scroll {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
 
-    </style> -->
+        .stock-chart-inner {
+            min-width: 1200px;
+            /* sesuaikan */
+            height: 400px;
+        }
+
+        .stock-chart-inner canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
 
     <div class="stock-chart-scroll">
         <div class="stock-chart-inner" style="min-width: <?= $minWidth ?>px;">
