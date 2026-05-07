@@ -16,7 +16,10 @@ $bulan = array(
 
 $idbahan_stock2 = $this->input->post('idbahan_stock2');
 $idbahan_stock2 = is_array($idbahan_stock2) ? $idbahan_stock2 : [];
+?>
+<p> Check Grafik Failed<?= $kode_cabang2 ?> <?= $total_qty2 ?></p>
 
+<?php
 $stock2_data = [];
 $stock2_labels = [];
 $has_stock2_data = false;
