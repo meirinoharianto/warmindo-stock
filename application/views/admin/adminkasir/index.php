@@ -403,6 +403,7 @@ $bulan = array(
 
         // AJAX form submission for stock filter
         $('#stock2-filter-form').submit(function(e) {
+            e.preventDefault();
             var wrapper = $('#chart2-wrapper');
             var result = $('#stock2-chart-container');
 
