@@ -70,15 +70,15 @@ foreach ($bahans2 as $bahan2) {
                 )->row();
 
                 // START TRACING SQL 
-                $sql_debug = "
-SELECT SUM(qty) as qty
-FROM {$table2}
-WHERE cabang_id = '{$cbg2->id}'
-AND kode_menu = '{$bahan2->kode_menu}'
-AND periode LIKE '{$period_stock2}%'
-";
+                //                 $sql_debug = "
+                // SELECT SUM(qty) as qty
+                // FROM {$table2}
+                // WHERE cabang_id = '{$cbg2->id}'
+                // AND kode_menu = '{$bahan2->kode_menu}'
+                // AND periode LIKE '{$period_stock2}%'
+                // ";
 
-                echo "<pre>$sql_debug</pre>";
+                //                 echo "<pre>$sql_debug</pre>";
                 // END TRACING SQL 
 
                 $total_qty2 += (float)($stock2_out->qty ?? 0);
@@ -110,15 +110,15 @@ AND periode LIKE '{$period_stock2}%'
 
         if ($this->db->table_exists($table2)) {
             // START TRACING SQL 
-            $sql_debug = " Kedua
-SELECT SUM(qty) as qty
-FROM {$table2}
-WHERE cabang_id = '{$cabangStock2}'
-AND kode_menu = '{$bahan2->kode_menu}'
-AND periode LIKE '{$period_stock2}%'
-";
+            //             $sql_debug = " Kedua
+            // SELECT SUM(qty) as qty
+            // FROM {$table2}
+            // WHERE cabang_id = '{$cabangStock2}'
+            // AND kode_menu = '{$bahan2->kode_menu}'
+            // AND periode LIKE '{$period_stock2}%'
+            // ";
 
-            echo "<pre>$sql_debug</pre>";
+            //             echo "<pre>$sql_debug</pre>";
             // END TRACING SQL 
 
             $stock2_out = $this->db->query(
@@ -182,8 +182,8 @@ if ($has_stock2_data): ?>
     <!-- <canvas id="stock-chart" height="180" style="height: 300px;"></canvas> -->
     <pre>
 <?php
-    print_r($stock2_labels);
-    print_r($stock2_data);
+    // print_r($stock2_labels);
+    // print_r($stock2_data);
 ?>
 </pre>
     <script>
