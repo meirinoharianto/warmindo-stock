@@ -416,7 +416,7 @@ $bulan = array(
                 success: function(res) {
                     // result.html(res);
                     // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock2-chart-container').html();
+                    var newContent = $(res).find('#stock2-chart-container').html();
                     $('#stock2-chart-container').html(newContent);
                 },
                 error: function() {
