@@ -171,23 +171,7 @@ $minWidth2 = max(1200, $jumlahLabel2 * 80);
 if ($has_stock2_data): ?>
 
     <style>
-        .stock2-chart-scroll {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
 
-        .stock2-chart-inner {
-            min-width: 1200px;
-            /* sesuaikan */
-            height: 400px;
-        }
-
-        .stock2-chart-inner canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
     </style>
 
     <div class="stock2-chart-scroll">
