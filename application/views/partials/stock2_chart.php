@@ -48,6 +48,10 @@ foreach ($bahans2 as $bahan2) {
     // Jika pilih semua cabang
     if ($cabangStock2 == 0) {
         foreach ($all_cabang2 as $cbg2) {
+            if ($cbg2->id == -1) {
+                continue;
+            }
+
             $kode_cabang2 = $cbg2->kode_cabang;
             $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
             $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
@@ -87,6 +91,9 @@ AND periode LIKE '{$period_stock2}%'
 
         $judul_cabang2 = 'Semua Cabang';
     } else {
+        if ($cabangStock2 == -1) {
+            exit;
+        }
         // Jika pilih 1 cabang saja
         $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
 
