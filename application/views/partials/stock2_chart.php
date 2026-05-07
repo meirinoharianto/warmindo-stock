@@ -194,10 +194,12 @@ if ($has_stock2_data): ?>
         var chart3 = new Chart(stock2Chart, {
             type: 'bar',
             data: {
-                labels: [<?= "'" . implode("','", array_map('addslashes', $stock2_labels)) . "'" ?>],
+                labels: <?= json_encode($stock2_labels) ?>,
+                // labels: [<?= "'" . implode("','", array_map('addslashes', $stock2_labels)) . "'" ?>],
                 datasets: [{
-                    label: "Keluar",
-                    data: [<?= implode(',', $stock2_data) ?>],
+                    label: "Terjual",
+                    data: <?= json_encode($stock2_data) ?>,
+                    // data: [<?= implode(',', $stock2_data) ?>],
                     backgroundColor: [
                         '#2563eb',
                         '#16a34a',
