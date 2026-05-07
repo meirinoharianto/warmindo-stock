@@ -403,30 +403,34 @@ $bulan = array(
 
         // AJAX form submission for stock filter
         $('#stock2-filter-form').submit(function(e) {
-            var wrapper = $('#chart2-wrapper');
-            var result = $('#stock2-chart-container');
-
-            wrapper.addClass('loading');
+            e.preventDefault();
+            var wrapper2 = $('#chart2-wrapper');
+            var result2 = $('#stock2-chart-container');
+            console.log('loading stock 2');
+            wrapper2.addClass('loading');
 
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function(res) {
+
+                    console.log(res);
+
                     // result.html(res);
                     // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock2-chart-container').html();
-                    $('#stock2-chart-container').html(newContent);
+                    var newContent2 = $(response).find('#stock2-chart-container').html();
+                    $('#stock2-chart-container').html(newContent2);
                 },
                 error: function() {
-                    result.html(`
+                    result2.html(`
                 <div class="alert alert-danger text-center py-3">
                     Gagal memuat grafik.
                 </div>
             `);
                 },
                 complete: function() {
-                    wrapper.removeClass('loading');
+                    wrapper2.removeClass('loading');
                 }
             });
         });

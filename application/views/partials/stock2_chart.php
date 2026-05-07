@@ -91,49 +91,51 @@ foreach ($bahans2 as $bahan2) {
 
         $judul_cabang2 = 'Semua Cabang';
     } else {
-        if ($cabangStock2 == -1) {
-            continue;
-        }
-        // Jika pilih 1 cabang saja
-        $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
+        if ($cabangStock2 != -1) {
 
-        $suffix2 = '';
-        $kode_cabang2 = '';
+            // seluruh query cabang di sini
 
-        if ($caricabang2) {
-            $kode_cabang2 = $caricabang2->kode_cabang;
-            $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
-            $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
-        }
+            // Jika pilih 1 cabang saja
+            $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
 
-        $table2 = 'transaksi_produk' . $suffix2;
+            $suffix2 = '';
+            $kode_cabang2 = '';
 
-        if ($this->db->table_exists($table2)) {
-            // START TRACING SQL 
-            //             $sql_debug = " Kedua
-            // SELECT SUM(qty) as qty
-            // FROM {$table2}
-            // WHERE cabang_id = '{$cabangStock2}'
-            // AND kode_menu = '{$bahan2->kode_menu}'
-            // AND periode LIKE '{$period_stock2}%'
-            // ";
+            if ($caricabang2) {
+                $kode_cabang2 = $caricabang2->kode_cabang;
+                $arr_kode_cabang2 = array("SN1", "SN2", "SN7");
+                $suffix2 = in_array($kode_cabang2, $arr_kode_cabang2) ? '' : '_' . $kode_cabang2;
+            }
 
-            //             echo "<pre>$sql_debug</pre>";
-            // END TRACING SQL 
+            $table2 = 'transaksi_produk' . $suffix2;
 
-            $stock2_out = $this->db->query(
-                "SELECT SUM(qty) as qty
+            if ($this->db->table_exists($table2)) {
+                // START TRACING SQL 
+                //             $sql_debug = " Kedua
+                // SELECT SUM(qty) as qty
+                // FROM {$table2}
+                // WHERE cabang_id = '{$cabangStock2}'
+                // AND kode_menu = '{$bahan2->kode_menu}'
+                // AND periode LIKE '{$period_stock2}%'
+                // ";
+
+                //             echo "<pre>$sql_debug</pre>";
+                // END TRACING SQL 
+
+                $stock2_out = $this->db->query(
+                    "SELECT SUM(qty) as qty
                  FROM {$table2}
                  WHERE cabang_id = ?
                  AND kode_menu = ?
                  AND periode LIKE ?",
-                [$cabangStock2, $bahan2->kode_menu, $period_stock2 . '%']
-            )->row();
+                    [$cabangStock2, $bahan2->kode_menu, $period_stock2 . '%']
+                )->row();
 
-            $total_qty2 = (float)($stock2_out->qty ?? 0);
+                $total_qty2 = (float)($stock2_out->qty ?? 0);
+            }
+
+            $judul_cabang2 = 'Cabang ' . $kode_cabang2;
         }
-
-        $judul_cabang2 = 'Cabang ' . $kode_cabang2;
     }
 
     // $stock_data[] = $total_qty;
