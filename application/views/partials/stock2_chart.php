@@ -231,7 +231,13 @@ if ($has_stock2_data): ?>
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang2 ?>'
+                        text: <?= json_encode(
+                                    'Menu Terjual Bulan ' .
+                                        ($bulan[$bln_stock2] ?? '') . ' ' .
+                                        $thn_stock2 . ' - ' .
+                                        $judul_cabang2
+                                ) ?>
+                        // text: 'Menu Terjual Bulan <?= $bulan[$bln_stock2] ?? '' ?> <?= $thn_stock2 ?> - <?= $judul_cabang2 ?>'
                         // text: 'Stok Keluar Bulan <?= $bulan[$bln_stock] ?? '' ?> <?= $thn_stock ?> - Cabang <?= $kode_cabang ?>'
                     }
                 },
