@@ -205,19 +205,14 @@ if ($has_stock2_data): ?>
     ?>
     <!-- </pre> -->
     <script>
-        console.log("LABEL", <?= json_encode($stock2_labels) ?>);
-        console.log("DATA", <?= json_encode($stock2_data) ?>);
-
         var stock2Chart = document.getElementById('stock2-chart');
         var chart3 = new Chart(stock2Chart, {
             type: 'bar',
             data: {
-                labels: <?= json_encode($stock2_labels) ?>,
-                // labels: [<?= "'" . implode("','", array_map('addslashes', $stock2_labels)) . "'" ?>],
+                labels: [<?= "'" . implode("','", array_map('addslashes', $stock2_labels)) . "'" ?>],
                 datasets: [{
                     label: "Terjual",
-                    data: <?= json_encode($stock2_data) ?>,
-                    // data: [<?= implode(',', $stock2_data) ?>],
+                    data: [<?= implode(',', $stock2_data) ?>],
                     backgroundColor: [
                         '#2563eb',
                         '#16a34a',
