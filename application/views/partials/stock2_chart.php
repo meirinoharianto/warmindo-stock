@@ -170,9 +170,9 @@ $jumlahLabel2 = count($stock2_labels); // pastikan $labels tersedia
 $minWidth2 = max(1200, $jumlahLabel2 * 80);
 if ($has_stock2_data): ?>
 
-    <style>
+    <!-- <style>
 
-    </style>
+    </style> -->
 
     <div class="stock2-chart-scroll">
         <div class="stock2-chart-inner" style="min-width: <?= $minWidth2 ?>px;">
