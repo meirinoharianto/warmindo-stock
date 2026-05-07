@@ -91,9 +91,9 @@ AND periode LIKE '{$period_stock2}%'
 
         $judul_cabang2 = 'Semua Cabang';
     } else {
-        // if ($cabangStock2 == -1) {
-        //     exit;
-        // }
+        if ($cabangStock2 == -1) {
+            continue;
+        }
         // Jika pilih 1 cabang saja
         $caricabang2 = $this->db->query('SELECT * FROM cabang WHERE id = ?', [$cabangStock2])->row();
 
