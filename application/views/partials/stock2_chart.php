@@ -110,7 +110,7 @@ AND periode LIKE '{$period_stock2}%'
 
         if ($this->db->table_exists($table2)) {
             // START TRACING SQL 
-            $sql_debug = "
+            $sql_debug = " Kedua
 SELECT SUM(qty) as qty
 FROM {$table2}
 WHERE cabang_id = '{$cabangStock2}'
