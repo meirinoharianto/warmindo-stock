@@ -415,7 +415,7 @@ $bulan = array(
                 data: $(this).serialize(),
                 success: function(res) {
 
-                    console.log(res);
+                    // console.log(res);
 
                     // result.html(res);
                     // Extract just the branch chart container content from the response
