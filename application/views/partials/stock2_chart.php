@@ -66,7 +66,7 @@ foreach ($bahans2 as $bahan2) {
                 $total_qty2 += (float)($stock2_out->qty ?? 0);
 ?>
                 <!-- trace hasil  -->
-                <p> <?= $kode_cabang ?> <?= $total_qty2 ?></p>
+                <p> <?= $kode_cabang2 ?> <?= $total_qty2 ?></p>
     <?php
             }
         }
