@@ -446,6 +446,8 @@ $bulan = array(
         // });
 
         $('#stock-filter-form').submit(function(e) {
+            e.preventDefault();
+
             var wrapper = $('#chart-wrapper');
             var result = $('#stock-chart-container');
 
@@ -458,7 +460,7 @@ $bulan = array(
                 success: function(res) {
                     // result.html(res);
                     // Extract just the branch chart container content from the response
-                    var newContent = $(response).find('#stock-chart-container').html();
+                    var newContent = $(res).find('#stock-chart-container').html();
                     $('#stock-chart-container').html(newContent);
                 },
                 error: function() {
