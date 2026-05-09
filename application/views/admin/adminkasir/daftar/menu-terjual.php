@@ -58,15 +58,6 @@ $bulan = array(
                                                 <div class="col-md-3 mb-2">
                                                     <label>Cabang</label>
 
-
-                                                    <?php
-                                                    $idcabang_sales = $this->input->post('idcabang_sales');
-
-                                                    if ($idcabang_sales == '' || $idcabang_sales == null) {
-                                                        $idcabang_sales = 'all';
-                                                    }
-                                                    ?>
-
                                                     <select name="idcabang_sales" class="form-control">
 
                                                         <option value="all"
