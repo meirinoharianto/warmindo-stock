@@ -259,6 +259,42 @@ $rows = $this->db->query($sqlFinal)->result();
     table.dataTable thead th:hover {
         background: #1d4ed8 !important;
     }
+
+    .table-scroll-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #menu-sales-table {
+        min-width: 700px;
+    }
+
+    @media(max-width:768px) {
+
+        #menu-sales-table {
+            min-width: 650px;
+        }
+
+    }
+
+    .table-scroll-wrapper {
+        position: relative;
+    }
+
+    .table-scroll-wrapper:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 100%;
+        background: linear-gradient(to left,
+                rgba(0, 0, 0, 0.08),
+                transparent);
+        pointer-events: none;
+    }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -289,73 +325,74 @@ $rows = $this->db->query($sqlFinal)->result();
 
 <?php if (!empty($rows)) : ?>
 
-    <div class="table-responsive menu-table-card  shadow-sm">
-
-        <table id="menu-sales-table"
-            class="table table-hover table-bordered">
-            <thead>
-
-                <tr>
-
-                    <th width="5%" class="text-center">
-                        #
-                    </th>
-
-                    <th>
-                        Nama Menu
-                    </th>
-
-                    <th width="20%" class="text-center">
-                        Qty Terjual
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <?php
-                $no = 1;
-
-                foreach ($rows as $row) :
-                ?>
+    <!-- <div class="table-responsive menu-table-card  shadow-sm"> -->
+    <div class="table-scroll-wrapper">
+        <div class="table-responsive menu-table-card shadow-sm">
+            <table id="menu-sales-table"
+                class="table table-hover table-bordered">
+                <thead>
 
                     <tr>
 
-                        <td class="text-center">
+                        <th width="5%" class="text-center">
+                            #
+                        </th>
 
-                            <span class="ranking-badge">
-                                <?= $no++; ?>
-                            </span>
+                        <th>
+                            Nama Menu
+                        </th>
 
-                        </td>
+                        <th width="20%" class="text-center">
+                            Qty Terjual
+                        </th>
 
-                        <td>
-                            <?= $row->nama; ?>
-                        </td>
-                        <td class="text-center"
-                            data-order="<?= $row->total_qty; ?>">
-
-                            <span class="qty-badge">
-
-                                <?= number_format(
-                                    $row->total_qty,
-                                    0,
-                                    ',',
-                                    '.'
-                                ); ?>
-
-                            </span>
-                        </td>
                     </tr>
 
-                <?php endforeach; ?>
+                </thead>
 
-            </tbody>
+                <tbody>
 
-        </table>
+                    <?php
+                    $no = 1;
 
+                    foreach ($rows as $row) :
+                    ?>
+
+                        <tr>
+
+                            <td class="text-center">
+
+                                <span class="ranking-badge">
+                                    <?= $no++; ?>
+                                </span>
+
+                            </td>
+
+                            <td>
+                                <?= $row->nama; ?>
+                            </td>
+                            <td class="text-center"
+                                data-order="<?= $row->total_qty; ?>">
+
+                                <span class="qty-badge">
+
+                                    <?= number_format(
+                                        $row->total_qty,
+                                        0,
+                                        ',',
+                                        '.'
+                                    ); ?>
+
+                                </span>
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+        </div>
     </div>
 
 <?php else : ?>
@@ -383,7 +420,8 @@ $rows = $this->db->query($sqlFinal)->result();
             destroy: true,
             pageLength: 25,
             ordering: true,
-            responsive: true,
+            responsive: false,
+            scrollX: true,
             autoWidth: false,
             lengthMenu: [
                 [10, 25, 50, 100, -1],
