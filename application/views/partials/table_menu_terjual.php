@@ -347,10 +347,7 @@ $rows = $this->db->query($sqlFinal)->result();
                                 ); ?>
 
                             </span>
-
                         </td>
-
-
                     </tr>
 
                 <?php endforeach; ?>
