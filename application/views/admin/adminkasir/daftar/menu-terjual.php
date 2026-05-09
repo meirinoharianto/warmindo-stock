@@ -44,130 +44,119 @@ $bulan = array(
 
                                 <div class="row mb-4">
                                     <div class="col-12">
-                                        <div class="card shadow-sm border-0 rounded-lg">
 
-                                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0">
-                                                    <i class="fa fa-table mr-2"></i>
-                                                    Daftar Menu Terjual
-                                                </h5>
-                                            </div>
+                                        <!-- FILTER -->
+                                        <form method="post"
+                                            action="<?= base_url('adminkasir/daftar_menu_terjual') ?>"
+                                            id="sales-filter-form">
 
-                                            <div class="card-body">
+                                            <div class="row">
 
-                                                <!-- FILTER -->
-                                                <form method="post"
-                                                    action="<?= base_url('adminkasir/daftar_menu_terjual') ?>"
-                                                    id="sales-filter-form">
+                                                <div class="col-md-3 mb-2">
+                                                    <label>Cabang</label>
+                                                    <select name="idcabang_sales" class="form-control">
+                                                        <option value="all">- Semua Cabang -</option>
 
-                                                    <div class="row">
+                                                        <?php foreach ($namacabang as $r) : ?>
+                                                            <option value="<?= $r->cabang_id; ?>"
+                                                                <?= ($idcabang_sales == $r->cabang_id) ? 'selected' : '' ?>>
+                                                                <?= $r->nama_toko; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
 
-                                                        <div class="col-md-3 mb-2">
-                                                            <label>Cabang</label>
-                                                            <select name="idcabang_sales" class="form-control">
-                                                                <option value="all">- Semua Cabang -</option>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Bulan</label>
+                                                    <select name="bln_sales" class="form-control">
+                                                        <?php foreach ($bulan as $key => $value) : ?>
+                                                            <option value="<?= $key ?>"
+                                                                <?= ($bln_sales == $key) ? 'selected' : '' ?>>
+                                                                <?= $value ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
 
-                                                                <?php foreach ($namacabang as $r) : ?>
-                                                                    <option value="<?= $r->cabang_id; ?>"
-                                                                        <?= ($idcabang_sales == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                        <?= $r->nama_toko; ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-2 mb-2">
-                                                            <label>Bulan</label>
-                                                            <select name="bln_sales" class="form-control">
-                                                                <?php foreach ($bulan as $key => $value) : ?>
-                                                                    <option value="<?= $key ?>"
-                                                                        <?= ($bln_sales == $key) ? 'selected' : '' ?>>
-                                                                        <?= $value ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-2 mb-2">
-                                                            <label>Tahun</label>
-                                                            <select name="thn_sales" class="form-control">
-
-                                                                <?php
-                                                                $thn_skr = date('Y');
-                                                                for ($x = $thn_skr; $x >= 2021; $x--) :
-                                                                ?>
-
-                                                                    <option value="<?= $x; ?>"
-                                                                        <?= ($thn_sales == $x) ? 'selected' : '' ?>>
-                                                                        <?= $x; ?>
-                                                                    </option>
-
-                                                                <?php endfor; ?>
-
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-3 mb-2">
-                                                            <label>Menu</label>
-
-                                                            <select name="idbahan_sales[]"
-                                                                class="form-control"
-                                                                multiple>
-
-                                                                <?php
-                                                                $this->db->select('id,nama');
-                                                                $this->db->order_by('nama', 'asc');
-                                                                $namabahan = $this->db->get('menu_utama')->result();
-
-                                                                foreach ($namabahan as $m) :
-                                                                ?>
-
-                                                                    <option value="<?= $m->id; ?>"
-                                                                        <?= (isset($idbahan_sales) && in_array($m->id, (array)$idbahan_sales)) ? 'selected' : '' ?>>
-
-                                                                        <?= $m->nama; ?>
-
-                                                                    </option>
-
-                                                                <?php endforeach; ?>
-
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-2 mb-2 d-flex align-items-end">
-                                                            <button type="submit" name="filter_sales"
-                                                                class="btn btn-primary btn-block">
-
-                                                                <i class="fa fa-search mr-1"></i>
-                                                                Filter
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
-
-                                                <hr>
-
-                                                <!-- RESULT -->
-                                                <div id="table-loading-wrapper">
-
-                                                    <div id="sales-table-container">
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Tahun</label>
+                                                    <select name="thn_sales" class="form-control">
 
                                                         <?php
-                                                        $this->load->view('partials/table_menu_terjual', [
-                                                            'thn_sales' => $thn_sales,
-                                                            'bln_sales' => $bln_sales,
-                                                            'idcabang_sales' => $idcabang_sales,
-                                                            'idbahan_sales' => $idbahan_sales
-                                                        ]);
+                                                        $thn_skr = date('Y');
+                                                        for ($x = $thn_skr; $x >= 2021; $x--) :
                                                         ?>
 
-                                                    </div>
+                                                            <option value="<?= $x; ?>"
+                                                                <?= ($thn_sales == $x) ? 'selected' : '' ?>>
+                                                                <?= $x; ?>
+                                                            </option>
 
+                                                        <?php endfor; ?>
+
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3 mb-2">
+                                                    <label>Menu</label>
+
+                                                    <select name="idbahan_sales[]"
+                                                        class="form-control"
+                                                        multiple>
+
+                                                        <?php
+                                                        $this->db->select('id,nama');
+                                                        $this->db->order_by('nama', 'asc');
+                                                        $namabahan = $this->db->get('menu_utama')->result();
+
+                                                        foreach ($namabahan as $m) :
+                                                        ?>
+
+                                                            <option value="<?= $m->id; ?>"
+                                                                <?= (isset($idbahan_sales) && in_array($m->id, (array)$idbahan_sales)) ? 'selected' : '' ?>>
+
+                                                                <?= $m->nama; ?>
+
+                                                            </option>
+
+                                                        <?php endforeach; ?>
+
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 d-flex align-items-end">
+                                                    <button type="submit" name="filter_sales"
+                                                        class="btn btn-primary btn-block">
+
+                                                        <i class="fa fa-search mr-1"></i>
+                                                        Filter
+                                                    </button>
                                                 </div>
 
                                             </div>
+                                        </form>
+
+                                        <hr>
+
+                                        <!-- RESULT -->
+                                        <div id="table-loading-wrapper">
+
+                                            <div id="sales-table-container">
+
+                                                <?php
+                                                $this->load->view('partials/table_menu_terjual', [
+                                                    'thn_sales' => $thn_sales,
+                                                    'bln_sales' => $bln_sales,
+                                                    'idcabang_sales' => $idcabang_sales,
+                                                    'idbahan_sales' => $idbahan_sales
+                                                ]);
+                                                ?>
+
+                                            </div>
+
                                         </div>
+
+
                                     </div>
                                 </div>
 
