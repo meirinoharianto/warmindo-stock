@@ -2,8 +2,11 @@
 <?php
 $thn_sales = !empty($this->input->post('thn_sales')) ? $this->input->post('thn_sales') : date('Y');
 $bln_sales = !empty($this->input->post('bln_sales')) ? $this->input->post('bln_sales') : date('m');
-$idcabang_sales = !empty($this->input->post('idcabang_sales')) ? $this->input->post('idcabang_sales') : -1;
+// $idcabang_sales = !empty($this->input->post('idcabang_sales')) ? $this->input->post('idcabang_sales') : -1;
 $idbahan_sales = !empty($this->input->post('idbahan_sales')) ? $this->input->post('idbahan_sales') : 0;
+$idcabang_sales = !empty($this->input->post('idcabang_sales'))
+    ? $this->input->post('idcabang_sales')
+    : 'all';
 
 // Check which form was submitted
 $filter_sales_submitted = !empty($this->input->post('filter_sales'));
@@ -54,16 +57,29 @@ $bulan = array(
 
                                                 <div class="col-md-3 mb-2">
                                                     <label>Cabang</label>
+
+
                                                     <select name="idcabang_sales" class="form-control">
-                                                        <option value="all">- Semua Cabang -</option>
+
+                                                        <option value="all"
+                                                            <?= ($idcabang_sales == 'all') ? 'selected' : '' ?>>
+                                                            - Semua Cabang -
+                                                        </option>
 
                                                         <?php foreach ($namacabang as $r) : ?>
+
                                                             <option value="<?= $r->cabang_id; ?>"
                                                                 <?= ($idcabang_sales == $r->cabang_id) ? 'selected' : '' ?>>
+
                                                                 <?= $r->nama_toko; ?>
+
                                                             </option>
+
                                                         <?php endforeach; ?>
+
                                                     </select>
+
+
                                                 </div>
 
                                                 <div class="col-md-2 mb-2">
