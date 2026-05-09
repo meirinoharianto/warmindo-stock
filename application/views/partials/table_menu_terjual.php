@@ -334,8 +334,8 @@ $rows = $this->db->query($sqlFinal)->result();
                         <td>
                             <?= $row->nama; ?>
                         </td>
-
-                        <td class="text-center">
+                        <td class="text-center"
+                            data-order="<?= $row->total_qty; ?>">
 
                             <span class="qty-badge">
 
@@ -349,6 +349,7 @@ $rows = $this->db->query($sqlFinal)->result();
                             </span>
 
                         </td>
+
 
                     </tr>
 
