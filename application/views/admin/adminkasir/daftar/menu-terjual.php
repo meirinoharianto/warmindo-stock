@@ -118,6 +118,8 @@ $bulan = array(
                                                     <select name="idbahan_sales[]"
                                                         class="form-control"
                                                         multiple>
+                                                        <option value="0">- Semua Menu -</option>
+
 
                                                         <?php
                                                         $this->db->select('id,nama');
