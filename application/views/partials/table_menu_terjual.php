@@ -289,7 +289,7 @@ $rows = $this->db->query($sqlFinal)->result();
 
 <?php if (!empty($rows)) : ?>
 
-    <div class="table-responsive menu-table-card border shadow-sm">
+    <div class="table-responsive menu-table-card  shadow-sm">
 
         <table id="menu-sales-table"
             class="table table-hover table-bordered">
