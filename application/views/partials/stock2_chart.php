@@ -38,7 +38,7 @@ $bahans2 = $this->db->get('menu_utama')->result();
 $period_stock2 = $thn_stock2 . '-' . $bln_stock2;
 
 // ambil daftar cabang
-$this->db->where_not_in('kode_cabang', 'PU');
+$this->db->where_not_in('kode_cabang', ['PU', 'SN99']);
 $all_cabang2 = $this->db->get('cabang')->result();
 
 $chart_rows2 = [];

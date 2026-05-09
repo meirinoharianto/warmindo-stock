@@ -83,4 +83,16 @@ class Adminkasir extends CI_Controller
         $this->load->view('admin/adminkasir/grafik/menu-terjual', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
+
+    public function daftar_menu_terjual()
+    {
+
+        $this->data = [
+            'title_web' => 'Daftar Menu Terjual',
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/adminkasir/daftar/menu-terjual', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
 }
