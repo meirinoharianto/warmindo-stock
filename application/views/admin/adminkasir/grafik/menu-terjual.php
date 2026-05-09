@@ -45,70 +45,68 @@ $bulan = array(
 
                                 <!-- Chart 4: Menu Sales Chart by Branch by Month-->
                                 <div class="row mb-4">
-                                    <div class="col-12 border rounded-lg p-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5>Penjualan Menu per Bulan</h5>
-                                            <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" class="form-inline" id="stock2-filter-form">
-                                                <div class="d-flex align-items-center">
-                                                    <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
-                                                    <div class="mr-2">
-                                                        <select name="idcabang_stock2" class="form-control form-control-sm">
-                                                            <option value="all">- Semua Cabang -</option>
-                                                            <?php
+                                    <div class="col-12">
+                                        <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" class="form-inline" id="stock2-filter-form">
+                                            <div class="d-flex align-items-center">
+                                                <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
+                                                <div class="mr-2">
+                                                    <select name="idcabang_stock2" class="form-control form-control-sm">
+                                                        <option value="all">- Semua Cabang -</option>
+                                                        <?php
 
-                                                            foreach ($namacabang as $r) {
-                                                            ?>
-                                                                <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_stock2 == $r->cabang_id) ? 'selected' : '' ?>>
-                                                                    <?= $r->nama_toko; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="bln_stock2" class="form-control form-control-sm">
-                                                            <?php
-
-                                                            foreach ($bulan as $key => $value) {
-                                                            ?>
-                                                                <option value="<?= $key ?>" <?= ($bln_stock2 == $key) ? 'selected' : '' ?>>
-                                                                    <?= $value ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="thn_stock2" class="form-control form-control-sm">
-                                                            <?php
-                                                            $thn_skr = date('Y');
-                                                            for ($x = $thn_skr; $x >= 2021; $x--) {
-                                                            ?>
-                                                                <option value="<?= $x; ?>" <?= ($thn_stock2 == $x) ? 'selected' : '' ?>>
-                                                                    <?= $x; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mr-2">
-                                                        <select name="idbahan_stock2[]" class="form-control form-control-sm" multiple size="6">
-                                                            <option value="0">- Semua Menu -</option>
-                                                            <?php
-                                                            $this->db->order_by('nama', 'asc');
-                                                            $namabahan = $this->db->get('menu_utama')->result();
-                                                            foreach ($namabahan as $m) {
-                                                            ?>
-                                                                <option value="<?= $m->id; ?>"
-                                                                    <?= (isset($idbahan_stock2) && in_array($m->id, (array)$idbahan_stock2)) ? 'selected' : '' ?>>
-                                                                    <?= $m->nama; ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" name="filter_stock2" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-filter"></i> Filter
-                                                    </button>
+                                                        foreach ($namacabang as $r) {
+                                                        ?>
+                                                            <option value="<?= $r->cabang_id; ?>" <?= ($idcabang_stock2 == $r->cabang_id) ? 'selected' : '' ?>>
+                                                                <?= $r->nama_toko; ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="mr-2">
+                                                    <select name="bln_stock2" class="form-control form-control-sm">
+                                                        <?php
+
+                                                        foreach ($bulan as $key => $value) {
+                                                        ?>
+                                                            <option value="<?= $key ?>" <?= ($bln_stock2 == $key) ? 'selected' : '' ?>>
+                                                                <?= $value ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mr-2">
+                                                    <select name="thn_stock2" class="form-control form-control-sm">
+                                                        <?php
+                                                        $thn_skr = date('Y');
+                                                        for ($x = $thn_skr; $x >= 2021; $x--) {
+                                                        ?>
+                                                            <option value="<?= $x; ?>" <?= ($thn_stock2 == $x) ? 'selected' : '' ?>>
+                                                                <?= $x; ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mr-2">
+                                                    <select name="idbahan_stock2[]" class="form-control form-control-sm" multiple size="6">
+                                                        <option value="0">- Semua Menu -</option>
+                                                        <?php
+                                                        $this->db->order_by('nama', 'asc');
+                                                        $namabahan = $this->db->get('menu_utama')->result();
+                                                        foreach ($namabahan as $m) {
+                                                        ?>
+                                                            <option value="<?= $m->id; ?>"
+                                                                <?= (isset($idbahan_stock2) && in_array($m->id, (array)$idbahan_stock2)) ? 'selected' : '' ?>>
+                                                                <?= $m->nama; ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" name="filter_stock2" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-filter"></i> Filter
+                                                </button>
+                                            </div>
+                                        </form>
+
 
                                         <div id="chart2-wrapper" class="chart-loading-box">
                                             <div class="chart-loading-overlay">
