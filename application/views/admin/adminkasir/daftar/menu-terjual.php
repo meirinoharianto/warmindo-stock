@@ -216,12 +216,18 @@ $bulan = array(
                         .find('#sales-table-container')
                         .html();
 
+                    // $('#table-loading-wrapper').html(`
+                    //     <div id="sales-table-container">
+                    //         ${html}
+                    //     </div>
+                    // `);
                     $('#table-loading-wrapper').html(`
                         <div id="sales-table-container">
-                            ${html}
+                                ${html}
                         </div>
-                    `);
+                        `);
 
+                    initSalesTable();
                 },
 
                 error: function() {

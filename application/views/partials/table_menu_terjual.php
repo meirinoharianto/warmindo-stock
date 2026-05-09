@@ -248,6 +248,17 @@ $rows = $this->db->query($sqlFinal)->result();
             padding: 10px;
         }
     }
+
+    /* STYLE TABLE  */
+
+    table.dataTable thead th {
+        cursor: pointer;
+        position: relative;
+    }
+
+    table.dataTable thead th:hover {
+        background: #1d4ed8 !important;
+    }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -280,8 +291,8 @@ $rows = $this->db->query($sqlFinal)->result();
 
     <div class="table-responsive menu-table-card border shadow-sm">
 
-        <table class="table table-hover">
-
+        <table id="menu-sales-table"
+            class="table table-hover table-bordered">
             <thead>
 
                 <tr>
@@ -366,3 +377,39 @@ $rows = $this->db->query($sqlFinal)->result();
     </div>
 
 <?php endif; ?>
+
+<script>
+    function initSalesTable() {
+
+        $('#menu-sales-table').DataTable({
+            destroy: true,
+            pageLength: 25,
+            ordering: true,
+            responsive: true,
+            autoWidth: false,
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "Semua"]
+            ],
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                paginate: {
+                    previous: "‹",
+                    next: "›"
+                },
+                zeroRecords: "Data tidak ditemukan",
+                emptyTable: "Tidak ada data"
+            },
+            order: [
+                [2, 'desc']
+            ]
+        });
+
+    }
+
+    $(document).ready(function() {
+        initSalesTable();
+    });
+</script>
