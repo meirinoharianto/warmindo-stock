@@ -47,9 +47,13 @@ $bulan = array(
                                 <div class="row mb-4">
                                     <div class="col-12">
                                         <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" class="form-inline" id="stock2-filter-form">
-                                            <div class="d-flex align-items-center">
-                                                <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
-                                                <div class="mr-2">
+
+                                            <div class="row">
+
+                                                <div class="col-md-3 mb-2">
+                                                    <label>Cabang</label>
+                                                    <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
+
                                                     <select name="idcabang_stock2" class="form-control form-control-sm">
                                                         <option value="all">- Semua Cabang -</option>
                                                         <?php
@@ -62,7 +66,8 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="mr-2">
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Bulan</label>
                                                     <select name="bln_stock2" class="form-control form-control-sm">
                                                         <?php
 
@@ -74,7 +79,8 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="mr-2">
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Tahun</label>
                                                     <select name="thn_stock2" class="form-control form-control-sm">
                                                         <?php
                                                         $thn_skr = date('Y');
@@ -86,7 +92,8 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="mr-2">
+                                                <div class="col-md-3 mb-2">
+                                                    <label>Menu</label>
                                                     <select name="idbahan_stock2[]" class="form-control form-control-sm" multiple size="6">
                                                         <option value="0">- Semua Menu -</option>
                                                         <?php
@@ -101,9 +108,11 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <button type="submit" name="filter_stock2" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-filter"></i> Filter
-                                                </button>
+                                                <div class="col-md-2 mb-2 d-flex align-items-center">
+                                                    <button type="submit" name="filter_stock2" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-filter"></i> Filter
+                                                    </button>
+                                                </div>
                                             </div>
                                         </form>
 
