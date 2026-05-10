@@ -87,6 +87,17 @@ $bulan = array(
                                                 </div>
 
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col d-flex align-items-center">
+                                                    <button type="submit" name="filter_sales"
+                                                        class="btn btn-primary btn-block">
+
+                                                        <i class="fa fa-search mr-1"></i>
+                                                        Filter
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </form>
 
                                         <hr>
