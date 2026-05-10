@@ -106,7 +106,7 @@ $bulan = array(
 
                                             <div class="row">
 
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-4 mb-2">
                                                     <label>Cabang</label>
                                                     <input type="hidden" name="thn_stock2" value="<?= $thn_stock2 ?>">
 
@@ -148,7 +148,7 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3 mb-2">
+                                                <div class="col-md-4 mb-2">
                                                     <label>Menu</label>
                                                     <select name="idbahan_stock2[]" class="form-control " multiple>
                                                         <option value="0">- Semua Menu -</option>
