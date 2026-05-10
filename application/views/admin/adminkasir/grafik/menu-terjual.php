@@ -43,61 +43,6 @@ $bulan = array(
                             </div>
                             <div class="card-body pl-4 pr-4">
 
-                                <div class="row mb-4">
-                                    <div class="col-12">
-
-                                        <!-- FILTER -->
-                                        <form method="post"
-                                            action="<?= base_url('adminkasir/daftar_menu_terjual') ?>"
-                                            id="sales-filter-form">
-
-                                            <div class="row">
-
-                                                <div class="col-md-3 mb-2">
-                                                    <label>Cabang</label>
-
-
-
-
-                                                </div>
-
-                                                <div class="col-md-2 mb-2">
-                                                    <label>Bulan</label>
-
-                                                </div>
-
-                                                <div class="col-md-2 mb-2">
-                                                    <label>Tahun</label>
-
-                                                </div>
-
-                                                <div class="col-md-3 mb-2">
-                                                    <label>Menu</label>
-
-
-                                                </div>
-
-                                                <div class="col-md-2 mb-2 d-flex align-items-center">
-                                                    <button type="submit" name="filter_sales"
-                                                        class="btn btn-primary btn-block">
-
-                                                        <i class="fa fa-search mr-1"></i>
-                                                        Filter
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
-
-                                        </form>
-
-                                        <hr>
-
-
-
-
-                                    </div>
-                                </div>
                                 <!-- Chart 4: Menu Sales Chart by Branch by Month-->
 
                                 <div class="row mb-4">
