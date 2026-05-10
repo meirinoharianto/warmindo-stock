@@ -88,16 +88,7 @@ $bulan = array(
 
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col d-flex align-items-center">
-                                                    <button type="submit" name="filter_sales"
-                                                        class="btn btn-primary btn-block">
 
-                                                        <i class="fa fa-search mr-1"></i>
-                                                        Filter
-                                                    </button>
-                                                </div>
-                                            </div>
                                         </form>
 
                                         <hr>
@@ -173,7 +164,9 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2 mb-2 d-flex align-items-center">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-flex align-items-center">
                                                     <button type="submit" name="filter_stock2"
                                                         class="btn btn-primary btn-block">
 
@@ -182,7 +175,6 @@ $bulan = array(
                                                     </button>
                                                 </div>
                                             </div>
-
 
                                             <div id="chart2-wrapper" class="chart-loading-box">
                                                 <div class="chart-loading-overlay">
