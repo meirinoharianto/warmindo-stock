@@ -111,7 +111,7 @@ $bulan = array(
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col d-flex align-items-center">
+                                                <div class="col mb-2 d-flex align-items-center">
                                                     <button type="submit" name="filter_stock2"
                                                         class="btn btn-primary btn-block">
 
