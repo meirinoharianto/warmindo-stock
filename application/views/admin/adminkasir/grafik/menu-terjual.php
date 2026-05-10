@@ -108,7 +108,10 @@ $bulan = array(
                                                         <?php } ?>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
                                                     <button type="submit" name="filter_stock2" class="btn btn-primary btn-sm">
                                                         <i class="fa fa-filter"></i> Filter
                                                     </button>
