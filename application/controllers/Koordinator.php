@@ -84,4 +84,25 @@ class Koordinator extends CI_Controller
         $this->load->view('admin/koordinator/daftar/menu-terjual', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
+
+    public function grafik_penjualan_cabang()
+    {
+        $iduser =  $this->session->userdata('ses_id');
+
+        $login_detail = $this->db->select('cabang_id')
+            ->where('login_id', $iduser)
+            ->get('login_detail')
+            ->result_array();
+
+        $list_cabang = array_column($login_detail, 'cabang_id');
+        $this->data = [
+            'title_web' => 'Grafik Penjualan Cabang',
+            'list_cabang'       => $list_cabang,
+
+        ];
+
+        $this->load->view('layout/headerkoordinator', $this->data);
+        $this->load->view('admin/koordinator/grafik/penjualan-cabang', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
 }

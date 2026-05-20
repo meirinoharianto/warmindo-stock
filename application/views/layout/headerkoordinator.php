@@ -162,6 +162,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="dropdownId">
                                 <?php if (in_array($this->session->userdata('ses_level'), array('Koordinator'))) { ?>
+                                    <a class="dropdown-item" href="<?= base_url('koordinator/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
                                     <a class="dropdown-item" href="<?= base_url('koordinator/grafik_menu_terjual'); ?>">Grafik Menu Terjual</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="<?= base_url('koordinator/daftar_menu_terjual'); ?>">Daftar Menu Terjual</a>
