@@ -121,8 +121,8 @@ class Koordinator extends CI_Controller
 
         ];
 
-        $this->load->view('layout/header', $this->data);
-        $this->load->view('admin/adminkasir/grafik/stok-keluar-bahan', $this->data);
+        $this->load->view('layout/headerkoordinator', $this->data);
+        $this->load->view('admin/koordinator/grafik/stok-keluar-bahan', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
 }
