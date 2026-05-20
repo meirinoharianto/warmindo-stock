@@ -350,6 +350,7 @@
                                         <a class="dropdown-item" href="<?= base_url('adminkasir/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
                                         <a class="dropdown-item" href="<?= base_url('adminkasir/grafik_stok_keluar_bahan'); ?>">Grafik Stok Keluar Bahan</a>
                                         <a class="dropdown-item" href="<?= base_url('adminkasir/grafik_menu_terjual'); ?>">Grafik Menu Terjual</a>
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="<?= base_url('adminkasir/daftar_menu_terjual'); ?>">Daftar Menu Terjual</a>
                                     <?php } else { ?>
                                         <a class="dropdown-item" href="<?= base_url('home/grafik_penjualan_cabang'); ?>">Grafik Penjualan Cabang</a>
