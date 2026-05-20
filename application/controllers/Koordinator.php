@@ -59,7 +59,7 @@ class Koordinator extends CI_Controller
 
         ];
 
-        $this->load->view('layout/header', $this->data);
+        $this->load->view('layout/headerkoordinator', $this->data);
         $this->load->view('admin/koordinator/grafik/menu-terjual', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
@@ -80,7 +80,7 @@ class Koordinator extends CI_Controller
 
         ];
 
-        $this->load->view('layout/header', $this->data);
+        $this->load->view('layout/headerkoordinator', $this->data);
         $this->load->view('admin/koordinator/daftar/menu-terjual', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
