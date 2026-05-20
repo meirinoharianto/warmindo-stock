@@ -174,8 +174,6 @@ $bulan = array(
                                     </div>
                                 </div>
 
-
-
                                 <!-- Chart 3: Stock Chart by Branch by Month-->
                                 <div class="row mb-4">
                                     <div class="col-12 border rounded-lg p-3">

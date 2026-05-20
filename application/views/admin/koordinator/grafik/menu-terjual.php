@@ -11,10 +11,17 @@ $filter_stock2_submitted = !empty($this->input->post('filter_stock2'));
 
 $this->db->order_by('length(nama_toko),nama_toko', 'asc');
 
+if (!empty($list_cabang)) {
+    $this->db->where_in('cabang_id', $list_cabang);
+} else {
+    $this->db->where('1=1');
+}
 // $namacabang = $this->db->get_where('profil_toko', 'id<>1')->result();
 $namacabang = $this->db->where('id <> 1 AND cabang_id <> 99')
     ->get('profil_toko')
     ->result();
+
+
 
 $bulan = array(
     '01' => 'Januari',
@@ -48,7 +55,7 @@ $bulan = array(
 
                                 <div class="row mb-4">
                                     <div class="col-12">
-                                        <form method="post" action="<?= base_url('adminkasir/grafik_menu_terjual') ?>" id="stock2-filter-form">
+                                        <form method="post" action="<?= base_url('koordinator/grafik_menu_terjual') ?>" id="stock2-filter-form">
 
                                             <div class="row">
 
