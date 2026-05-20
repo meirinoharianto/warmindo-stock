@@ -105,4 +105,24 @@ class Koordinator extends CI_Controller
         $this->load->view('admin/koordinator/grafik/penjualan-cabang', $this->data);
         $this->load->view('layout/footer', $this->data);
     }
+    public function grafik_stok_keluar_bahan()
+    {
+        $iduser =  $this->session->userdata('ses_id');
+
+        $login_detail = $this->db->select('cabang_id')
+            ->where('login_id', $iduser)
+            ->get('login_detail')
+            ->result_array();
+
+        $list_cabang = array_column($login_detail, 'cabang_id');
+        $this->data = [
+            'title_web' => 'Grafik Stok Keluar Bahan',
+            'list_cabang'       => $list_cabang,
+
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/adminkasir/grafik/stok-keluar-bahan', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
 }
