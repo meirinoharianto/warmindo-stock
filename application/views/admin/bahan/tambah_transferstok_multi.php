@@ -47,8 +47,8 @@ if (!empty($temptujuan)) {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <a href="<?= base_url('bahan/import_transferstok'); ?>" class="btn btn-success btn-block mb-2">
-                                    Import Transfer Stok Excel</a>
+                                <a href="<?= base_url('bahan/import_transferstok_multi'); ?>" class="btn btn-success btn-block mb-2">
+                                    Import Transfer Stok Multi Cabang Excel</a>
                             </div>
                         </div>
                         <div class="row">

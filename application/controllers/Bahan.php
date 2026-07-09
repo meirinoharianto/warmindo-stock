@@ -1418,6 +1418,17 @@ class Bahan extends CI_Controller
         $this->load->view('layout/footer', $this->data);
     }
 
+    public function import_transferstok_multi()
+    {
+        $this->data = [
+            'title_web'  => 'Import Transfer Stok Multi Cabang',
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/bahan/import_transferstok_multi', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
+
     public function proses_import_transferstok()
     {
         $file_mimes = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
