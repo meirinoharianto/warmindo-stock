@@ -151,7 +151,8 @@ if (!empty($temptujuan)) {
 
                         </div>
                         <div class="card-footer text-muted">
-                            <div class="float-right">
+                            <!-- <div class="float-right"> -->
+                            <div>
 
                                 <!-- <button type="submit" class="btn btn-primary btn-md">
                             <b><i class="fa fa-save"></i> Simpan</b></button> -->
