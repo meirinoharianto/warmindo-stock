@@ -66,15 +66,15 @@ if (!empty($temptujuan)) {
                         <form id="barangForm">
                             <div class="row">
 
-                                <div class="form-group col-2">
+                                <div class="form-group col">
                                     <label for="date">Tanggal</label>
                                     <input type="date" class="form-control" id="date" readonly>
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col">
                                     <label for="">No Surat</label>
                                     <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col">
                                     <label for="">Cabang Tujuan</label>
                                     <select class="form-control" name="id_cabang" id="id_cabang">
                                         <option value="" disabled selected>- pilih -</option>
@@ -86,7 +86,7 @@ if (!empty($temptujuan)) {
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col">
                                     <label for="kode_bahan">Kode Bahan :</label>
                                     <input type="text" class="form-control" id="id_bahan" hidden>
                                     <input type="text" class="form-control" id="kode_bahan" readonly>
@@ -100,12 +100,12 @@ if (!empty($temptujuan)) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col">
                                     <label for="quantity">Jumlah :</label>
                                     <input type="number" class="form-control" id="quantity">
                                 </div>
 
-                                <div class="form-group col-2">
+                                <div class="form-group col">
                                     <label for="quantity">Aksi :</label>
                                     <button class="btn btn-secondary btn-block tambahkan" id="addToTemporaryTable">
                                         <i class="fa fa-plus"> </i>
