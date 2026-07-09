@@ -695,7 +695,7 @@ class Bahan extends CI_Controller
     public function transferstok_multi()
     {
         $this->data = [
-            'title_web'  => 'Transfer Stok Bahan Multi Cabang',
+            'title_web'  => 'Transfer Stok Bahan',
         ];
 
         $this->load->view('layout/header', $this->data);
