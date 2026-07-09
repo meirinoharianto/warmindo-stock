@@ -245,7 +245,6 @@
                                     <?php } ?>
                                     <a class="dropdown-item" href="<?= base_url('bahan/transferstok_terima'); ?>">
                                         <i class="fa fa-cubes pr-1"></i> Terima Stok</a>
-                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
 
 
                                     <!-- <div class="dropdown-divider"></div> -->
