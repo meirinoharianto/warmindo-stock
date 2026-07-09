@@ -90,7 +90,7 @@ if (!empty($temptujuan)) {
                                             <input type="text" class="form-control" id="id_bahan" hidden>
                                             <input type="text" class="form-control" id="kode_bahan" readonly>
                                         </div>
-                                        <div class="form-group col-6">
+                                        <div class="form-group col">
                                             <label for="nama_bahan">Nama Bahan :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" id="nama_bahan" readonly>
@@ -169,24 +169,7 @@ if (!empty($temptujuan)) {
         </div>
     </div>
 </div>
-</div>
-<div id="home">
-    <div class="container mt-5">
-        <div class="row">
-            <!-- <div class="col-sm-7 mx-auto"> -->
-            <div class="mx-auto col">
 
-                <!-- <form method="POST" action="<?= base_url('bahan/store_stokawal'); ?>" enctype="multipart/form-data"> -->
-                <!-- <form id="barangForm"> -->
-                <div class="card card-rounded">
-
-                </div>
-                <!-- </form> -->
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Modal Pilih Barang -->
 <div class="modal fade" id="bahanModal" tabindex="-1" role="dialog" aria-labelledby="bahanModalLabel" aria-hidden="true">
