@@ -357,7 +357,7 @@ if (!empty($temptujuan)) {
             const kode = $('#kode_bahan').val();
             const nama = $('#nama_bahan').val();
             const quantity = $('#quantity').val();
-            const date = $('#date').val();
+            const tanggal = $('#date').val();
             const no_surat = $('#no_surat').val();
             const id_cabang = $('#id_cabang').val();
 
