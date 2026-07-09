@@ -245,6 +245,7 @@
                                     <?php } ?>
                                     <a class="dropdown-item" href="<?= base_url('bahan/transferstok_terima'); ?>">
                                         <i class="fa fa-cubes pr-1"></i> Terima Stok</a>
+                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
 
 
                                     <!-- <div class="dropdown-divider"></div> -->
@@ -259,9 +260,7 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR </a>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
-                                </li>
+
 
                             <?php } ?>
                             <?php if ($this->session->userdata('ses_level') == 'Kasir') { ?>
