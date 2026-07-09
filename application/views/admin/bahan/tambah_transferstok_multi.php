@@ -149,21 +149,22 @@ if (!empty($temptujuan)) {
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="card-footer text-muted">
-                            <!-- <div class="float-right"> -->
-                            <div>
+                            <div class="card-footer text-muted">
+                                <div class="float-right">
+                                    <!-- <div> -->
 
-                                <!-- <button type="submit" class="btn btn-primary btn-md">
+                                    <!-- <button type="submit" class="btn btn-primary btn-md">
                             <b><i class="fa fa-save"></i> Simpan</b></button> -->
-                                <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Simpan</b></button>
+                                    <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Simpan</b></button>
 
-                                <button class="btn btn-warning delete-all"><b><i class="fa fa-trash"></i> Hapus Semua</b></button>
+                                    <button class="btn btn-warning delete-all"><b><i class="fa fa-trash"></i> Hapus Semua</b></button>
 
-                                <a href="<?= base_url('bahan/transferstok'); ?>" class="btn btn-danger btn-md">
-                                    <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
+                                    <a href="<?= base_url('bahan/transferstok'); ?>" class="btn btn-danger btn-md">
+                                        <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
