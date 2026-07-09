@@ -30,11 +30,137 @@ if (!empty($temptujuan)) {
             <div class="container-fluid h-100">
                 <div class="row h-100">
                     <div class="col-12 mt-3 h-100">
+                        <?php
+                        if (!empty($this->session->flashdata('success'))) {
+                            echo alert_success($this->session->flashdata('success'));
+                        }
+                        if (!empty($this->session->flashdata('failed'))) {
+                            echo alert_failed($this->session->flashdata('failed'));
+                        }
+                        ?>
                         <div class="card card-rounded h-100">
                             <div class="card-header bg-primary text-white">
-                                <i class="fa fa-dashboard mr-1"></i> Dashboard <?= $this->session->userdata('ses_level'); ?>
+                                <i class="fa fa-plus"></i> <?= $title_web; ?>
                             </div>
-                            <div class="card-body pl-4 pr-4">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <a href="<?= base_url('bahan/import_transferstok_multi'); ?>" class="btn btn-success btn-block mb-2">
+                                            Import Transfer Stok Multi Cabang Excel</a>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="">Keterangan</label>
+                                            <textarea class="form-control" name="keterangan" id="keterangan"
+                                                placeholder=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form id="barangForm">
+                                    <div class="row">
+
+                                        <div class="form-group col">
+                                            <label for="date">Tanggal</label>
+                                            <input type="date" class="form-control" id="date" readonly>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="">No Surat</label>
+                                            <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="">Cabang Tujuan</label>
+                                            <select class="form-control" name="id_cabang" id="id_cabang">
+                                                <option value="" disabled selected>- pilih -</option>
+
+                                                <?php foreach ($cab as $r) {
+                                                    $selected = ($r->id == $tujuan) ? "selected" : "";
+                                                ?>
+                                                    <option value="<?= $r->id; ?>" <?= $selected; ?>><?= $r->nama_toko; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="kode_bahan">Kode Bahan :</label>
+                                            <input type="text" class="form-control" id="id_bahan" hidden>
+                                            <input type="text" class="form-control" id="kode_bahan" readonly>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="nama_bahan">Nama Bahan :</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="nama_bahan" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bahanModal"><i class="fa fa-search"> </i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="quantity">Jumlah :</label>
+                                            <input type="number" class="form-control" id="quantity">
+                                        </div>
+
+                                        <div class="form-group col">
+                                            <label for="quantity">Aksi :</label>
+                                            <button class="btn btn-secondary btn-block tambahkan" id="addToTemporaryTable">
+                                                <i class="fa fa-plus"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!-- <button class="btn btn-secondary btn-sm pt-2 pb-2 btn-block tambahkan" id="addToTemporaryTable">
+                                        Tambahkan
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <table class="table table-bordered table-sm" id="temporaryTable">
+                                            <thead>
+
+                                                <tr>
+
+                                                    <th>Tanggal</th>
+                                                    <th>No Surat</th>
+                                                    <th>Cabang</th>
+                                                    <th>Kode</th>
+                                                    <th>Nama Bahan</th>
+                                                    <th>Qty</th>
+                                                    <th>Aksi</th>
+
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody>
+                                                <!-- Data akan dimuat di sini -->
+                                            </tbody>
+                                        </table>
+                                        <!-- <button type="button" class="btn btn-primary" id="saveData">Simpan</button> -->
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="float-right">
+
+                                <!-- <button type="submit" class="btn btn-primary btn-md">
+                            <b><i class="fa fa-save"></i> Simpan</b></button> -->
+                                <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Simpan</b></button>
+
+                                <button class="btn btn-warning delete-all"><b><i class="fa fa-trash"></i> Hapus Semua</b></button>
+
+                                <a href="<?= base_url('bahan/transferstok'); ?>" class="btn btn-danger btn-md">
+                                    <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
                             </div>
                         </div>
                     </div>
@@ -42,153 +168,24 @@ if (!empty($temptujuan)) {
             </div>
         </div>
     </div>
+</div>
 </div>
 <div id="home">
     <div class="container mt-5">
         <div class="row">
             <!-- <div class="col-sm-7 mx-auto"> -->
             <div class="mx-auto col">
-                <?php
-                if (!empty($this->session->flashdata('success'))) {
-                    echo alert_success($this->session->flashdata('success'));
-                }
-                if (!empty($this->session->flashdata('failed'))) {
-                    echo alert_failed($this->session->flashdata('failed'));
-                }
-                ?>
+
                 <!-- <form method="POST" action="<?= base_url('bahan/store_stokawal'); ?>" enctype="multipart/form-data"> -->
                 <!-- <form id="barangForm"> -->
                 <div class="card card-rounded">
-                    <div class="card-header bg-primary text-white">
-                        <i class="fa fa-plus"></i> <?= $title_web; ?>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <a href="<?= base_url('bahan/import_transferstok_multi'); ?>" class="btn btn-success btn-block mb-2">
-                                    Import Transfer Stok Multi Cabang Excel</a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keterangan"
-                                        placeholder=""></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form id="barangForm">
-                            <div class="row">
-
-                                <div class="form-group col">
-                                    <label for="date">Tanggal</label>
-                                    <input type="date" class="form-control" id="date" readonly>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="">No Surat</label>
-                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
-                                </div>
-                                <div class="form-group col">
-                                    <label for="">Cabang Tujuan</label>
-                                    <select class="form-control" name="id_cabang" id="id_cabang">
-                                        <option value="" disabled selected>- pilih -</option>
-
-                                        <?php foreach ($cab as $r) {
-                                            $selected = ($r->id == $tujuan) ? "selected" : "";
-                                        ?>
-                                            <option value="<?= $r->id; ?>" <?= $selected; ?>><?= $r->nama_toko; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="kode_bahan">Kode Bahan :</label>
-                                    <input type="text" class="form-control" id="id_bahan" hidden>
-                                    <input type="text" class="form-control" id="kode_bahan" readonly>
-                                </div>
-                                <div class="form-group col-6">
-                                    <label for="nama_bahan">Nama Bahan :</label>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" id="nama_bahan" readonly>
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bahanModal"><i class="fa fa-search"> </i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="quantity">Jumlah :</label>
-                                    <input type="number" class="form-control" id="quantity">
-                                </div>
-
-                                <div class="form-group col">
-                                    <label for="quantity">Aksi :</label>
-                                    <button class="btn btn-secondary btn-block tambahkan" id="addToTemporaryTable">
-                                        <i class="fa fa-plus"> </i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <!-- <button class="btn btn-secondary btn-sm pt-2 pb-2 btn-block tambahkan" id="addToTemporaryTable">
-                                        Tambahkan
-                                    </button> -->
-                                </div>
-                            </div>
-                        </form>
-                        <div class="row">
-                            <div class="col-12">
-
-                                <table class="table table-bordered table-sm" id="temporaryTable">
-                                    <thead>
-
-                                        <tr>
-
-                                            <th>Tanggal</th>
-                                            <th>No Surat</th>
-                                            <th>Cabang</th>
-                                            <th>Kode</th>
-                                            <th>Nama Bahan</th>
-                                            <th>Qty</th>
-                                            <th>Aksi</th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-                                        <!-- Data akan dimuat di sini -->
-                                    </tbody>
-                                </table>
-                                <!-- <button type="button" class="btn btn-primary" id="saveData">Simpan</button> -->
-                            </div>
-
-                        </div>
-                    </div>
 
                 </div>
-                <div class="card-footer text-muted">
-                    <div class="float-right">
+                <!-- </form> -->
 
-                        <!-- <button type="submit" class="btn btn-primary btn-md">
-                            <b><i class="fa fa-save"></i> Simpan</b></button> -->
-                        <button class="btn btn-primary saveData" id="saveData"><b><i class="fa fa-save"></i> Simpan</b></button>
-
-                        <button class="btn btn-warning delete-all"><b><i class="fa fa-trash"></i> Hapus Semua</b></button>
-
-                        <a href="<?= base_url('bahan/transferstok'); ?>" class="btn btn-danger btn-md">
-                            <b><i class="fa fa-angle-double-left"></i> Kembali</b></a>
-                    </div>
-                </div>
             </div>
-            <!-- </form> -->
-
         </div>
     </div>
-</div>
 </div>
 
 <!-- Modal Pilih Barang -->
