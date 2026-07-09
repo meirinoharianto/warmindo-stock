@@ -1336,6 +1336,7 @@ class Bahan extends CI_Controller
         $tanggal = $this->input->post("tanggal", true);
         $no_surat = $this->input->post("no_surat", true);
         $id_cabang = $this->input->post("id_cabang", true);
+        $tujuan = $this->input->post("tujuan", true);
 
         $data = [
             'login_id'   => htmlspecialchars($login_id, ENT_QUOTES),
@@ -1346,6 +1347,7 @@ class Bahan extends CI_Controller
             'tanggal'     => htmlspecialchars($tanggal, ENT_QUOTES),
             'no_surat'     => htmlspecialchars($no_surat, ENT_QUOTES),
             'cabang_id'     => htmlspecialchars($id_cabang, ENT_QUOTES),
+            'tujuan'     => htmlspecialchars($tujuan, ENT_QUOTES),
         ];
         $this->db->insert("transferstok_bahan_bulk_temp", $data);
 

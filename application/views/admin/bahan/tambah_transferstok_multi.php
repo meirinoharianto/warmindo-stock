@@ -360,6 +360,7 @@ if (!empty($temptujuan)) {
             const tanggal = $('#date').val();
             const no_surat = $('#no_surat').val();
             const id_cabang = $('#id_cabang').val();
+            const tujuan = $('#id_cabang option:selected').text();
 
             if (!bahan_id || !quantity) {
                 alert('Silakan lengkapi data!');
@@ -376,7 +377,8 @@ if (!empty($temptujuan)) {
                     quantity,
                     tanggal,
                     no_surat,
-                    id_cabang
+                    id_cabang,
+                    tujuan
                 },
                 dataType: 'json',
                 success: function(result) {
