@@ -201,7 +201,6 @@
                                             <i class="fa fa-cubes pr-1"></i> Menu Utama</a>
                                         <a class="dropdown-item" href="<?= base_url('bahan'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Bahan</a>
-                                        <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
 
                                         <a class="dropdown-item" href="<?= base_url('coordinators'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Koordinator</a>
@@ -260,6 +259,10 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR </a>
                                 </li>
+                                <li class="nav-item active">
+                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
+                                </li>
+
                             <?php } ?>
                             <?php if ($this->session->userdata('ses_level') == 'Kasir') { ?>
                                 <!-- 
