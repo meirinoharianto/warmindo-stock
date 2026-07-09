@@ -90,7 +90,7 @@ if (!empty($temptujuan)) {
                                             <input type="text" class="form-control" id="id_bahan" hidden>
                                             <input type="text" class="form-control" id="kode_bahan" readonly>
                                         </div>
-                                        <div class="form-group col">
+                                        <div class="form-group col-3">
                                             <label for="nama_bahan">Nama Bahan :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" id="nama_bahan" readonly>
