@@ -309,7 +309,7 @@ if (!empty($temptujuan)) {
                     <tr>
                         <td>${item.tanggal}</td>
                         <td>${item.no_surat}</td>
-                        <td>${item.nama_toko}</td>
+                        <td>${item.tujuan}</td>
                         <td>${item.kode_bahan}</td>
                         <td>${item.nama_bahan}</td>
                         <td class="text-center">${item.qty}</td>
