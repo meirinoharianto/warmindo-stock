@@ -260,7 +260,7 @@
                                     <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR </a>
                                 </li>
                                 <li class="nav-item active">
-                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
+                                    <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
                                 </li>
 
                             <?php } ?>
