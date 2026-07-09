@@ -67,7 +67,7 @@ if (!empty($temptujuan)) {
 
                                         <div class="form-group col">
                                             <label for="date">Tanggal</label>
-                                            <input type="date" class="form-control" id="date" readonly>
+                                            <input type="date" class="form-control" id="date">
                                         </div>
                                         <div class="form-group col">
                                             <label for="">No Surat</label>
