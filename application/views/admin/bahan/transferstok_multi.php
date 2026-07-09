@@ -29,13 +29,10 @@
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>No Surat</th>
-                                <!-- <th>Cabang Asal</th> -->
                                 <th>Cabang Tujuan</th>
                                 <th>Tgl Diterima</th>
                                 <th>Aksi</th>
 
-                                <!-- <th>Jumlah</th> -->
-                                <!-- <th>Aksi</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>

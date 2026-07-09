@@ -692,6 +692,17 @@ class Bahan extends CI_Controller
         endif;
     }
 
+    public function transferstok_multi()
+    {
+        $this->data = [
+            'title_web'  => 'Transfer Stok Bahan Multi Cabang',
+        ];
+
+        $this->load->view('layout/header', $this->data);
+        $this->load->view('admin/bahan/transferstok_multi', $this->data);
+        $this->load->view('layout/footer', $this->data);
+    }
+
     public function transferstok()
     {
         $this->data = [
@@ -893,6 +904,117 @@ class Bahan extends CI_Controller
         $this->load->view('layout/header', $this->data);
         $this->load->view('admin/bahan/tambah_transferstok', $this->data);
         $this->load->view('layout/footer', $this->data);
+    }
+
+    public function tambah_transferstok_multi()
+    {
+        $login_id = $this->session->userdata('ses_id');
+
+        $is_import = ($this->uri->segment(3) == 'import');
+
+        // Jika bukan dari import, kosongkan temporary
+        if (!$is_import) {
+            $this->db->delete(
+                'transferstok_bahan_bulk_temp',
+                [
+                    'login_id' => $login_id
+                ]
+            );
+        }
+
+        // Ambil seluruh data temporary
+        $temp = $this->db
+            ->select('
+            transferstok_bahan_bulk_temp.*,
+            profil_toko.nama_toko
+        ')
+            ->from('transferstok_bahan_bulk_temp')
+            ->join(
+                'profil_toko',
+                'profil_toko.cabang_id=transferstok_bahan_bulk_temp.cabang_id',
+                'left'
+            )
+            ->where(
+                'transferstok_bahan_bulk_temp.login_id',
+                $login_id
+            )
+            ->order_by('tanggal')
+            ->order_by('no_surat')
+            ->order_by('nama_toko')
+            ->get()
+            ->result();
+
+        // Header import
+        $header_import = [];
+
+        if ($is_import) {
+
+            $header_import = $this->db
+                ->select("
+                tanggal,
+                no_surat,
+                cabang_id,
+                tujuan,
+                COUNT(*) jumlah_item
+            ")
+                ->from("transferstok_bahan_bulk_temp")
+                ->where("login_id", $login_id)
+                ->group_by("
+                tanggal,
+                no_surat,
+                cabang_id,
+                tujuan
+            ")
+                ->order_by("tanggal")
+                ->order_by("no_surat")
+                ->get()
+                ->result();
+        }
+
+        $this->data = [
+
+            'title_web' => 'Tambah Transfer Stok Bahan Multi Cabang',
+
+            'is_import' => $is_import,
+
+            'header_import' => $header_import,
+
+            'tempdata' => $temp,
+
+            'kode' => '',
+
+            'cab' => $this->db->query("
+            SELECT
+                profil_toko.nama_toko,
+                cabang.*
+            FROM cabang
+            LEFT JOIN profil_toko
+                ON profil_toko.cabang_id=cabang.id
+            WHERE cabang.id>1
+            ORDER BY LENGTH(kode_cabang),kode_cabang
+        ")->result(),
+
+            'bahan' => $this->db
+                ->order_by('kode_bahan')
+                ->get('bahan')
+                ->result()
+
+        ];
+
+        $this->load->view(
+            'layout/header',
+            $this->data
+        );
+
+        $this->load->view(
+            'admin/bahan/tambah_transferstok_multi',
+            $this->data
+        );
+
+        $this->load->view(
+            'layout/footer',
+            $this->data
+        );
     }
 
     public function edit_transferstok()
@@ -1160,11 +1282,74 @@ class Bahan extends CI_Controller
         ]);
     }
 
+    public function get_transferstok_multi_temp()
+    {
+        $login_id = $this->session->userdata('ses_id');
+
+        $data = $this->db
+            ->select("
+            transferstok_bahan_bulk_temp.*,
+            profil_toko.nama_toko
+        ")
+            ->from("transferstok_bahan_bulk_temp")
+            ->join(
+                "profil_toko",
+                "profil_toko.cabang_id=transferstok_bahan_bulk_temp.cabang_id",
+                "left"
+            )
+            ->where(
+                "transferstok_bahan_bulk_temp.login_id",
+                $login_id
+            )
+            ->order_by("tanggal", "ASC")
+            ->order_by("no_surat", "ASC")
+            ->order_by("nama_toko", "ASC")
+            ->order_by("kode_bahan", "ASC")
+            ->get()
+            ->result();
+
+        echo json_encode($data);
+    }
+
     public function get_transferstok_temp()
     {
         $this->load->database();
         $query = $this->db->get('transferstok_bahan_temp');
         echo json_encode($query->result());
+    }
+
+    public function save_transferstok_bulk_temp()
+    {
+        // $this->form_validation->set_rules("id_bahan", "Bahan", "required");
+        // $this->form_validation->set_rules("kode_bahan", "Kode Bahan", "required");
+        // $this->form_validation->set_rules("nama_bahan", "Nama Bahan", "required");
+        // $this->form_validation->set_rules("quantity", "Jumlah", "required");
+
+        // if ($this->form_validation->run() != false) {
+        $login_id =  $this->session->userdata('ses_id');
+        $bahan_id = $this->input->post("bahan_id", true);
+        $quantity = $this->input->post("quantity", true);
+        $kode_bahan = $this->input->post("kode", true);
+        $nama_bahan = $this->input->post("nama", true);
+
+        $data = [
+            'login_id'   => htmlspecialchars($login_id, ENT_QUOTES),
+            'bahan_id'     => htmlspecialchars($bahan_id, ENT_QUOTES),
+            'qty' => $quantity,
+            'kode_bahan'     => htmlspecialchars($kode_bahan, ENT_QUOTES),
+            'nama_bahan'     => htmlspecialchars($nama_bahan, ENT_QUOTES),
+        ];
+        $this->db->insert("transferstok_bahan_temp", $data);
+
+        $this->session->set_flashdata("success", " Berhasil menambahkan data bahan !");
+        echo json_encode(['status' => 'success', 'message' => 'Barang berhasil ditambahkan']);
+
+        // redirect(base_url("bahan/stokawal"));
+        // } else {
+        // $this->session->set_flashdata("failed", " Gagal menambahkan data bahan! " . validation_errors());
+        // redirect(base_url("bahan/stokawal"));
+        // }
+
     }
 
     public function save_transferstok_temp()
@@ -1305,119 +1490,139 @@ class Bahan extends CI_Controller
         }
     }
 
-    // public function save_transferstok()
-    // {
+    public function proses_import_transferstok_multi()
+    {
+        $file_mimes = array(
+            'application/octet-stream',
+            'application/vnd.ms-excel',
+            'application/x-csv',
+            'text/x-csv',
+            'text/csv',
+            'application/csv',
+            'application/excel',
+            'application/vnd.msexcel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
 
-    //     $this->form_validation->set_rules("date", "Tanggal", "required");
-    //     $this->form_validation->set_rules("id_cabang", "Cabang Tujuan", "required");
-    //     $this->form_validation->set_rules("no_surat", "No Surat", "required");
-    //     $login_id =  $this->session->userdata('ses_id');
+        if (
+            !isset($_FILES['berkas_excel']['name']) ||
+            !in_array($_FILES['berkas_excel']['type'], $file_mimes)
+        ) {
+            $this->session->set_flashdata("failed", "Berkas harus berupa file Excel");
+            redirect(base_url("bahan/tambah_transferstok_multi"));
+        }
 
-    //     if ($this->form_validation->run() != false) {
-    //         $this->load->database();
-    //         // $last_trans = $this->db->query("SELECT * FROM transaksi WHERE cabang_id = $cabang_id AND no_bon like '" . $kode_cabang . "/" . date('ym') . "/%" . "' ORDER BY no_bon DESC LIMIT 1");
-    //         $temporaryData = $this->db->get_where("transferstok_bahan_temp", ["login_id" => $login_id])->result_array();
-    //         if (empty($temporaryData)) {
-    //             echo json_encode(['status' => 'error', 'message' => 'Tidak ada data di tabel sementara']);
-    //             return;
-    //         }
+        $arr_file = explode('.', $_FILES['berkas_excel']['name']);
+        $extension = end($arr_file);
 
-    //         // $tanggal = date('Y-m-d H:i:s');
-    //         $tanggal = $this->input->post("date", true);
-    //         $tgl = date_create($tanggal);
-    //         $idcabang = $this->input->post("id_cabang", true);
-    //         $no_surat = $this->input->post("no_surat", true);
-    //         $keterangan = $this->input->post("keterangan", true);
+        if ($extension == 'csv') {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+        } else {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
 
-    //         // $data_transferstok[] = array(
-    //         $data_transferstok = array(
-    //             'no_surat' => $no_surat,
-    //             'cabangasal_id' => 1,
-    //             'cabangtujuan_id' => $idcabang,
-    //             'keterangan' => $keterangan,
-    //             'created_at' => date('Y-m-d H:i:s'),
-    //             'date' => date_format($tgl, 'Y-m-d'),
-    //             'periode' => date_format($tgl, 'Y-m'),
-    //             'year' => date_format($tgl, 'Y'),
-    //             'login_id' => $login_id,
-    //             'status' => 0,
-    //         );
+        $spreadsheet = $reader->load($_FILES['berkas_excel']['tmp_name']);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
 
-    //         $this->db->trans_start();
-    //         $this->db->insert('transferstok', $data_transferstok);
-    //         $transferstok_id = $this->db->insert_id();
+        $login_id = $this->session->userdata('ses_id');
 
-    //         foreach ($temporaryData as $isi) {
-    //             $data_transferstok_bahan[] = array(
-    //                 'transferstok_id' => $transferstok_id,
-    //                 'bahan_id' => $isi['bahan_id'],
-    //                 'qty' => $isi['qty']
-    //             );
+        // kosongkan data temporary
+        $this->db->delete('transferstok_bahan_bulk_temp', [
+            'login_id' => $login_id
+        ]);
 
-    //             $this->db->where('bahan_id', $isi['bahan_id']);
-    //             $this->db->where('cabang_id', 1);
-    //             $querystok = $this->db->get('bahan_stok');
-    //             $total_stok = 0;
-    //             if ($querystok->num_rows() == 0) { // jika belum ada
-    //                 $data_stok = [
-    //                     'cabang_id'   => 1,
-    //                     'bahan_id'     => $isi['bahan_id'],
-    //                     'jumlah_stok'     => 0 - $isi['qty']
-    //                 ];
+        for ($i = 1; $i < count($sheetData); $i++) {
 
-    //                 $this->db->insert("bahan_stok", $data_stok);
-    //             } else {
-    //                 $total_stok = $querystok['jumlah_stok'];
+            if (empty(array_filter($sheetData[$i]))) {
+                continue;
+            }
 
-    //                 $data_stok = [
-    //                     'cabang_id'   => 1,
-    //                     'bahan_id'     => $isi['bahan_id']
-    //                     // 'jumlah_stok'     => 'jumlah_stok' - $isi['qty']
-    //                 ];
-    //                 $this->db->set('jumlah_stok', 'jumlah_stok-' . $isi['qty'], false);
-    //                 $this->db->where('bahan_id', $isi['bahan_id']);
-    //                 $this->db->where('cabang_id', 1);
-    //                 $this->db->update("bahan_stok", $data_stok);
-    //             }; // jika sudah ada
+            //------------------------------------
+            // Ambil data excel
+            //------------------------------------
 
-    //             $data_kartustok[] = array(
-    //                 'cabang_id'   => 1,
-    //                 'bahan_id'     => $isi['bahan_id'],
-    //                 'tipe_transaksi'     => "Transfer Out",
-    //                 'transaksi_id'     => $transferstok_id,
-    //                 'jumlah_perubahan'     => 0 - $isi['qty'],
-    //                 'harga_beli'   => 0,
-    //                 'jumlah_harga'   => 0,
-    //                 'total_stok'   => $total_stok - $isi['qty'],
-    //                 'total_jumlah_harga'   => 0,
-    //                 'tanggal' => date_format($tgl, 'Y-m-d'),
-    //                 'created_at'    => date('Y-m-d H:i:s'),
-    //                 'periode' => date_format($tgl, 'Y-m'),
-    //                 'tahun' => date_format($tgl, 'Y'),
-    //                 'shift_id' => 0,
-    //                 'login_id' => $login_id
-    //             );
-    //         }
+            $kode_bahan = trim(str_replace(' ', '', $sheetData[$i][1]));
+            $qty        = $sheetData[$i][3];
+            $tanggal    = $sheetData[$i][4];
+            $no_surat   = trim($sheetData[$i][5]);
+            $tujuan     = trim($sheetData[$i][6]);
 
-    //         $this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan);
+            //------------------------------------
+            // validasi bahan
+            //------------------------------------
 
-    //         $this->db->insert_batch('bahan_kartustok', $data_kartustok);
+            $cekBahan = $this->db
+                ->get_where(
+                    'bahan',
+                    ['kode_bahan' => $kode_bahan]
+                );
 
-    //         // $this->db->insert_batch('bahan_kartustok', $data_kartustok_in);
+            if (!$cekBahan->num_rows()) {
+                $this->session->set_flashdata(
+                    'failed',
+                    'Kode bahan ' . $kode_bahan . ' tidak ditemukan.'
+                );
 
-    //         $this->db->delete('transferstok_bahan_temp', ['login_id' => $login_id]);
+                redirect(base_url('bahan/tambah_transferstok_multi'));
+            }
 
-    //         $this->db->trans_complete();
+            $bahan = $cekBahan->row();
 
-    //         echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
-    //         // $this->session->set_flashdata("success", " Berhasil Simpan Data ! ");
-    //         // redirect(base_url("bahan/transferstok"));
-    //     } else {
-    //         echo json_encode(['status' => 'error', 'message' => 'Data gagal disimpan']);
-    //         // $this->session->set_flashdata("failed", " Gagal Simpan Data !");
-    //         // redirect(base_url("bahan/tambah_transferstok"));
-    //     }
-    // }
+            //------------------------------------
+            // validasi cabang
+            //------------------------------------
+
+            $cekCabang = $this->db
+                ->get_where(
+                    'profil_toko',
+                    [
+                        'nama_toko' => $tujuan
+                    ]
+                );
+
+            if (!$cekCabang->num_rows()) {
+                $this->session->set_flashdata(
+                    'failed',
+                    'Cabang ' . $tujuan . ' tidak ditemukan.'
+                );
+
+                redirect(base_url('bahan/tambah_transferstok_multi'));
+            }
+
+            $cabang = $cekCabang->row();
+
+            //------------------------------------
+            // insert temp
+            //------------------------------------
+
+            $this->db->insert(
+                'transferstok_bahan_bulk_temp',
+                [
+                    'login_id' => $login_id,
+                    'tanggal' => date(
+                        'Y-m-d',
+                        strtotime(
+                            str_replace('/', '-', $tanggal)
+                        )
+                    ),
+                    'no_surat' => $no_surat,
+                    'tujuan' => $tujuan,
+                    'cabang_id' => $cabang->cabang_id,
+                    'bahan_id' => $bahan->id,
+                    'kode_bahan' => $bahan->kode_bahan,
+                    'nama_bahan' => $bahan->nama_bahan,
+                    'qty' => $qty
+                ]
+            );
+        }
+
+        $this->session->set_flashdata(
+            'success',
+            'Import berhasil.'
+        );
+
+        redirect(base_url('bahan/tambah_transferstok_multi/import'));
+    }
 
     public function save_transferstok()
     {
@@ -1563,6 +1768,41 @@ class Bahan extends CI_Controller
         }
     }
 
+    public function save_transferstok_multi()
+    {
+        try {
+
+            $login_id = $this->session->userdata('ses_id');
+
+            $temporaryData = $this->db
+                ->get_where(
+                    "transferstok_bahan_temp",
+                    [
+                        "login_id" => $login_id
+                    ]
+                )
+                ->result_array();
+
+            $groups = [];
+
+            foreach ($temporaryData as $row) {
+
+                $key =
+                    $row['tanggal'] . "|" .
+                    $row['no_surat'] . "|" .
+                    $row['cabang_id'];
+
+                $groups[$key][] = $row;
+            }
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            log_message('error', 'Error in save_transferstok: ' . $e->getMessage());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
 
     public function update_transferstok()
     {
@@ -1788,7 +2028,6 @@ class Bahan extends CI_Controller
             ]);
         }
     }
-
 
     public function save_terimastok()
     {
