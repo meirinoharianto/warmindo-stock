@@ -370,7 +370,7 @@ if (!empty($temptujuan)) {
             }
 
             $.ajax({
-                url: "<?= base_url('bahan/save_transferstok_temp'); ?>",
+                url: "<?= base_url('bahan/save_transferstok_bulk_temp'); ?>",
                 method: 'POST',
                 data: {
                     bahan_id,
@@ -401,7 +401,7 @@ if (!empty($temptujuan)) {
             const id = $(this).data('id');
             $.ajax({
                 // url: `BarangController/deleteTemporaryBarang/${id}`,
-                url: "<?= base_url('bahan/delete_transferstok_temp'); ?>",
+                url: "<?= base_url('bahan/delete_transferstok_bulk_temp'); ?>",
                 method: 'POST',
                 data: {
                     "id": id
@@ -433,7 +433,7 @@ if (!empty($temptujuan)) {
                 if (result.isConfirmed) {
                     $.ajax({
                         // url: `BarangController/deleteTemporaryBarang/${id}`,
-                        url: "<?= base_url('bahan/delete_transferstok_temp_all'); ?>",
+                        url: "<?= base_url('bahan/delete_transferstok_bulk_temp_all'); ?>",
                         method: 'POST',
                         data: {
                             // "id": id
