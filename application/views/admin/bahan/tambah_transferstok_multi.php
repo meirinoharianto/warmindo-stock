@@ -357,6 +357,9 @@ if (!empty($temptujuan)) {
             const kode = $('#kode_bahan').val();
             const nama = $('#nama_bahan').val();
             const quantity = $('#quantity').val();
+            const date = $('#date').val();
+            const no_surat = $('#no_surat').val();
+            const id_cabang = $('#id_cabang').val();
 
             if (!bahan_id || !quantity) {
                 alert('Silakan lengkapi data!');
@@ -370,7 +373,10 @@ if (!empty($temptujuan)) {
                     bahan_id,
                     kode,
                     nama,
-                    quantity
+                    quantity,
+                    tanggal,
+                    no_surat,
+                    id_cabang,
                 },
                 dataType: 'json',
                 success: function(result) {
@@ -382,6 +388,9 @@ if (!empty($temptujuan)) {
                         $('#kode_bahan').val('');
                         $('#nama_bahan').val('');
                         $('#quantity').val('');
+                        $('#date').val('');
+                        $('#no_surat').val('');
+                        $('#id_cabang').val('');
                     }
                 },
                 error: function(xhr) {

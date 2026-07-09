@@ -1327,17 +1327,15 @@ class Bahan extends CI_Controller
 
     public function save_transferstok_bulk_temp()
     {
-        // $this->form_validation->set_rules("id_bahan", "Bahan", "required");
-        // $this->form_validation->set_rules("kode_bahan", "Kode Bahan", "required");
-        // $this->form_validation->set_rules("nama_bahan", "Nama Bahan", "required");
-        // $this->form_validation->set_rules("quantity", "Jumlah", "required");
 
-        // if ($this->form_validation->run() != false) {
         $login_id =  $this->session->userdata('ses_id');
         $bahan_id = $this->input->post("bahan_id", true);
         $quantity = $this->input->post("quantity", true);
         $kode_bahan = $this->input->post("kode", true);
         $nama_bahan = $this->input->post("nama", true);
+        $tanggal = $this->input->post("tanggal", true);
+        $no_surat = $this->input->post("no_surat", true);
+        $id_cabang = $this->input->post("id_cabang", true);
 
         $data = [
             'login_id'   => htmlspecialchars($login_id, ENT_QUOTES),
@@ -1345,18 +1343,14 @@ class Bahan extends CI_Controller
             'qty' => $quantity,
             'kode_bahan'     => htmlspecialchars($kode_bahan, ENT_QUOTES),
             'nama_bahan'     => htmlspecialchars($nama_bahan, ENT_QUOTES),
+            'tanggal'     => htmlspecialchars($tanggal, ENT_QUOTES),
+            'no_surat'     => htmlspecialchars($no_surat, ENT_QUOTES),
+            'cabang_id'     => htmlspecialchars($id_cabang, ENT_QUOTES),
         ];
-        $this->db->insert("transferstok_bahan_temp", $data);
+        $this->db->insert("transferstok_bahan_bulk_temp", $data);
 
-        $this->session->set_flashdata("success", " Berhasil menambahkan data bahan !");
+        $this->session->set_flashdata("success", " Berhasil menambahkan data transfer stok bahan !");
         echo json_encode(['status' => 'success', 'message' => 'Barang berhasil ditambahkan']);
-
-        // redirect(base_url("bahan/stokawal"));
-        // } else {
-        // $this->session->set_flashdata("failed", " Gagal menambahkan data bahan! " . validation_errors());
-        // redirect(base_url("bahan/stokawal"));
-        // }
-
     }
 
     public function save_transferstok_temp()
