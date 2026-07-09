@@ -51,14 +51,29 @@ if (!empty($temptujuan)) {
                                     Import Transfer Stok Multi Cabang Excel</a>
                             </div>
                         </div>
+
                         <div class="row">
+
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Tanggal</label>
-                                    <input type="date" class="form-control" name="date" id="date" placeholder="" value="<?= $tgl ?>">
+                                    <label for="">Keterangan</label>
+                                    <textarea class="form-control" name="keterangan" id="keterangan"
+                                        placeholder=""></textarea>
                                 </div>
                             </div>
-                            <div class="col">
+                        </div>
+
+                        <form id="barangForm">
+                            <div class="row">
+
+                                <div class="form-group col-2">
+                                    <label for="date">Tanggal</label>
+                                    <input type="date" class="form-control" id="date" readonly>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="">No Surat</label>
+                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="">
+                                </div>
                                 <div class="form-group">
                                     <label for="">Cabang Tujuan</label>
                                     <select class="form-control" name="id_cabang" id="id_cabang">
@@ -71,26 +86,6 @@ if (!empty($temptujuan)) {
                                         <?php } ?>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="">No Surat</label>
-                                    <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="" value="<?= $nosurat ?>">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keterangan"
-                                        placeholder=""></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form id="barangForm">
-                            <div class="row">
                                 <div class="form-group col-2">
                                     <label for="kode_bahan">Kode Bahan :</label>
                                     <input type="text" class="form-control" id="id_bahan" hidden>
