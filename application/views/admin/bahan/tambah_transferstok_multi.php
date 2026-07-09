@@ -376,7 +376,7 @@ if (!empty($temptujuan)) {
                     quantity,
                     tanggal,
                     no_surat,
-                    id_cabang,
+                    id_cabang
                 },
                 dataType: 'json',
                 success: function(result) {
