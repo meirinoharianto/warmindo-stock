@@ -1790,7 +1790,7 @@ class Bahan extends CI_Controller
 
             $temporaryData = $this->db
                 ->get_where(
-                    "transferstok_bahan_temp",
+                    "transferstok_bahan_bulk_temp",
                     [
                         "login_id" => $login_id
                     ]
@@ -1800,7 +1800,6 @@ class Bahan extends CI_Controller
             $groups = [];
 
             foreach ($temporaryData as $row) {
-
                 $key =
                     $row['tanggal'] . "|" .
                     $row['no_surat'] . "|" .
@@ -1808,9 +1807,125 @@ class Bahan extends CI_Controller
 
                 $groups[$key][] = $row;
             }
+
+            foreach ($groups as $key => $rows) {
+                log_message(
+                    'debug',
+                    sprintf(
+                        "GROUP : %s | Jumlah Item : %d",
+                        $key,
+                        count($rows)
+                    )
+                );
+
+                $first = $rows[0];
+                $tgl = date_create($first['tanggal']);
+
+                $data_transferstok = [
+                    'no_surat' => $first['no_surat'],
+                    'cabangasal_id' => 1,
+                    'cabangtujuan_id' => $first['cabang_id'],
+                    'keterangan' => $this->input->post("keterangan", true),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'date' => date_format($tgl, 'Y-m-d'),
+                    'periode' => date_format($tgl, 'Y-m'),
+                    'year' => date_format($tgl, 'Y'),
+                    'login_id' => $login_id,
+                    'status' => 0
+                ];
+
+                $this->db->insert('transferstok', $data_transferstok);
+
+                $transferstok_id = $this->db->insert_id();
+
+                foreach ($rows as $item) {
+                    log_message(
+                        'debug',
+                        sprintf(
+                            "   %s | %s | Qty : %s",
+                            $item['kode_bahan'],
+                            $item['nama_bahan'],
+                            $item['qty']
+                        )
+                    );
+
+                    $data_transferstok_bahan[] = array(
+                        'transferstok_id' => $transferstok_id,
+                        'bahan_id' => $item['bahan_id'],
+                        'qty' => $item['qty']
+                    );
+
+                    $this->db->where('bahan_id', $item['bahan_id']);
+                    $this->db->where('cabang_id', 1);
+                    $querystok = $this->db->get('bahan_stok');
+
+                    $total_stok = 0;
+                    if ($querystok->num_rows() == 0) {
+                        $data_stok = [
+                            'cabang_id' => 1,
+                            'bahan_id' => $item['bahan_id'],
+                            'jumlah_stok' => 0 - $item['qty']
+                        ];
+
+                        if (!$this->db->insert("bahan_stok", $data_stok)) {
+                            throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
+                        }
+                    } else {
+                        $row = $querystok->row();
+                        $total_stok = $row->jumlah_stok;
+
+                        $this->db->set('jumlah_stok', 'jumlah_stok-' . $item['qty'], false);
+                        $this->db->where('bahan_id', $item['bahan_id']);
+                        $this->db->where('cabang_id', 1);
+                        if (!$this->db->update("bahan_stok")) {
+                            throw new Exception("Failed to update bahan_stok: " . $this->db->error()['message']);
+                        }
+                    }
+
+                    $data_kartustok[] = array(
+                        'cabang_id' => 1,
+                        'bahan_id' => $item['bahan_id'],
+                        'tipe_transaksi' => "Transfer Out",
+                        'transaksi_id' => $transferstok_id,
+                        'jumlah_perubahan' => 0 - $item['qty'],
+                        'harga_beli' => 0,
+                        'jumlah_harga' => 0,
+                        'total_stok' => $total_stok - $item['qty'],
+                        'total_jumlah_harga' => 0,
+                        'tanggal' => date_format($tgl, 'Y-m-d'),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'periode' => date_format($tgl, 'Y-m'),
+                        'tahun' => date_format($tgl, 'Y'),
+                        'shift_id' => 0,
+                        'login_id' => $login_id
+                    );
+                }
+
+                if (!empty($data_transferstok_bahan)) {
+                    if (!$this->db->insert_batch('transferstok_bahan', $data_transferstok_bahan)) {
+                        throw new Exception("Failed to insert batch transferstok_bahan: " . $this->db->error()['message']);
+                    }
+                }
+
+                if (!empty($data_kartustok)) {
+                    if (!$this->db->insert_batch('bahan_kartustok', $data_kartustok)) {
+                        throw new Exception("Failed to insert batch bahan_kartustok: " . $this->db->error()['message']);
+                    }
+                }
+            }
+
+            $this->db->delete('transferstok_bahan_bulk_temp', ['login_id' => $login_id]);
+
+            if ($this->db->trans_status() === FALSE) {
+                throw new Exception("Transaction failed");
+            } else {
+                $this->db->trans_commit();
+                // echo json_encode(['status' => 'success', 'message' => 'Data berhasil disimpan']);
+                echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
+            }
         } catch (Exception $e) {
             $this->db->trans_rollback();
-            log_message('error', 'Error in save_transferstok: ' . $e->getMessage());
+            log_message('error', 'Error in save_transferstok_multi: ' . $e->getMessage());
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()

@@ -3,6 +3,8 @@
     <div class="container mt-5">
         <a href="<?= base_url('bahan/tambah_transferstok'); ?>" class="btn btn-primary">
             <i class="fa fa-plus"> </i> Tambah Transfer Stok Bahan</a>
+        <a href="<?= base_url('bahan/tambah_transferstok_multi'); ?>" class="btn btn-primary">
+            <i class="fa fa-plus"> </i> Tambah Transfer Stok Bahan Multi Cabang</a>
         <!-- <a href="<?= base_url('menu/import'); ?>" class="btn btn-success mr-2">
             <i class="fa fa-plus"> </i> Import Menu Excel</a> -->
         <div class="clearfix"></div>

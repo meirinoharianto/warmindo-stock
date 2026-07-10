@@ -496,10 +496,10 @@ if (!empty($temptujuan)) {
                         success: function(response) {
                             if (response.success) {
                                 // Clear form fields
-                                $('#id').val('');
-                                $('#date').val('');
-                                $('#id_cabang').val('');
-                                $('#no_surat').val('');
+                                // $('#id').val('');
+                                // $('#date').val('');
+                                // $('#id_cabang').val('');
+                                // $('#no_surat').val('');
                                 $('#keterangan').val('');
 
                                 // Reload table
@@ -514,7 +514,7 @@ if (!empty($temptujuan)) {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // Redirect after user clicks OK
-                                        window.location.href = "<?= base_url('bahan/transferstok'); ?>";
+                                        window.location.href = "<?= base_url('bahan/transferstok_multi'); ?>";
                                     }
                                 });
                             } else {
