@@ -1318,13 +1318,6 @@ class Bahan extends CI_Controller
         echo json_encode($query->result());
     }
 
-    public function get_transferstok_bulk_temp()
-    {
-        $this->load->database();
-        $query = $this->db->get('transferstok_bahan_bulk_temp');
-        echo json_encode($query->result());
-    }
-
     public function save_transferstok_bulk_temp()
     {
 

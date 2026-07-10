@@ -289,7 +289,7 @@ if (!empty($temptujuan)) {
 
         $.ajax({
 
-            url: "<?= base_url('bahan/get_transferstok_bulk_temp'); ?>",
+            url: "<?= base_url('bahan/get_transferstok_multi_temp'); ?>",
 
             method: "GET",
 
