@@ -201,6 +201,7 @@
                                             <i class="fa fa-cubes pr-1"></i> Menu Utama</a>
                                         <a class="dropdown-item" href="<?= base_url('bahan'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Bahan</a>
+                                        <a class="dropdown-item" href="<?= base_url('stok/stokopname'); ?>"><i class="fa fa-edit pr-1"></i> Stok Opname</a>
 
                                         <a class="dropdown-item" href="<?= base_url('coordinators'); ?>">
                                             <i class="fa fa-cubes pr-1"></i> Koordinator</a>
@@ -218,7 +219,6 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="<?= base_url('users'); ?>">
                                                 <i class="fa fa-user pr-1"></i> Pengguna</a>
-                                            <a class="dropdown-item" href="<?= base_url('stok/stokopname'); ?>"><i class="fa fa-edit pr-1"></i> Stok Opname</a>
 
                                         <?php } ?>
                                     </div>
