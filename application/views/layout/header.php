@@ -218,6 +218,8 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="<?= base_url('users'); ?>">
                                                 <i class="fa fa-user pr-1"></i> Pengguna</a>
+                                            <a class="dropdown-item" href="<?= base_url('stok/stokopname'); ?>"><i class="fa fa-edit pr-1"></i> Stok Opname</a>
+
                                         <?php } ?>
                                     </div>
                                 </li>
@@ -259,7 +261,7 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="<?= base_url('kasirstok'); ?>" id="btnKasirStok">KASIR </a>
                                 </li>
-                                <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a>
+                                <!-- <a class="dropdown-item" href="<?= base_url('bahan/transferstok_multi'); ?>"><i class="fa fa-truck pr-1"></i> Transfer Stok Multi Cabang</a> -->
 
 
                             <?php } ?>
