@@ -65,15 +65,18 @@
                                                 <?php } ?>
 
                                                 <div class="form-group mr-3 mb-2">
-                                                    <label class="mr-2">Tanggal Start</label>
+                                                    <label class="mr-2">Tanggal </label>
                                                     <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('a') ?>" name="a">
+                                                    &nbsp;-&nbsp;
+                                                    <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('b') ?>" name="b">
+
                                                     <!-- <input type="text" class="form-control" value="<?= $this->input->get('cabang') ?>" name="cabang" hidden> -->
                                                 </div>
 
-                                                <div class="form-group mr-3 mb-2">
-                                                    <label class="mr-2">Tanggal End</label>
-                                                    <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('b') ?>" name="b">
-                                                </div>
+                                                <!-- <div class="form-group mr-3 mb-2">
+                                                    <label class="mr-2">Tanggal End</label> -->
+                                                <!-- <input type="date" class="form-control form-control-sm" required value="<?= $this->input->get('b') ?>" name="b"> -->
+                                                <!-- </div> -->
 
                                                 <div class="form-group mb-2">
                                                     <button type="submit" class="btn btn-primary btn-sm mr-2">

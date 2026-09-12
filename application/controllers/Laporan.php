@@ -1168,6 +1168,7 @@ class Laporan extends CI_Controller
 
             // 2. Format untuk mendapatkan nilai bulan (numerik) dan tahun
             $periode_sebelumnya = date_format($tgl_sebelumnya, 'Y-m'); // Format Tahun-Bulan (e.g., 2025-10)
+            $str_tgl_sebelumnya = date_format($tgl_sebelumnya, 'Y-m-d'); // Format Tahun-Bulan (e.g., 2025-10)
 
             $awalwhere = ' bk.tanggal BETWEEN "' .  $periode_sebelumnya . '-01" AND "' . $a . '"';
         } else {
@@ -1224,20 +1225,63 @@ class Laporan extends CI_Controller
  		-- SUM(keluar) AS keluar,
  		-- (SUM(awal)+SUM(masuk)-SUM(keluar)) AS akhir
  FROM (
-    SELECT 
-     		-- bk.cabang_id,
-            $cabang_id AS cabang_id,
-     		b.id, 
-     		b.kode_bahan, 
-     		b.nama_bahan, 
-         	SUM(bk.jumlah_perubahan) AS awal,
-     		0 AS masuk,
-     		0 AS keluar
-    		FROM bahan b 
-    		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
- 			AND $awalwhere 
- 			$andwhere
-     GROUP BY cabang_id,id,kode_bahan,nama_bahan
+ " .
+                //  "SELECT 
+                //      		-- bk.cabang_id,
+                //             $cabang_id AS cabang_id,
+                //      		b.id, 
+                //      		b.kode_bahan, 
+                //      		b.nama_bahan, 
+                //          	SUM(bk.jumlah_perubahan) AS awal,
+                //      		0 AS masuk,
+                //      		0 AS keluar
+                //     		FROM bahan b 
+                //     		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
+                //  			AND $awalwhere 
+                //  			$andwhere
+                //      GROUP BY cabang_id,id,kode_bahan,nama_bahan" .
+                //  STOK AWAL BARU DARI TOTAL STOK AKHIR PERIODE SEBELUMNYA
+                "SELECT
+    $cabang_id AS cabang_id,
+    b.id,
+    b.kode_bahan,
+    b.nama_bahan,
+
+    COALESCE(
+        (
+            SELECT bk2.total_stok
+            FROM bahan_kartustok" . $suffix . " AS bk2
+            WHERE bk2.bahan_id = b.id
+              AND bk2.cabang_id = $cabang_id
+              AND bk2.periode = '$periode_sebelumnya'
+              AND bk2.tanggal <= '$str_tgl_sebelumnya'
+            ORDER BY bk2.tanggal DESC, bk2.id DESC
+            LIMIT 1
+        ),
+        0
+    ) AS awal,
+
+    0 AS masuk,
+    0 AS keluar
+
+FROM bahan AS b" .
+                "
+ UNION ALL
+       SELECT 
+                            $cabang_id AS cabang_id,
+                     		b.id, 
+                     		b.kode_bahan, 
+                     		b.nama_bahan, 
+                         	SUM(bk.jumlah_perubahan) AS awal,
+                     		0 AS masuk,
+                     		0 AS keluar
+                    		FROM bahan b 
+                    		LEFT OUTER JOIN bahan_kartustok" . $suffix . " AS bk ON bk.bahan_id = b.id 
+                 			AND bk.tanggal > '$str_tgl_sebelumnya' AND bk.tanggal < '$tglawal'
+                            AND tipe_transaksi <> 'OPNAME'
+                     GROUP BY cabang_id,id,kode_bahan,nama_bahan
+" .
+                "
      UNION ALL
      SELECT 
      		$cabang_id AS cabang_id,
