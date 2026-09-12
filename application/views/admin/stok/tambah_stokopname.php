@@ -1284,7 +1284,7 @@ if (!empty($id_cabang)) {
         $('#stok_sistem').prop('disabled', true);
         $('#stok_fisik').prop('disabled', true);
         $('#addToTemporaryTable').prop('disabled', true);
-        $('#importExcelBtn').prop('disabled', false);
+        $('#importExcelBtn').prop('disabled', true);
     }
 
     // Fungsi untuk memeriksa dan menonaktifkan Tanggal/Cabang, serta mengaktifkan form bahan
