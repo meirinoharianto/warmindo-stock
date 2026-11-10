@@ -1830,6 +1830,11 @@ class Bahan extends CI_Controller
                 $this->db->insert('transferstok', $data_transferstok);
 
                 $transferstok_id = $this->db->insert_id();
+                // ========================================================
+                // WAJIB RESET ARRAY DI SINI AGAR TIDAK MENUMPUK ANTAR GROUP
+                // ========================================================
+                $data_transferstok_bahan = []; // <--- PERBAIKAN DI SINI
+                $data_kartustok = [];          // <--- PERBAIKAN DI SINI
 
                 foreach ($rows as $item) {
                     log_message(
@@ -1864,8 +1869,9 @@ class Bahan extends CI_Controller
                             throw new Exception("Failed to insert bahan_stok: " . $this->db->error()['message']);
                         }
                     } else {
-                        $row = $querystok->row();
-                        $total_stok = $row->jumlah_stok;
+                        $row_stok = $querystok->row(); // Mengubah nama variabel agar tidak menimpa $row dari loop luar
+                        // $row = $querystok->row();
+                        $total_stok = $row_stok->jumlah_stok;
 
                         $this->db->set('jumlah_stok', 'jumlah_stok-' . $item['qty'], false);
                         $this->db->where('bahan_id', $item['bahan_id']);
